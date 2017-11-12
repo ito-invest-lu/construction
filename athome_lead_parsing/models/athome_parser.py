@@ -20,7 +20,7 @@
 ##############################################################################
 import logging
 
-from lxml import etree
+from lxml import html
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
@@ -35,6 +35,6 @@ class CrmLead(models.Model):
     def parse_message(self):
         for message in self.message_ids:
             if message.body:
-                body = etree.XML(message.body)
+                body = html.fromstring(message.body)
                 node = body.xpath("//td[text() = 'Nom :']")
                 self.name = node.next().text
