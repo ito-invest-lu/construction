@@ -38,8 +38,10 @@ class CrmLead(models.Model):
                 body = html.fromstring(message.body)
                 node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
                 self.name = node[0].text
-                node = body.xpath("//td[text() = 'Email :']/following-sibling::a")
-                self.email_from = node[0].text
+                node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
+                if len(node) > 0 :
+                    self.email_from = node[0].text
                 node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
-                self.phone = node[0].text
+                if len(node) > 0 :
+                    self.phone = node[0].text
         self.tag_ids = [(4, 1)] # athome tag ;-)
