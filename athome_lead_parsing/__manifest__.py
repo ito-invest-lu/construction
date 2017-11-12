@@ -35,7 +35,7 @@
     'depends': ['crm'],
     'init_xml': [],
     'data': [],
-    'installable': False,
+    'installable': True,
     'active': True,
     'auto_install': False,
     'application': True,
