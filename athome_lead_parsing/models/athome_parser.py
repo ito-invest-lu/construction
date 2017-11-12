@@ -36,5 +36,5 @@ class CrmLead(models.Model):
         for message in self.message_ids:
             if message.body:
                 body = html.fromstring(message.body)
-                node = body.xpath("//td[text() = 'Nom :']")
-                self.name = node[0].next().text
+                node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
+                self.name = node[0].text
