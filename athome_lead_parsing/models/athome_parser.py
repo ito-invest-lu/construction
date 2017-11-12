@@ -37,4 +37,4 @@ class CrmLead(models.Model):
             if message.body:
                 body = html.fromstring(message.body)
                 node = body.xpath("//td[text() = 'Nom :']")
-                self.name = node.next().text
+                self.name = node[0].next().text
