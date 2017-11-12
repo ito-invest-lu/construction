@@ -37,4 +37,4 @@ class CrmLead(models.Model):
             if message.body:
                 body = etree.XML(message.body)
                 node = body.xpath("//td[text() = 'Nom :']")
-                
+                self.name = node.next().text
