@@ -50,13 +50,13 @@ class CrmLead(models.Model):
             
             node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
             if len(node) > 0 :
-                msg_dict.set('subject', node[0].text)
+                msg_dict.update({'subject' : node[0].text})
             node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
             if len(node) > 0 :
-                msg_dict.set('email_from', node[0].text)
+                msg_dict.update({'email_from' : node[0].text})
             node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
             if len(node) > 0 :
-                custom_values['phone'] = node[0].text
+                custom_values.update({'phone' : node[0].text})
         
         return super(CrmLead, self).message_new(msg_dict, custom_values)
     
