@@ -31,13 +31,43 @@ class CrmLead(models.Model):
     '''Building Site'''
     _inherit = 'crm.lead'
     
+    @api.model
+    def message_new(self, msg_dict, custom_values=None):
+        """ 
+        Overrides crm_lead message_new to update the document according 
+        to the athome emails.
+        """
+        
+        if custom_values is None:
+            custom_values = {}
+        
+        if msg_dict.get('body').find('no-reply@athome.lu'):
+            
+            body = html.fromstring(msg_dict.get('body'))
+            
+            # Hack into msg_dict because message_new in CrmLead is not 
+            # written to be updated !!
+            
+            node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
+            if len(node) > 0 :
+                msg_dict.set('subject', node[0].text)
+            node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
+            if len(node) > 0 :
+                msg_dict.set('email_from', node[0].text)
+            node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
+            if len(node) > 0 :
+                custom_values['phone'] = node[0].text
+        
+        return super(CrmLead, self).message_new(msg_dict, custom_values)
+    
     @api.one
     def parse_message(self):
         for message in self.message_ids:
             if message.body:
                 body = html.fromstring(message.body)
                 node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
-                self.name = node[0].text
+                if len(node) > 0 :
+                    self.name = node[0].text
                 node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
                 if len(node) > 0 :
                     self.email_from = node[0].text
