@@ -59,7 +59,7 @@ class CrmLead(models.Model):
                 if len(node) > 0 :
                     custom_values.update({'phone' : node[0].text})
                 custom_values.update({'tag_ids' : '[(4, 1)]'})
-        finally:
+        except:
             pass # ignore errors and continue if any, best effort here
         
         return super(CrmLead, self).message_new(msg_dict, custom_values)
