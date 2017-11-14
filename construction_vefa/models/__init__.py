@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import construction_vefa
+from . import construction_vefa

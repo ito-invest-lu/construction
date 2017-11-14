@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import construction_reduced_vat_report
+from . import construction_reduced_vat_report

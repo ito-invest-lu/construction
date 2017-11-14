@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import construction_sale_wizard
+from . import construction_sale_wizard

@@ -57,6 +57,7 @@ class CrmLead(models.Model):
             node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
             if len(node) > 0 :
                 custom_values.update({'phone' : node[0].text})
+            custom_values.update({'tag_ids' : '[(4, 1)]'})
         
         return super(CrmLead, self).message_new(msg_dict, custom_values)
     

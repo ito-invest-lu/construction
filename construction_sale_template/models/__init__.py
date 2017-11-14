@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import construction_sale_template
+from . import construction_sale_template
