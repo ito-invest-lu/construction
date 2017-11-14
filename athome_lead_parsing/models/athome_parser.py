@@ -41,23 +41,26 @@ class CrmLead(models.Model):
         if custom_values is None:
             custom_values = {}
         
-        if msg_dict.get('body').find('no-reply@athome.lu'):
-            
-            body = html.fromstring(msg_dict.get('body'))
-            
-            # Hack into msg_dict because message_new in CrmLead is not 
-            # written to be updated !!
-            
-            node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
-            if len(node) > 0 :
-                msg_dict.update({'subject' : node[0].text})
-            node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
-            if len(node) > 0 :
-                msg_dict.update({'email_from' : node[0].text})
-            node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
-            if len(node) > 0 :
-                custom_values.update({'phone' : node[0].text})
-            custom_values.update({'tag_ids' : '[(4, 1)]'})
+        try:
+            if msg_dict.get('body').find('no-reply@athome.lu'):
+                
+                body = html.fromstring(msg_dict.get('body'))
+                
+                # Hack into msg_dict because message_new in CrmLead is not 
+                # written to be updated !!
+                
+                node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
+                if len(node) > 0 :
+                    msg_dict.update({'subject' : node[0].text})
+                node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
+                if len(node) > 0 :
+                    msg_dict.update({'email_from' : node[0].text})
+                node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
+                if len(node) > 0 :
+                    custom_values.update({'phone' : node[0].text})
+                custom_values.update({'tag_ids' : '[(4, 1)]'})
+        finally:
+            pass # ignore errors and continue if any, best effort here
         
         return super(CrmLead, self).message_new(msg_dict, custom_values)
     
