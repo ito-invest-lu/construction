@@ -92,7 +92,7 @@ class Project(models.Model):
             'project_id' : self.id
         })
         project_id.unlink()
-        asset = self.env['construction.building_site'].create({
+        asset = self.env['construction.building_asset'].create({
             'name' : self.name,
             'site_id' : site.id,
             'partner_id' : self.partner_id.id or False,
