@@ -93,6 +93,7 @@ class Project(models.Model):
         })
         project_id.unlink()
         asset = self.env['construction.building_site'].create({
+            'name' : self.name,
             'site_id' : site.id,
             'partner_id' : self.partner_id.id or False,
             'state' : 'sold',
