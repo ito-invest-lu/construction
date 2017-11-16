@@ -17,7 +17,7 @@
         'wizard/construction_sale_wizard.xml',
         'security/ir.model.access.csv',
     ],
-    'installable': False,
+    'installable': True,
     'active': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
