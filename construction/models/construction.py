@@ -78,6 +78,18 @@ class Project(models.Model):
     
     building_site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
     
+    @api.one
+    def upgrade_as_building_site(self):
+        if self.building_site_id:
+            raise UserError('This project is already associated to a building site')
+        site = self.env['construction.building_site'].create({
+            'project_id' : self.id,
+        })
+        asset = self.env['construction.building_site'].create({
+            'site_id' : site.id,
+            'partner_id' : self.partner_id.id or False,
+        })
+    
 class BuildingAsset(models.Model):
     '''Building Asset'''
     _name = 'construction.building_asset'
