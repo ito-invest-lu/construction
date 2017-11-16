@@ -35,16 +35,14 @@ class ConstructionSaleWizard(models.TransientModel):
     
     date = fields.Date(string='Date', required=True, default=lambda self:fields.Date.from_string(fields.Date.today()))
     template_id = fields.Many2one('construction.sale_order_template', string="Template", required=True)
-    total_untaxed = fields.Integer(string="Total Untaxed", required=True)
+    company_currency_id = fields.Many2one('res.currency', readonly=True, default=lambda self: self.env.user.company_id.currency_id)
+    total_untaxed = fields.Monetary(string='Total Untaxed', currency_field='company_currency_id', required=True)
     
     @api.multi
     def action_confirm(self):
         self.ensure_one()
         lines = []  
         total = self.total_untaxed
-        
-        _logger.info(self.total_untaxed)
-        _logger.info(self.total)
         
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
             lines.append(
