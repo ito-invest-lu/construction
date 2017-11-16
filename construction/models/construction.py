@@ -85,10 +85,14 @@ class Project(models.Model):
         site = self.env['construction.building_site'].create({
             'project_id' : self.id,
             'construction_state' : 'construction',
+            'type' : 'single',
+            
         })
         asset = self.env['construction.building_site'].create({
             'site_id' : site.id,
             'partner_id' : self.partner_id.id or False,
+            'state' : 'sold',
+            'type' : 'house',
         })
     
 class BuildingAsset(models.Model):
