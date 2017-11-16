@@ -25,6 +25,22 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+DEFAULT_TASKS = [
+    'Démolition',
+    'Terrassement',
+    'Gros Oeuvre',
+    'Charpente',
+    'Couverture',
+    'Chassis',
+    'Encastrement Hvac',
+    'Plafonnage',
+    'Chape',
+    'Carrelage',
+    'Peinture',
+    'Aménagements extérieur',
+    'SAV'
+]
+
 class BuildingSite(models.Model):
     '''Building Site'''
     _name = 'construction.building_site'
@@ -77,7 +93,15 @@ class Project(models.Model):
     _inherit = "project.project"
     
     building_site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
-    
+
+    @api.one
+    def add_default_tasks(self):
+        for task_name in DEFAULT_TASKS:
+            self.env['project.task'].create({
+                'name' : task_name, 
+                'project_id' : self.id,
+            })
+        
     @api.one
     def upgrade_as_building_site(self):
         if self.building_site_id:
