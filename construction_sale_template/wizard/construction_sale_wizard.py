@@ -51,7 +51,7 @@ class ConstructionSaleWizard(models.TransientModel):
                     'product_uom_qty': line.product_uom_qty, 
                     'product_uom': line.product_uom.id, 
                     'price_unit': line.price_unit,
-                    'tax_id' : [(6, 0, [line.tax_id.ids])],
+                    'tax_id' : [(6, 0, line.tax_id.ids)],
                 }))
             total = total - line.product_uom_qty * line.price_unit
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.percentage > 0) :
@@ -62,7 +62,7 @@ class ConstructionSaleWizard(models.TransientModel):
                     'product_uom_qty': 1, 
                     'product_uom': line.product_uom.id, 
                     'price_unit': line.percentage * total / 100,
-                    'tax_id' : [(6, 0, [line.tax_id.ids])] if line.tax_id.ids else False,
+                    'tax_id' : [(6, 0, line.tax_id.ids)] if line.tax_id.ids else False,
                 }))
 
         vals = {
