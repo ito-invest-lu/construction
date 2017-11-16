@@ -84,6 +84,7 @@ class Project(models.Model):
             raise UserError('This project is already associated to a building site')
         site = self.env['construction.building_site'].create({
             'project_id' : self.id,
+            'construction_state' : 'construction',
         })
         asset = self.env['construction.building_site'].create({
             'site_id' : site.id,
