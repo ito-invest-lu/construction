@@ -136,8 +136,10 @@ class BuildingAsset(models.Model):
     @api.one
     @api.depends('title','partner_id.name')
     def _compute_name(self):
-        if self.partner_id :
+        if self.partner_id and self.title:
             self.name = "%s - %s" % (self.title, self.partner_id.name)
+        elif self.partner_id:
+            self.name = self.partner_id.name
         else:
             self.name = self.title
     

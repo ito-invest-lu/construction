@@ -72,6 +72,8 @@ class ConstructionSaleWizard(models.TransientModel):
             'order_line' : lines
         } 
             
+        _logger.info(vals)
+            
         so = self.env['sale.order'].create(vals)
         
         return {
