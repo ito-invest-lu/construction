@@ -42,6 +42,10 @@ class ConstructionSaleWizard(models.TransientModel):
         self.ensure_one()
         lines = []  
         total = self.total_untaxed
+        
+        _logger.info(self.total_untaxed)
+        _logger.info(self.total)
+        
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
             lines.append(
                 (0,0,{
@@ -51,7 +55,7 @@ class ConstructionSaleWizard(models.TransientModel):
                     'product_uom_qty': line.product_uom_qty, 
                     'product_uom': line.product_uom.id, 
                     'price_unit': line.price_unit,
-                    'tax_id' : [(6, 0, line.tax_id.ids)],
+                    'tax_id' : [(6, 0, line.tax_id.ids)] if line.tax_id.ids else False,
                 }))
             total = total - line.product_uom_qty * line.price_unit
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.percentage > 0) :
