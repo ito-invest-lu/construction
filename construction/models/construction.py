@@ -113,7 +113,7 @@ class Project(models.Model):
         i = 0
         for task_name in DEFAULT_TASKS:
             self.env['project.task'].create({
-                'sequence' : i * 10 + 5
+                'sequence' : i * 10 + 5,
                 'name' : task_name, 
                 'project_id' : self.id,
                 'stage_id' : stage_id.id,
