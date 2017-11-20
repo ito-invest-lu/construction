@@ -110,12 +110,15 @@ class Project(models.Model):
             })
         res_model, res_id = self.env['ir.model.data'].get_object_reference('construction','not_started_stage')
         stage_id = self.env[res_model].browse(res_id)
+        i = 0
         for task_name in DEFAULT_TASKS:
             self.env['project.task'].create({
+                'sequence' : i * 10 + 5
                 'name' : task_name, 
                 'project_id' : self.id,
                 'stage_id' : stage_id.id,
             })
+            i = i + 1
 
     @api.one
     def upgrade_as_building_site(self):
