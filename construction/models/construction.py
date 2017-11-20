@@ -54,6 +54,8 @@ class BuildingSite(models.Model):
     
     _inherits = {'project.project': "project_id"}
     
+    _order = 'name'
+    
     construction_state = fields.Selection([
             ('development', 'In development'),
             ('onsale', 'On Sale'),
@@ -147,6 +149,8 @@ class BuildingAsset(models.Model):
     _name = 'construction.building_asset'
     _description = 'Building Asset'
     
+    _order = 'name'
+    
     title = fields.Char(string="Title")
     
     name = fields.Char(string="Name", compute='_compute_name', store=True)
@@ -176,7 +180,7 @@ class BuildingAsset(models.Model):
             ('parking', 'Parking'),
         ], string='Type of asset', required=True, help="")
     
-    site_id = fields.Many2one('construction.building_site', string='Building Site')
+    site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
     
     partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
     
