@@ -108,7 +108,7 @@ class Project(models.Model):
                 'project_id' : self.id,
             })
         for stage in DEFAULT_STAGES:
-            res_model, res_id = self.env['ir.model.data'].get_object_reference('module','product_to_find')
+            res_model, res_id = self.env['ir.model.data'].get_object_reference('construction',stage)
             stage_id = self.env[res_model].browse(res_id)
             stage_id.write({
                 'project_ids' : '[(4, %s, _)]' % self.id
