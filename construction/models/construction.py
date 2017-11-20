@@ -41,6 +41,12 @@ DEFAULT_TASKS = [
     'SAV'
 ]
 
+DEFAULT_STAGES = [
+    'not_started_stage',
+    'in_progress_stage',
+    'finished_stage',
+]
+
 class BuildingSite(models.Model):
     '''Building Site'''
     _name = 'construction.building_site'
@@ -100,6 +106,12 @@ class Project(models.Model):
             self.env['project.task'].create({
                 'name' : task_name, 
                 'project_id' : self.id,
+            })
+        for stage in DEFAULT_STAGES:
+            res_model, res_id = self.env['ir.model.data'].get_object_reference('module','product_to_find')
+            stage_id = self.env[res_model].browse(res_id)
+            stage_id.write({
+                'project_ids' : '[(4, %s, _)]' % self.id
             })
         
     @api.one
