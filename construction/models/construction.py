@@ -111,7 +111,7 @@ class Project(models.Model):
             res_model, res_id = self.env['ir.model.data'].get_object_reference('construction',stage)
             stage_id = self.env[res_model].browse(res_id)
             stage_id.write({
-                'project_ids' : '[(4, %s, _)]' % self.id
+                'project_ids' : [(4, self.id, False)]
             })
         
     @api.one
