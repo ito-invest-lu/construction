@@ -102,18 +102,21 @@ class Project(models.Model):
 
     @api.one
     def add_default_tasks(self):
-        for task_name in DEFAULT_TASKS:
-            self.env['project.task'].create({
-                'name' : task_name, 
-                'project_id' : self.id,
-            })
         for stage in DEFAULT_STAGES:
             res_model, res_id = self.env['ir.model.data'].get_object_reference('construction',stage)
             stage_id = self.env[res_model].browse(res_id)
             stage_id.write({
                 'project_ids' : [(4, self.id, False)]
             })
-        
+        res_model, res_id = self.env['ir.model.data'].get_object_reference('construction','not_started_stage')
+        stage_id = self.env[res_model].browse(res_id)
+        for task_name in DEFAULT_TASKS:
+            self.env['project.task'].create({
+                'name' : task_name, 
+                'project_id' : self.id,
+                'stage_id' : stage_id.id,
+            })
+
     @api.one
     def upgrade_as_building_site(self):
         if self.building_site_id:
