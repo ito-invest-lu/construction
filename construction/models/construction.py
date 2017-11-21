@@ -216,6 +216,21 @@ class SaleOrder(models.Model):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         invoice_vals['building_asset_id'] = self.building_asset_id.id or False
         return invoice_vals
+        
+    amount_outstanding = fields.Monetary(string='Outstanding Amount', store=True, readonly=True, compute='_amount_outstanding')
+        
+    @api.depends('order_line.price_total','order_line.invoice_lines')
+    def _amount_outstanding(self):
+        """
+        Compute the outstanding amounts of the SO.
+        """
+        for order in self:
+            amount_outstanding = 0.0
+            for line in order.order_line.filtered(lambda l: l.invoice_status in ['no','to invoice'])
+                amount_outstanding += line.price_subtotal
+            order.update({
+                'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
+            })
             
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"

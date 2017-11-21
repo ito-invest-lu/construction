@@ -96,6 +96,19 @@ class ReducedVATAgreement(models.Model):
     def _compute_remaining_amount(self):
         used_amount = sum(invoice.amount_untaxed for invoice in self.invoice_ids)
         self.agreement_remaining_amount = self.agreement_total_amount - used_amount
+
+# class SaleOrder(models.Model):
+#     '''Sale Order'''
+#     _inherit = "sale.order"
+    
+#     @api.multi
+#     def _prepare_invoice(self):
+#         invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        
+#         self.env['']
+#         invoice_vals['building_asset_id'] = self.building_asset_id.id or False
+        
+#         return invoice_vals
     
 class AccountInvoice(models.Model):
     '''Invoice'''
