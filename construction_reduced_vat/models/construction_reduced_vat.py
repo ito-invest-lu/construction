@@ -105,7 +105,7 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
-        agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.partner_id),('agreement_remaining_amount','>',0)])
+        agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.partner_id.id),('agreement_remaining_amount','>',0)])
         if agreement_ids:
             invoice_vals['reduced_vat_agreement_id'] = agreement_ids[0].id
         return invoice_vals
