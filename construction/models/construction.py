@@ -226,7 +226,7 @@ class SaleOrder(models.Model):
         """
         for order in self:
             amount_outstanding = 0.0
-            for line in order.order_line.filtered(lambda l: l.invoice_status in ['no','to invoice'])
+            for line in order.order_line.filtered(lambda l: l.invoice_status in ('no','to invoice'))
                 amount_outstanding += line.price_subtotal
             order.update({
                 'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
