@@ -94,7 +94,13 @@ class ReducedVATAgreement(models.Model):
     @api.one
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed')
     def _compute_remaining_amount(self):
-        used_amount = sum(invoice.amount_untaxed for invoice in self.invoice_ids)
+        used_amount = 0
+        res_model, res_id = self.env['ir.model.data'].get_object_reference('l10n_lu','1_lu_2011_tax_VB-PA-3')
+        tax_reduced_id = self.env[res_model].browse(res_id)
+        for invoice in self.invoice_ids:
+            for line in invoice.invoice_line_ids:
+                if tax_reduced_id in line.invoice_line_tax_ids:
+                    used_amount += line.price_subtotal_signed
         self.agreement_remaining_amount = self.agreement_total_amount - used_amount
 
 class SaleOrder(models.Model):
