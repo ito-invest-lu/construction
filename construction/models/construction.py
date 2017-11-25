@@ -227,7 +227,7 @@ class SaleOrder(models.Model):
         for order in self:
             amount_outstanding = 0.0
             for line in order.order_line:
-                amount_outstanding += line.price_subtotal * (1-line.qty_invoiced)
+                amount_outstanding += line.price_subtotal * (line.product_uom_qty-line.qty_invoiced) 
             order.update({
                 'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
             })
