@@ -210,6 +210,13 @@ class SaleOrder(models.Model):
         if self.state == 'sale':
             self.building_asset_id.state = 'sold'
             self.confirmed_lead_id.id = self.opportunity_id.id
+                
+    @api.onchange('partner_id')
+    def onchange_parter(self):
+        if self.partner_id:
+            asset_id = self.env['construction.building_asset'].search([('partner_id','=',self.partner_id.id)])
+            if asset_id :
+            self.building_asset_id = asset_id[0]
             
     @api.multi
     def _prepare_invoice(self):
