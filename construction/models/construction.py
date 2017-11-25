@@ -220,7 +220,7 @@ class SaleOrder(models.Model):
     amount_outstanding = fields.Monetary(string='Outstanding Amount', store=True, readonly=True, compute='_amount_outstanding')
     amount_open = fields.Monetary(string='Open Amount', store=True, readonly=True, compute='_amount_outstanding')
         
-    @api.depends('order_line.price_total','order_line.invoice_lines','order_line.invoice_ids.residual_signed')
+    @api.depends('order_line.price_total','order_line.invoice_lines','invoice_ids.residual_signed')
     def _amount_outstanding(self):
         """
         Compute the outstanding amounts of the SO.
