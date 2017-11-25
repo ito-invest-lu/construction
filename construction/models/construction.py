@@ -216,7 +216,7 @@ class SaleOrder(models.Model):
         if self.partner_id:
             asset_id = self.env['construction.building_asset'].search([('partner_id','=',self.partner_id.id)])
             if asset_id :
-            self.building_asset_id = asset_id[0]
+                self.building_asset_id = asset_id[0]
             
     @api.multi
     def _prepare_invoice(self):
