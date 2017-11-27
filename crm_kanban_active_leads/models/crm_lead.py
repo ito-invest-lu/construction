@@ -39,9 +39,9 @@ class CRMLead(models.Model):
     
     @api.one
     def _update_color(self):
-        if self.__last_update < datetime.now()-timedelta(days=10) :
+        if self.write_date < datetime.now()-timedelta(days=10) :
             self.color = 9    
-        elif self.__last_update < datetime.now()-timedelta(days=3) :
+        elif self.write_date < datetime.now()-timedelta(days=3) :
             self.color = 2
         else :
             self.color = 10
