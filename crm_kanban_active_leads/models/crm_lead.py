@@ -38,6 +38,7 @@ class CRMLead(models.Model):
         return True
     
     @api.one
+    @api.onchange('write_date')
     def _update_color(self):
         w_date = fields.Datetime.from_string(self.write_date)
         if  w_date< datetime.now()-timedelta(days=10) :
