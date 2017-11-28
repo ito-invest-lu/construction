@@ -36,7 +36,7 @@ class CRMLead(models.Model):
     
     @api.multi
     def write(self, values):
-        if set(values) and IMPORTANT_FIELDS :
+        if bool(set(values).intersection(IMPORTANT_FIELDS)) :
             values['last_modification_for_followup'] = fields.Datetime.now()
         return super(CRMLead, self).write(values)
     
