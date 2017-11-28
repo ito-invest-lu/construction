@@ -27,8 +27,19 @@ from datetime import timedelta, datetime
 
 _logger = logging.getLogger(__name__)
 
+IMPORTANT_FIELDS = ['name','priority','state_id','kanban_state','probability','sale_amount_total','stage_id','message_ids']
+
 class CRMLead(models.Model):
     _inherit = 'crm.lead'
+    
+    last_modification_for_followup = fields.Datetime('Last Modification for Followup', default=fields.Datetime.now())
+    
+    @api.multi
+    def write(self, values):
+        sync_fields = set(self.get_fields_need_update_google())
+        if set(values) and IMPORTANT_FIELDS :
+            values['last_modification_for_followup'] = fields.Datetime.now()
+        return super(CRMLead, self).write(values)
     
     # Method to called by CRON to update colors
     @api.model
@@ -39,7 +50,7 @@ class CRMLead(models.Model):
     
     @api.one
     def _update_color(self):
-        w_date = fields.Datetime.from_string(self.write_date)
+        w_date = fields.Datetime.from_string(self.last_modification_for_followup)
         if  w_date< datetime.now()-timedelta(days=10) :
             self.color = 9    
         elif w_date < datetime.now()-timedelta(days=3) :
