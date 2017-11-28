@@ -47,6 +47,7 @@ class CRMLead(models.Model):
         leads._update_color()
         return True
     
+    @api.onchange('last_modification_for_followup')
     @api.one
     def _update_color(self):
         w_date = fields.Datetime.from_string(self.last_modification_for_followup)
