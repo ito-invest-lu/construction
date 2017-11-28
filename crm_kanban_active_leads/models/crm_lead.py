@@ -39,23 +39,22 @@ class CRMLead(models.Model):
         if bool(set(values).intersection(IMPORTANT_FIELDS)) :
             _logger.info('Modification for followup detected')
             values['last_modification_for_followup'] = fields.Datetime.now()
+            values['color'] = 10 # Green
         return super(CRMLead, self).write(values)
     
-    # Method to called by CRON to update colors
     @api.model
     def recompute_all(self):
         leads = self.search([('active', '=', True)])
         leads._update_color()
         return True
     
-    @api.onchange('name','priority','state_id','kanban_state','probability','sale_amount_total','stage_id','message_ids')
     @api.one
     def _update_color(self):
         _logger.info('_update_color triggered')
         w_date = fields.Datetime.from_string(self.last_modification_for_followup)
-        if  w_date< datetime.now()-timedelta(days=10) :
-            self.color = 9    
+        if  w_date < datetime.now()-timedelta(days=10) :
+            self.color = 9 # Red
         elif w_date < datetime.now()-timedelta(days=3) :
-            self.color = 2
+            self.color = 2 # Orange
         else :
-            self.color = 10
+            self.color = 10 # Green
