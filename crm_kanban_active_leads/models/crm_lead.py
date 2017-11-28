@@ -36,7 +36,6 @@ class CRMLead(models.Model):
     
     @api.multi
     def write(self, values):
-        sync_fields = set(self.get_fields_need_update_google())
         if set(values) and IMPORTANT_FIELDS :
             values['last_modification_for_followup'] = fields.Datetime.now()
         return super(CRMLead, self).write(values)
