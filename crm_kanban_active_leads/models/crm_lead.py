@@ -37,6 +37,7 @@ class CRMLead(models.Model):
     @api.multi
     def write(self, values):
         if bool(set(values).intersection(IMPORTANT_FIELDS)) :
+            _logger.info('Modification for followup detected')
             values['last_modification_for_followup'] = fields.Datetime.now()
         return super(CRMLead, self).write(values)
     
@@ -50,6 +51,7 @@ class CRMLead(models.Model):
     @api.onchange('last_modification_for_followup')
     @api.one
     def _update_color(self):
+        _logger.info('_update_color triggered')
         w_date = fields.Datetime.from_string(self.last_modification_for_followup)
         if  w_date< datetime.now()-timedelta(days=10) :
             self.color = 9    
