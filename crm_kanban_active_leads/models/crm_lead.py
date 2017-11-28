@@ -48,7 +48,7 @@ class CRMLead(models.Model):
         leads._update_color()
         return True
     
-    @api.onchange('last_modification_for_followup')
+    @api.onchange('name','priority','state_id','kanban_state','probability','sale_amount_total','stage_id','message_ids')
     @api.one
     def _update_color(self):
         _logger.info('_update_color triggered')
