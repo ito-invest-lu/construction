@@ -110,7 +110,7 @@ class Project(models.Model):
             stage_id.write({
                 'project_ids' : [(4, self.id, False)]
             })
-        res_model, res_id = self.env['ir.model.data'].get_object_reference('construction','not_started_stage')
+        res_model, res_id = self.env['ir.model.data'].get_object_reference('construction','project_stage_not_started')
         stage_id = self.env[res_model].browse(res_id)
         i = 0
         for task_name in DEFAULT_TASKS:
