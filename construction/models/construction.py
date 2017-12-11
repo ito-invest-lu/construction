@@ -42,9 +42,9 @@ DEFAULT_TASKS = [
 ]
 
 DEFAULT_STAGES = [
-    'not_started_stage',
-    'in_progress_stage',
-    'finished_stage',
+    'project_stage_not_started',
+    'project_stage_ongoing',
+    'project_stage_finished',
 ]
 
 class BuildingSite(models.Model):
