@@ -48,4 +48,4 @@ class ProjectProject(models.Model):
     @api.one
     def fix_task_type(self):
         default_type_ids = [self.env.ref('project_kanban_active_tasks.project_stage_not_started'),self.env.ref('project_kanban_active_tasks.project_stage_ongoing'),self.env.ref('project_kanban_active_tasks.project_stage_finished')]
-        self.type_ids.add(default_type_ids)
+        self.type_ids = [(6,0,default_type_ids)] 
