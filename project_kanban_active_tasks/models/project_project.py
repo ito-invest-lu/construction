@@ -38,4 +38,3 @@ class ProjectProject(models.Model):
     
     active_task_ids = fields.One2many('project.task', 'project_id', string='Active Tasks',
         domain=[('stage_id.display_in_kanban', '=', True)])
-        

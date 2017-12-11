@@ -33,6 +33,7 @@
     'init_xml': [],
     'data': [
         'views/view_project.xml',
+        'data/task_type_definition.xml',
     ],
     'installable': True,
     'auto_install': False,
