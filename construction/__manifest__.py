@@ -35,9 +35,9 @@
     'depends': ['sale','crm','project'],
     'init_xml': [],
     'data': [
+        'data/task_type_definition.xml',
         'views/construction_view.xml',
         'security/ir.model.access.csv',
-        
     ],
     'installable': True,
     'active': True,
