@@ -26,7 +26,6 @@
         <record id="project_stage_not_started" model="project.task.type">
             <field name="sequence">1</field>
             <field name="name">Pas commencé</field>
-            <field name="mail_template_id" ref="project.mail_template_data_project_task"/>
         </record>
         <record id="project_stage_ongoing" model="project.task.type">
             <field name="sequence">10</field>
