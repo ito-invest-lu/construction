@@ -42,10 +42,10 @@ class ProjectProject(models.Model):
     @api.model
     def default_get(self, fields):
         result = super(ProjectProject, self).default_get(fields)
-        default_type_ids = [self.ref('project_kanban_active_tasks.project_stage_not_started'),self.ref('project_kanban_active_tasks.project_stage_ongoing'),self.ref('project_kanban_active_tasks.project_stage_finished')]
+        default_type_ids = [self.env.ref('project_kanban_active_tasks.project_stage_not_started'),self.env.ref('project_kanban_active_tasks.project_stage_ongoing'),self.env.ref('project_kanban_active_tasks.project_stage_finished')]
         result.update({'type_ids': list(set(default_type_ids))})
         
     @api.one
     def fix_task_type(self):
-        default_type_ids = [self.ref('project_kanban_active_tasks.project_stage_not_started'),self.ref('project_kanban_active_tasks.project_stage_ongoing'),self.ref('project_kanban_active_tasks.project_stage_finished')]
+        default_type_ids = [self.env.ref('project_kanban_active_tasks.project_stage_not_started'),self.env.ref('project_kanban_active_tasks.project_stage_ongoing'),self.env.ref('project_kanban_active_tasks.project_stage_finished')]
         self.type_ids.add(default_type_ids)
