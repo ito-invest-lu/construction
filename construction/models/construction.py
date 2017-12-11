@@ -143,6 +143,17 @@ class Project(models.Model):
             'state' : 'sold',
             'type' : 'house',
         })
+        
+    @api.model
+    def default_get(self, fields):
+        result = super(Project, self).default_get(fields)
+        default_type_ids = [self.env.ref('construction.project_stage_not_started').id,self.env.ref('construction.project_stage_ongoing').id,self.env.ref('construction.project_stage_finished').id]
+        result.update({'type_ids': list(set(default_type_ids))})
+        
+    @api.one
+    def fix_task_type(self):
+        default_type_ids = [self.env.ref('construction.project_stage_not_started').id,self.env.ref('construction.project_stage_ongoing').id,self.env.ref('construction.project_stage_finished').id]
+        self.type_ids = [(6,0,default_type_ids)]
     
 class BuildingAsset(models.Model):
     '''Building Asset'''

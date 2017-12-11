@@ -38,14 +38,3 @@ class ProjectProject(models.Model):
     
     active_task_ids = fields.One2many('project.task', 'project_id', string='Active Tasks',
         domain=[('stage_id.display_in_kanban', '=', True)])
-        
-    @api.model
-    def default_get(self, fields):
-        result = super(ProjectProject, self).default_get(fields)
-        default_type_ids = [self.env.ref('project_kanban_active_tasks.project_stage_not_started').id,self.env.ref('project_kanban_active_tasks.project_stage_ongoing').id,self.env.ref('project_kanban_active_tasks.project_stage_finished').id]
-        result.update({'type_ids': list(set(default_type_ids))})
-        
-    @api.one
-    def fix_task_type(self):
-        default_type_ids = [self.env.ref('project_kanban_active_tasks.project_stage_not_started').id,self.env.ref('project_kanban_active_tasks.project_stage_ongoing').id,self.env.ref('project_kanban_active_tasks.project_stage_finished').id]
-        self.type_ids = [(6,0,default_type_ids)]
