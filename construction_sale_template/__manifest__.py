@@ -3,7 +3,7 @@
 
 {
     'name': 'Construction Sale Order Template',
-    'version': '0.1',
+    'version': '11.0.0.1.0',
     'category': 'Sales',
     'description': """
     Create template of Sale Order which build Sale Orders using percentages.

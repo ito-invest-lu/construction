@@ -22,7 +22,7 @@
 ##############################################################################
 {
     'name': 'CRM Kanban Active Leads',
-    'version': '0.1',
+    'version': '11.0.0.1.0',
     'category': 'Project',
     'description': """
     Display active tasks in project kanban

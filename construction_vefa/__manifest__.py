@@ -3,7 +3,7 @@
 
 {
     'name': 'Construction VEFA',
-    'version': '0.1',
+    'version': '11.0.0.1.0',
     'category': 'Sales',
     'description': """
     Manage 'Vente en etat futur d achèvement' au Luxembourg.

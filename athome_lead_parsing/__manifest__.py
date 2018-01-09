@@ -25,7 +25,7 @@
 
 {
     'name': 'Import AtHome leads',
-    'version': '0.1',
+    'version': '11.0.0.1.0',
     'category': 'CRM',
     'description': """
     Manage construction projects

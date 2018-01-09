@@ -3,7 +3,7 @@
 
 {
     'name': 'Construction VAT reduced',
-    'version': '0.1',
+    'version': '11.0.0.1.0',
     'category': 'Sales',
     'description': """
     Manage reduced VAT as applied in Luxembourg.
