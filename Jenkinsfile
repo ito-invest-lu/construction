@@ -5,6 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh 'whoami'
+                sh 'ls -al'
                 sh './build.sh'
             }
         }
