@@ -9,7 +9,9 @@ pipeline {
                 echo 'Building..'
                 sh 'whoami'
                 sh 'ls -al'
-                sh './build.sh'
+                withPythonEnv('python') {
+                    sh './build.sh'
+                }
             }
         }
         stage('Test') {
