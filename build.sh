@@ -10,7 +10,7 @@ for f in ./*; do
     if [ -d $f ]; then
         cd $f
         echo 'Deploy module' $f
-        python setup.py sdist upload -r pypi-dev
+        python setup.py sdist upload -r pypi-server
         cd ..
     fi
 done
