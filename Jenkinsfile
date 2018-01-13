@@ -21,6 +21,11 @@ pipeline {
                 echo 'Deploying....'
                 
             }
+            post {
+                success {
+                    archiveArtifacts 'setup/requirements.txt'
+                }
+            }
         }
     }
 }
