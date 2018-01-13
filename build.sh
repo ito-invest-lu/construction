@@ -12,10 +12,14 @@ for f in ./*; do
     if [ -d $f ]; then
         cd $f
         echo 'Deploy module' $f
+<<<<<<< HEAD
         python setup.py sdist upload -r pypi-dev
         NAME="$(python setup.py --name)"
         VERSION="$(python setup.py --version)"
         echo "${NAME}=${VERSION}" >> ../requirements.txt
+=======
+        python setup.py sdist upload -r pypi-server
+>>>>>>> 7cffae56d20ed645bbd7d49bdcc3218131d4caf6
         cd ..
     fi
 done
