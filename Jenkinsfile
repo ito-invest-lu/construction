@@ -4,22 +4,22 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
-                sh 'whoami'
-                sh 'ls -al'
+                echo 'Building...'
                 withPythonEnv('python') {
                     sh './build.sh'
+                    
                 }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'No Automatic Testing So Far...'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                
             }
         }
     }
