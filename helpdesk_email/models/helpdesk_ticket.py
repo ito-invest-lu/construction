@@ -51,10 +51,10 @@ class HelpdeskTicket(models.Model):
         # Match the first occurence of '#(d+)' in the string and extract 
         # the ticket number to send the message to.
         default_product = self.env.ref('hr_expense.product_product_fixed_cost')
-        pattern = '\#(\d+)\'
+        pattern = '/#(\d+)/'
         ticket_id = re.search(pattern, ticket_description).group(0)
         if ticket_id is None:
             super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
         else:
             ticket = self.env['helpdesk.ticket'].browse(ticket_id)
-            ticket.message_update(message_dict)
+            ticket.message_update(msg_dict)
