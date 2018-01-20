@@ -55,6 +55,7 @@ class HelpdeskTicket(models.Model):
         if match is None:
             super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
         else:
-            ticket_id = self.env['helpdesk.ticket'].browse(match.group(1))[0]
+            ticket_id = self.env['helpdesk.ticket'].browse(match.group(1))
             _logger.info("Message routed to ticket #%s" % ticket_id.id)
+            _logger.info(msg_dict)
             ticket_id.message_update(msg_dict)
