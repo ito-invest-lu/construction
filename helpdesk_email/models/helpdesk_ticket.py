@@ -32,20 +32,12 @@ _logger = logging.getLogger(__name__)
 
 class HelpdeskTicket(models.Model):
     _inherit = 'helpdesk.ticket'
-    
+
     @api.model
     def message_new(self, msg_dict, custom_values=None):
-        if custom_values is None:
-            custom_values = {}
-
-        email_address = email_split(msg_dict.get('email_from', False))[0]
-
-        employee = self.env['hr.employee'].search([
-            '|',
-            ('work_email', 'ilike', email_address),
-            ('user_id.email', 'ilike', email_address)
-        ], limit=1)
-
+        
+        # We change the route of message if the subject match the pattern "#xx"
+        # to the existing ticket "#xx".
         ticket_description = msg_dict.get('subject', '')
 
         # Match the first occurence of '#(d+)' in the string and extract 
@@ -53,9 +45,10 @@ class HelpdeskTicket(models.Model):
         pattern = '#(\d+)'
         match = re.search(pattern, ticket_description)
         if match is None:
+            # No match we continue the currrent behavior
             super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
         else:
-            ticket_id = self.env['helpdesk.ticket'].browse(match.group(1))
-            _logger.info("Message routed to ticket #%s" % ticket_id.id)
-            _logger.info(msg_dict)
-            ticket_id.sudo().message_post('mail.mt_comment', msg_dict)
+            # We have a match we switch to message_update
+            ticket_id = self.env['helpdesk.ticket'].browse(int(match.group(1)))
+            _logger.info("Ticket number found in subject, message rerouted to ticket #%s" % ticket_id.id)
+            ticket_id.message_update('mail.mt_comment', msg_dict, custom_values)
