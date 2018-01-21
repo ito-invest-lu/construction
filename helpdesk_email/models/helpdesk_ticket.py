@@ -51,4 +51,4 @@ class HelpdeskTicket(models.Model):
             # We have a match we switch to message_update
             ticket_id = self.env['helpdesk.ticket'].browse(int(match.group(1)))
             _logger.info("Ticket number found in subject, message rerouted to ticket #%s" % ticket_id.id)
-            ticket_id.message_update('mail.mt_comment', msg_dict, custom_values)
+            ticket_id.message_update(msg_dict, custom_values)
