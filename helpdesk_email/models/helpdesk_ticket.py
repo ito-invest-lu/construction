@@ -57,4 +57,5 @@ class HelpdeskTicket(models.Model):
         else:
             ticket_id = self.env['helpdesk.ticket'].browse(match.group(1))
             _logger.info("Message routed to ticket #%s" % ticket_id.id)
+            _logger.info(msg_dict)
             ticket_id.sudo().message_post('mail.mt_comment', msg_dict)
