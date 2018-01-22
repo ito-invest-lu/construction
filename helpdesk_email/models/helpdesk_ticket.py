@@ -58,7 +58,7 @@ class HelpdeskTicket(models.Model):
                 ticket.partner_id = partner_id
                 ticket.partner_email = partner_id.email
             else :
-                _logger.info("No customer found leave to %s" % partner_id.name)
+                _logger.info("No customer found leave to %s" % ticket.partner_id.name if ticket.partner_id else 'None')
         else:
             # We have a match we switch to message_update
             ticket_id = self.env['helpdesk.ticket'].browse(int(match.group(1)))
