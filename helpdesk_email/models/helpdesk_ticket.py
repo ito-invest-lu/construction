@@ -46,10 +46,29 @@ class HelpdeskTicket(models.Model):
         match = re.search(pattern, ticket_description)
         if match is None:
             # No match we continue the currrent behavior
-            super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
+            ticket = super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
+            all_emails = ticket._ticket_email_split(msg_dict)
+            alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
+            foreign_emails = [x for x in all_emails if alias_domain not in x]
+            partner_ids = [x for x in ticket._find_partner_from_emails(foreign_emails) if x]
+            if partner_ids :
+                partner_id = partner_ids[0]
+                _logger.info("Ticket customer set to %s" % partner_id.name)
+                ticket.partner_id = partner_id
+            else :
+                _logger.info("No customer found leave to %s" % partner_id.name)
         else:
             # We have a match we switch to message_update
             ticket_id = self.env['helpdesk.ticket'].browse(int(match.group(1)))
             _logger.info("Ticket number found in subject, message rerouted to ticket #%s" % ticket_id.id)
             new_msg = ticket_id.message_post(subtype='mail.mt_comment', **msg_dict)
             return ticket_id.id
+            
+    @api.model
+    def message_new_old(self, msg, custom_values=None):
+        values = dict(custom_values or {}, partner_email=msg.get('from'), partner_id=msg.get('author_id'))
+        ticket = super(HelpdeskTicket, self).message_new(msg, custom_values=values)
+        partner_ids = [x for x in ticket._find_partner_from_emails() if x]
+        if partner_ids:
+            ticket.message_subscribe(partner_ids)
+        return ticket
