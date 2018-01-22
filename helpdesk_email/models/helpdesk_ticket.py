@@ -48,6 +48,7 @@ class HelpdeskTicket(models.Model):
             # No match we continue the currrent behavior
             ticket = super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
             all_emails = ticket._ticket_email_split(msg_dict)
+            all_emails = list(set(all_emails + re.findall('[\w\.]+\@[\w]+(?:\.[\w]{3}|\.[\w]{2}\.[\w]{2})\b',msg_dict.get('body', ''))))
             alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
             foreign_emails = [x for x in all_emails if alias_domain not in x]
             partner_ids = [x for x in ticket._find_partner_from_emails(foreign_emails) if x]
@@ -55,6 +56,7 @@ class HelpdeskTicket(models.Model):
                 partner_id = self.env['res.partner'].browse(partner_ids[0])
                 _logger.info("Ticket customer set to %s" % partner_id.name)
                 ticket.partner_id = partner_id
+                ticket.partner_email = partner_id.email
             else :
                 _logger.info("No customer found leave to %s" % partner_id.name)
         else:
