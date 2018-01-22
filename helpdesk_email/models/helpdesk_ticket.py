@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution    
-#    Copyright (c) 2010-2012 Elico Corp. All Rights Reserved.
+#    Copyright (c) 2010-2012 Be-Cloud.be All Rights Reserved.
 #
 #    Author: Jerome Sonnet <jerome.sonnet@be-cloud.be>
 #
