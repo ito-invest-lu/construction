@@ -50,7 +50,6 @@ class CRMLead(models.Model):
     
     @api.one
     def _update_color(self):
-        _logger.info('_update_color triggered')
         w_date = fields.Datetime.from_string(self.last_modification_for_followup)
         if  w_date < datetime.now()-timedelta(days=10) :
             self.color = 9 # Red
