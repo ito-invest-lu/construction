@@ -52,7 +52,7 @@ class HelpdeskTicket(models.Model):
             foreign_emails = [x for x in all_emails if alias_domain not in x]
             partner_ids = [x for x in ticket._find_partner_from_emails(foreign_emails) if x]
             if partner_ids :
-                partner_id = partner_ids[0]
+                partner_id = self.env['res.parnter'].browse(partner_ids[0])
                 _logger.info("Ticket customer set to %s" % partner_id.name)
                 ticket.partner_id = partner_id
             else :
