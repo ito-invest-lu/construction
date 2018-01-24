@@ -45,6 +45,7 @@ class SaleOrder(models.Model):
             custom_values = {}
             
         defaults = {
+            'partner_id': msg_dict.get('author_id', False),
             'user_id': msg_dict.get('author_id', False),
         }
         
