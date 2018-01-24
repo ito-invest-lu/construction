@@ -44,9 +44,19 @@ class SaleOrder(models.Model):
         if custom_values is None:
             custom_values = {}
             
+        partner_id = msg_dict.get('author_id', False)
         defaults = {
-            'partner_id': msg_dict.get('author_id', False),
-            'user_id': msg_dict.get('author_id', False),
+            'name': 'Nouveau',
+            'partner_id': partner_id,
+            'partner_invoice_id': partner_id,
+            'partner_shipping_id': partner_id,
+            'user_id': partner_id,
+            'order_line': [(0, 0, {
+                'name': 'Suppléments',
+                'product_id': 13,
+                'product_uom_qty': 1,
+                'price_unit': 100.00,
+            })],
         }
         
         defaults.update(custom_values)
