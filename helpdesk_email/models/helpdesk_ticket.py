@@ -48,7 +48,10 @@ class HelpdeskTicket(models.Model):
             # No match we continue the currrent behavior
             ticket = super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
             all_emails = ticket._ticket_email_split(msg_dict)
-            all_emails = list(set(all_emails + re.findall('[\w\.]+\@[\w]+(?:\.[\w]{3}|\.[\w]{2}\.[\w]{2})\b',msg_dict.get('body', ''))))
+            try:
+                all_emails = list(set(all_emails + re.findall('[\w\.]+\@[\w]+(?:\.[\w]{3}|\.[\w]{2}\.[\w]{2})\b',msg_dict.get('body', ''))))
+            except:
+                pass
             alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
             foreign_emails = [x for x in all_emails if alias_domain not in x]
             partner_ids = [x for x in ticket._find_partner_from_emails(foreign_emails) if x]
