@@ -9,7 +9,7 @@
         report_type="qweb-pdf"
         name="helpdesk_email.report_ticket_closing"
         file="helpdesk_email.report_ticket_closing"
-        print_report_name="Ticket Closing #(object.id)"
+        print_report_name="'Ticket Closing #%s' % (object.id)"
     />
 
 </odoo>
