@@ -34,6 +34,8 @@
     'depends': ['helpdesk'],
     'init_xml': [],
     'data': [
+        'data/helpdesk_report_data.xml',
+        'report/helpdesk_ticket_report.xml'
     ],
     'installable': True,
     'active': True,

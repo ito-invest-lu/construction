@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- QWeb Reports -->
+    <report 
+        id="helpdesk_ticket_closing"
+        model='helpdesk.ticket'
+        string="Helpdesk Ticket Closing"
+        report_type="qweb-pdf"
+        name="helpdesk_email.report_ticket_closing"
+        file="helpdesk_email.report_ticket_closing"
+        print_report_name="Ticket Closing #(object.id)"
+    />
+
+</odoo>
