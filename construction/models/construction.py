@@ -290,3 +290,5 @@ class Partner(models.Model):
     _inherit = 'res.partner'
     
     matricule = fields.Char(string="Matricule")
+    
+    building_asset_ids = fields.One2many('construction.building_asset', 'partner_id', string='Building Assets')
