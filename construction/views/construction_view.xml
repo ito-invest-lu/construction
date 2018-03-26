@@ -193,6 +193,16 @@
             </field>
         </record>
         
+        <record id="construction_building_asset_view_search" model="ir.ui.view">
+            <field name="name">construction.building_asset.search</field>
+            <field name="model">construction.building_asset</field>
+            <field name="arch" type="xml">
+                <search string="Search asset">
+                    <field name="partner_id" string="Customer"/>
+                </search>
+            </field>
+        </record>
+        
         <record id="building_asset_view" model="ir.ui.view">
             <field name="name">Building Asset Form</field>
             <field name="model">construction.building_asset</field>
