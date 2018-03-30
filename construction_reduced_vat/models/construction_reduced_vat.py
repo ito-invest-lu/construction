@@ -131,7 +131,6 @@ class AccountInvoice(models.Model):
                 raise UserError(_("The reduced tva agreement total amount is exceeded."))
         return res
         
-    @api.one
     @api.onchange('reduced_vat_agreement_id')
     def onchange_reduced_vat_agreement_id(self):
         tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
