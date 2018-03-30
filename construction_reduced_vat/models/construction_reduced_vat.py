@@ -112,9 +112,10 @@ class SaleOrder(models.Model):
         self.ensure_one()
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.partner_id.id),('agreement_remaining_amount','>',0)])
-        if agreement_ids:
+        if len(agreement_ids) == 1 :
             invoice_vals['reduced_vat_agreement_id'] = agreement_ids[0].id
         return invoice_vals
+        
     
 class AccountInvoice(models.Model):
     '''Invoice'''
@@ -129,3 +130,19 @@ class AccountInvoice(models.Model):
             if self.reduced_vat_agreement_id.agreement_remaining_amount < -0.10*self.reduced_vat_agreement_id.agreement_total_amount:
                 raise UserError(_("The reduced tva agreement total amount is exceeded."))
         return res
+        
+    @api.one
+    @api.onchange('reduced_vat_agreement_id')
+    def onchange_reduced_vat_agreement_id(self):
+        tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
+        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
+        if self.reduced_vat_agreement_id :
+            for line in self.invoice_line_ids :
+                line.write({
+                    'invoice_line_tax_ids' : [(2,tax_17.id,False),(4,tax_3.id,False)]
+                    })
+        else :
+            for line in self.invoice_line_ids :
+                line.write({
+                    'invoice_line_tax_ids' : [(2,tax_3.id,False),(4,tax_17.id,False)]
+                    })
