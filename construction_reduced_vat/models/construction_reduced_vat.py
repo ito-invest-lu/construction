@@ -138,10 +138,10 @@ class AccountInvoice(models.Model):
         if self.reduced_vat_agreement_id :
             for line in self.invoice_line_ids :
                 line.write({
-                    'invoice_line_tax_ids' : [(2,tax_17.id,False),(4,tax_3.id,False)]
-                    })
+                    'invoice_line_tax_ids' : [(6, _, [tax_3.id])]
+                })
         else :
             for line in self.invoice_line_ids :
                 line.write({
-                    'invoice_line_tax_ids' : [(2,tax_3.id,False),(4,tax_17.id,False)]
-                    })
+                    'invoice_line_tax_ids' : [(6, _, [tax_17.id])]
+                })
