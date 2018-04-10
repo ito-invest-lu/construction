@@ -136,12 +136,10 @@ class AccountInvoice(models.Model):
         tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
         tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
         if self.reduced_vat_agreement_id :
-            for line in self.invoice_line_ids :
-                line.write({
+            self.invoice_line_ids.write({
                     'invoice_line_tax_ids' : [(6, 0, [tax_3.id])]
-                })
+            })
         else :
-            for line in self.invoice_line_ids :
-                line.write({
+            self.invoice_line_ids.write({
                     'invoice_line_tax_ids' : [(6, 0, [tax_17.id])]
-                })
+            })
