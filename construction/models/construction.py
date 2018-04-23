@@ -192,6 +192,18 @@ class BuildingAsset(models.Model):
         ], string='Type of asset', required=True, help="")
     
     site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
+   
+    address_id = fields.Many2one('res.partner', string='Asset address', compute='_compute_address_id')
+    
+    asset_address_id = fields.Many2one('res.partner', string='Asset address', domain="[('type', '=', 'delivery')]")
+    
+    @api.depends('site_id','site_id.address_id','asset_address_id')
+    def _compute_address_id(self):
+        for asset in self:
+            if asset.site_id :
+                asset.address_id = asset.site_id.address_id
+            else :
+                asset.address_id = asset.asset_address_id
     
     partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
     
