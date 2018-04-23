@@ -217,6 +217,8 @@
                         <group col="2">
                             <field name="title" class="oe_edit_only"/>
                             <field name="site_id"/>
+                            <field string="Address" name="address_id" attrs="{'invisible': [('site_id', '=', False)]}"/>
+                            <field string="Address" name="asset_address_id" context="{'form_view_ref':'construction.building_site_address_view','default_name':name,'show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('customer', '=', True)]" attrs="{'invisible': [('site_id', '!=', False)]}"/>
                             <field name="partner_id" />
                             <field name="type" />
                             <field name="state"/>
@@ -404,7 +406,7 @@
                     Concerne le chantier situé : 
                 </p>
                 <div name="invoice_address" class="col-xs-5 col-xs-offset-1">
-                    <address t-field="o.building_asset_id.site_id.address_id"
+                    <address t-field="o.building_asset_id.address_id"
                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}' />
                 </div>
                 </t>
