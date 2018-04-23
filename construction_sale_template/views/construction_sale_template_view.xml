@@ -53,7 +53,6 @@
                         </div>
                         <field name="company_id" invisible="1" />
                         <field name="partner_id" invisible="1" />
-                        <field name="pricelist_id" invisible="1" />
                         <field name="sale_order_template_line_ids" nolabel="1" >
                             <tree string="Sale Order Template Lines" editable="bottom">
                                 <field name="sequence" widget="handle"/>
