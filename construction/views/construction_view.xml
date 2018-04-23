@@ -257,6 +257,7 @@
                                         <field name="partner_id"/>
                                         <field name="stage_id"/>
                                         <field name="lost_reason"/>
+                                        <field name="team_id"/>
                                     </tree>
                                 </field>
                             </page>
