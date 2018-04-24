@@ -248,24 +248,18 @@ class SaleOrder(models.Model):
         return invoice_vals
         
     amount_outstanding = fields.Monetary(string='Outstanding Amount', store=True, readonly=True, compute='_amount_outstanding')
-    amount_open = fields.Monetary(string='Open Amount', store=True, readonly=True, compute='_amount_outstanding')
-        
-    @api.depends('order_line.price_total','order_line.invoice_lines','invoice_ids.residual_signed')
+
+    @api.depends('order_line.price_subtotal','order_line.qty_invoiced','order_line.product_uom_qty')
     def _amount_outstanding(self):
         """
         Compute the outstanding amounts of the SO.
         """
         for order in self:
             amount_outstanding = 0.0
-            amount_open = 0.0
             for line in order.order_line :
                 amount_outstanding += line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)
-            for invoice_id in order.invoice_ids :
-                amount_open += invoice_id.residual_signed
-                    
             order.update({
                 'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
-                'amount_open': order.pricelist_id.currency_id.round(amount_open),
             })
             
 class SaleOrderLine(models.Model):
