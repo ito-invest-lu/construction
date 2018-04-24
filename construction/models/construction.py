@@ -271,6 +271,9 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="order_id.building_asset_id.site_id")
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id")
+
     @api.multi
     def _prepare_invoice_line(self, qty):
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
