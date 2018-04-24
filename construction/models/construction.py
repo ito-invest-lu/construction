@@ -274,6 +274,58 @@ class SaleOrderLine(models.Model):
     building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="order_id.building_asset_id.site_id")
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id")
 
+    is_next_candidate = fields.Boolean(compute='_compute_is_next_candidate',search='_search_next_candidate')
+
+    @api.depends('order_id.order_line.qty_delivered','order_id.order_line.product_uom_qty')
+    def _compute_is_next_candidate(self):
+        for line in self:
+            if line.qty_delivered == line.product_uom_qty :
+                line.is_next_candidate = False
+            else :
+                previous_line = self.env['sale.order.line'].search([
+                    ('order_id', '=', line.order_id.id),
+                    ('sequence', '<', line.sequence)
+                    ], limit=1, order='sequence desc')
+                if previous_line:
+                    if previous_line.qty_delivered == line.product_uom_qty :
+                        line.is_next_candidate = True
+                    else : 
+                        line.is_next_candidate = False
+
+    def _search_next_candidate(self, operator, value):
+        res = []
+        assert operator in ('=', '!=', '<>') and value in (True, False), 'Operation not supported'
+        if (operator == '=' and value is True) or (operator in ('<>', '!=') and value is False):
+            search_operator = 'in'
+        else:
+            search_operator = 'not in'
+        self.env.cr.execute("""SELECT id FROM 
+                                (SELECT 
+                                    (SELECT
+                                        l.id
+                                    FROM
+                                        (SELECT
+                                            l2.id,
+                                            l2.order_id,
+                                            l2.sequence,
+                                            l2.product_uom_qty - l2.qty_delivered as qty_delivered_updatable,
+                                            lead(l2.product_uom_qty - l2.qty_delivered) OVER (ORDER BY l2.sequence ASC) as prev_qty_delivered_updatable
+                                         FROM
+                                            sale_order_line l2
+                                         WHERE order_id = so.id
+                                         ORDER BY
+                                            l2.sequence ASC) as l
+                                    WHERE
+                                        l.qty_delivered_updatable > 0  and
+                                        l.qty_delivered_updatable = l.prev_qty_delivered_updatable
+                                    ORDER BY
+                                        l.sequence ASC
+                                    LIMIT 1) AS id
+                                    FROM sale_order so) out WHERE out.id IS NOT NULL;""")
+        res_ids = [x[0] for x in self.env.cr.fetchall()]
+        res.append(('id', search_operator, res_ids))
+        return res
+
     @api.multi
     def _prepare_invoice_line(self, qty):
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
