@@ -32,7 +32,6 @@
                       (0, 0, {'view_mode': 'tree', 'view_id': ref('sale.view_order_line_tree')}),
                       (0, 0, {'view_mode': 'form'}),
                       (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_order_line_kanban_view_forecast')}),
-                      (0, 0, {'view_mode': 'calendar'}),
                       (0, 0, {'view_mode': 'pivot'}),
                       (0, 0, {'view_mode': 'graph'})]"/>
         <field name="search_view_id" ref="sale.view_sales_order_line_filter"/>
