@@ -64,7 +64,7 @@
                                     <span class="fa fa-ellipsis-v"/>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <li t-if="record.qty_delivered == 0"><a name="action_deliver_line" type="object">Deliver</a></li>
+                                    <li><a name="action_deliver_line" type="object">Deliver</a></li>
                                     <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
                                 </ul>
                             </div>
