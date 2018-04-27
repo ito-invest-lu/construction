@@ -41,7 +41,7 @@ class SaleOrderForcastMonth(models.Model):
     
     order_line_ids = fields.One2many('sale.order.line', 'forecast_month_id', string='Lines')
 
-    @api.depends('order_ids')
+    @api.depends('order_line_ids')
     def _compute_sale_amount_total(self):
         for month in self:
             total = 0.0
