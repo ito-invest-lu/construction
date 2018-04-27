@@ -70,7 +70,7 @@
                             </div>
                             <div class="oe_kanban_content">
                                 <div>
-                                    <strong class="o_kanban_record_title"><field name="order_partner_id"/></strong> - <field name="building_asset_id"/>
+                                    <strong class="o_kanban_record_title"><field name="building_asset_id"/>
                                 </div>
                                 <div class="text-muted o_kanban_record_subtitle">
                                     <field name="name"/>
