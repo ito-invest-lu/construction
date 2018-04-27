@@ -28,7 +28,7 @@ _logger = logging.getLogger(__name__)
 class SaleOrderForcastMonth(models.Model):
     _name = 'sale.order.line.forecast_month'
     
-    name = fields.String(compute='_compute_name')
+    name = fields.Char(compute='_compute_name')
     
     show_in_kanban = fields.Boolean(string='Show in Kanban')
     
