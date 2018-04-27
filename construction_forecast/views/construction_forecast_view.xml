@@ -48,13 +48,13 @@
                 <field name="priority"/>
                 <field name="salesman_id"/>
                 <field name="price_subtotal"/>
-                <field name="date_forecast"/>
+                <field name="forecast_month_id"/>
                 <field name="order_partner_id"/>
                 <field name="currency_id"/>
 
                 <progressbar field="invoice_status" colors='{"invoiced": "success", "upselling": "success", "to invoice": "warning", "no": "danger"}' sum_field="price_subtotal"/>
                 <templates>
-                    <field name="date_forecast"/>
+                    <field name="forecast_month_id"/>
                     <t t-name="kanban-box">
                         <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
                             <div class="o_dropdown_kanban dropdown">
