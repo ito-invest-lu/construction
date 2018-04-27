@@ -2,20 +2,18 @@
 # see LICENSE file
 
 {
-    'name': 'Construction Sale Order Template',
+    'name': 'Construction Forecast',
     'version': '0.1',
     'category': 'Sales',
     'description': """
-    Create template of Sale Order which build Sale Orders using percentages.
+    Create Kanban view to forecast sale order.
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
     'depends': ['construction'],
     'init_xml': [],
     'data': [
-        'views/construction_sale_template_view.xml',
-        'wizard/construction_sale_wizard.xml',
-        'security/ir.model.access.csv',
+        'views/construction_forecast_view.xml',
     ],
     'installable': True,
     'active': True,

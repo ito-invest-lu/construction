@@ -327,6 +327,11 @@ class SaleOrderLine(models.Model):
             res.update({'account_analytic_id': self.order_id.building_site_id.analytic_account_id.id})
         return res
             
+    @api.multi
+    def action_deliver_line(self):
+        for order_line in self:
+            order_line.write({'qty_delivered' : order_line.product_uom_qty})
+            
 class CrmLean(models.Model):
     '''CRM Lead'''
     _inherit = "crm.lead"
