@@ -296,7 +296,7 @@ class SaleOrderLine(models.Model):
         self.env.cr.execute("""SELECT id FROM 
                                 (SELECT 
                                     (select id from sale_order_line where order_id = so.id AND qty_delivered = 0 AND qty_invoiced = 0 ORDER BY sequence ASC LIMIT 1) AS id
-                                    FROM sale_order so WHERE so.state <> 'draft'
+                                    FROM sale_order so WHERE so.state = 'sale'
                                 ) 
                                 out WHERE out.id IS NOT NULL;""")
         res_ids = [x[0] for x in self.env.cr.fetchall()]
