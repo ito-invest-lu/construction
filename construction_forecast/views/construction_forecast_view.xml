@@ -42,8 +42,8 @@
         <field name="model">sale.order.line</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <kanban default_group_by="date_forecast:month" class="o_kanban_small_column o_saler_order_kanban" create="false">
-                <field name="date_forecast" options='{"group_by_tooltip": {"requirements": "Description", "legend_priority": "Use of stars"}}'/>
+            <kanban default_group_by="forecast_month_id" class="o_kanban_small_column o_saler_order_kanban" create="false">
+                <field name="forecast_month_id" options='{"group_by_tooltip": {"requirements": "Description", "legend_priority": "Use of stars"}}'/>
                 <field name="color"/>
                 <field name="priority"/>
                 <field name="salesman_id"/>
@@ -52,7 +52,7 @@
                 <field name="order_partner_id"/>
                 <field name="currency_id"/>
 
-                <progressbar field="date_forecast:month" colors='{"planned": "success", "today": "warning", "overdue": "danger"}' sum_field="price_subtotal"/>
+                <progressbar field="invoice_status" colors='{"invoiced": "success", "upselling": "success", "to invoice": "warning", "no": "danger"}' sum_field="price_subtotal"/>
                 <templates>
                     <field name="date_forecast"/>
                     <t t-name="kanban-box">

@@ -25,9 +25,49 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+class SaleOrderForcastMonth(models.Model):
+    _name = 'sale.order.line.forecast_month'
+    
+    name = fields.String(compute='_compute_name')
+    
+    show_in_kanban = fields.Boolean(string='Show in Kanban')
+    
+    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.user.company_id.id)
+    company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
+    
+    sale_amount_delivered = fields.Monetary(compute='_compute_sale_amount_total', string="Sum of Delivered Lines", help="Untaxed Total of Delivered Lines", currency_field='company_currency')
+    sale_amount_total = fields.Monetary(compute='_compute_sale_amount_total', string="Sum of Lines", help="Untaxed Total of Planned Lines", currency_field='company_currency')
+    sale_number = fields.Integer(compute='_compute_sale_amount_total', string="Number of Quotations")
+    
+    order_line_ids = fields.One2many('sale.order.line', 'forecast_month_id', string='Lines')
+
+    @api.depends('order_ids')
+    def _compute_sale_amount_total(self):
+        for month in self:
+            total = 0.0
+            total_d = 0.0
+            nbr = 0
+            company_currency = month.company_currency or self.env.user.company_id.currency_id
+            for line in month.order_line_ids:
+                nbr += 1
+                total += line.currency_id.compute(line.price_subtotal, company_currency)
+                if line.qty_delivered == 0:
+                    total_d += line.currency_id.compute(line.price_subtotal, company_currency)
+            month.sale_amount_delivered = total_d
+            month.sale_amount_total = total
+            month.sale_number = nbr
+    
+    @api.one
+    def _compute_name(self):
+        self.name = '%s-%s' % (self.year,self.month)
+    
+    year = fields.Selection([('2018', '2018'), ('2019', '2019'), ('2020', '2020'), ('2021', '2021'), ('2022', '2022')],string='Year')
+    month = fields.Selection([('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'),('9', '9'), ('10', '10'), ('11', '11'), ('12', '12')],string='Year')
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    date_forecast = fields.Date(string='Forecast Date')
+    forecast_month_id = fields.Many2one('sale.order.line.forecast_month', string='Assigned to Month', track_visibility='onchange')
+    
     priority = fields.Selection([('0', 'Very Low'), ('1', 'Low'), ('2', 'Normal'), ('3', 'High')], string='Priority')
     color = fields.Integer(string='Color Index')
