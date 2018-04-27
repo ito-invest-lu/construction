@@ -295,27 +295,10 @@ class SaleOrderLine(models.Model):
             search_operator = 'not in'
         self.env.cr.execute("""SELECT id FROM 
                                 (SELECT 
-                                    (SELECT
-                                        l.id
-                                    FROM
-                                        (SELECT
-                                            l2.id,
-                                            l2.order_id,
-                                            l2.sequence,
-                                            l2.product_uom_qty - l2.qty_delivered as qty_delivered_updatable,
-                                            lead(l2.product_uom_qty - l2.qty_delivered) OVER (ORDER BY l2.sequence ASC) as prev_qty_delivered_updatable
-                                         FROM
-                                            sale_order_line l2
-                                         WHERE order_id = so.id
-                                         ORDER BY
-                                            l2.sequence ASC) as l
-                                    WHERE
-                                        l.qty_delivered_updatable > 0  and
-                                        l.qty_delivered_updatable = l.prev_qty_delivered_updatable
-                                    ORDER BY
-                                        l.sequence ASC
-                                    LIMIT 1) AS id
-                                    FROM sale_order so) out WHERE out.id IS NOT NULL;""")
+                                    (select id from sale_order_line where order_id = so.id AND qty_delivered = 0 ORDER BY sequence ASC LIMIT 1) AS id
+                                    FROM sale_order so
+                                ) 
+                                out WHERE out.id IS NOT NULL;""")
         res_ids = [x[0] for x in self.env.cr.fetchall()]
         res.append(('id', search_operator, res_ids))
         return res
