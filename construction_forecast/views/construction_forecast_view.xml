@@ -30,7 +30,7 @@
             
         <record model="ir.actions.act_window" id="action_orders_forecast_tree_view">
             <field name="name">Forecast</field>
-            <field name="res_model">sale.order.line/field>
+            <field name="res_model">sale.order.line</field>
             <field name="view_mode">kanban,tree,graph,pivot,form,calendar</field>
             <field name="domain">[('qty_delivered','=', 0)]</field>
             <field name="context">{}</field>
