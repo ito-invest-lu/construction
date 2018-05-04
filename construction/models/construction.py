@@ -25,136 +25,6 @@ from openerp.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-DEFAULT_TASKS = [
-    'Démolition',
-    'Terrassement',
-    'Gros Oeuvre',
-    'Charpente',
-    'Couverture',
-    'Chassis',
-    'Encastrement Hvac',
-    'Plafonnage',
-    'Chape',
-    'Carrelage',
-    'Peinture',
-    'Aménagements extérieur',
-    'SAV'
-]
-
-DEFAULT_STAGES = [
-    'project_stage_not_started',
-    'project_stage_ongoing',
-    'project_stage_finished',
-]
-
-class BuildingSite(models.Model):
-    '''Building Site'''
-    _name = 'construction.building_site'
-    _description = 'Building Site'
-    
-    _inherits = {'project.project': "project_id"}
-    
-    _order = 'name'
-    
-    construction_state = fields.Selection([
-            ('development', 'In development'),
-            ('onsale', 'On Sale'),
-            ('construction', 'In Construction'),
-            ('waranty', 'Waranty'),
-            ('long_waranty', 'Long Wanranty'),
-            ('archived', 'Archived'),
-        ], string='State', required=True, help="")
-    
-    @api.onchange('construction_state')
-    def update_project_state(self):
-        if self.construction_state == 'construction':
-            self.state = 'open'
-        if self.construction_state == 'waranty':
-            self.state = 'close'
-    
-    project_id = fields.Many2one('project.project', 'Project',
-            help="Link this site to a project",
-            ondelete="cascade", required=True, auto_join=True)
-    
-    @api.onchange('project_id')
-    def update_project(self):
-        self.building_site_id = self.id
-        
-    type = fields.Selection([
-            ('single', 'Single'),
-            ('double', 'Double'),
-            ('residency', 'Residency'),
-        ], string='Type of building', required=True, help="")
-    
-    address_id = fields.Many2one('res.partner', string='Site adress', domain="[('type', '=', 'delivery')]")
-    notes = fields.Text(string='Notes')
-    
-    acquisition_lead = fields.Many2one('crm.lead', string='Acquisition Lead')
-    asset_ids = fields.One2many('construction.building_asset', 'site_id', string="Building Assets")
-    asset_count = fields.Integer(compute='_compute_asset_count')
-    
-    def _compute_asset_count(self):
-        for site in self:
-            site.asset_counts = len(site.asset_ids)
-    
-class Project(models.Model):
-    _inherit = "project.project"
-    
-    building_site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
-
-    @api.one
-    def add_default_tasks(self):
-        for stage in DEFAULT_STAGES:
-            res_model, res_id = self.env['ir.model.data'].get_object_reference('construction',stage)
-            stage_id = self.env[res_model].browse(res_id)
-            stage_id.write({
-                'project_ids' : [(4, self.id, False)]
-            })
-        res_model, res_id = self.env['ir.model.data'].get_object_reference('construction','project_stage_not_started')
-        stage_id = self.env[res_model].browse(res_id)
-        i = 0
-        for task_name in DEFAULT_TASKS:
-            self.env['project.task'].create({
-                'sequence' : i * 10 + 5,
-                'name' : task_name, 
-                'project_id' : self.id,
-                'stage_id' : stage_id.id,
-            })
-            i = i + 1
-
-    @api.one
-    def upgrade_as_building_site(self):
-        if self.building_site_id:
-            raise UserError('This project is already associated to a building site')
-        site = self.env['construction.building_site'].create({
-            'name' : self.name,
-            'construction_state' : 'construction',
-            'type' : 'single',
-        })
-        project_id = site.project_id
-        site.write({
-            'project_id' : self.id
-        })
-        project_id.unlink()
-        asset = self.env['construction.building_asset'].create({
-            'name' : self.name,
-            'site_id' : site.id,
-            'partner_id' : self.partner_id.id or False,
-            'state' : 'sold',
-            'type' : 'house',
-        })
-        
-    @api.model
-    def default_get(self, fields):
-        result = super(Project, self).default_get(fields)
-        default_type_ids = [self.env.ref('construction.project_stage_not_started').id,self.env.ref('construction.project_stage_ongoing').id,self.env.ref('construction.project_stage_finished').id]
-        result.update({'type_ids': list(set(default_type_ids))})
-        
-    @api.one
-    def fix_task_type(self):
-        default_type_ids = [self.env.ref('construction.project_stage_not_started').id,self.env.ref('construction.project_stage_ongoing').id,self.env.ref('construction.project_stage_finished').id]
-        self.type_ids = [(6,0,default_type_ids)]
-    
 class BuildingAsset(models.Model):
     '''Building Asset'''
     _name = 'construction.building_asset'
@@ -191,19 +61,7 @@ class BuildingAsset(models.Model):
             ('parking', 'Parking'),
         ], string='Type of asset', required=True, help="")
     
-    site_id = fields.Many2one('construction.building_site', string='Building Site', ondelete='cascade')
-   
-    address_id = fields.Many2one('res.partner', string='Asset address', compute='_compute_address_id')
-    
-    asset_address_id = fields.Many2one('res.partner', string='Asset address', domain="[('type', '=', 'delivery')]")
-    
-    @api.depends('site_id','site_id.address_id','asset_address_id')
-    def _compute_address_id(self):
-        for asset in self:
-            if asset.site_id :
-                asset.address_id = asset.site_id.address_id
-            else :
-                asset.address_id = asset.asset_address_id
+    address_id = fields.Many2one('res.partner', string='Asset address', domain="[('type', '=', 'delivery')]")
     
     partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
     
@@ -222,7 +80,6 @@ class SaleOrder(models.Model):
     '''Sale Order'''
     _inherit = "sale.order"
     
-    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
     @api.onchange('state')
@@ -265,7 +122,6 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="order_id.building_asset_id.site_id")
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id")
 
     is_next_candidate = fields.Boolean(compute='_compute_is_next_candidate',search='_search_next_candidate')
@@ -303,12 +159,6 @@ class SaleOrderLine(models.Model):
         res.append(('id', search_operator, res_ids))
         return res
 
-    @api.multi
-    def _prepare_invoice_line(self, qty):
-        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
-        if self.order_id.building_site_id :
-            res.update({'account_analytic_id': self.order_id.building_site_id.analytic_account_id.id})
-        return res
             
     @api.multi
     def action_deliver_line(self):
@@ -319,7 +169,6 @@ class CrmLean(models.Model):
     '''CRM Lead'''
     _inherit = "crm.lead"
     
-    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
     @api.multi
@@ -331,7 +180,6 @@ class Invoice(models.Model):
     '''Invoice'''
     _inherit = 'account.invoice'
     
-    building_site_id = fields.Many2one('construction.building_site', string='Building Site', related="building_asset_id.site_id",store=True)
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
 class Partner(models.Model):

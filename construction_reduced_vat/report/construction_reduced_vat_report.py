@@ -60,6 +60,6 @@ class ReducedVATAgreementReport(models.Model):
             , to_char(current_date, 'yyyy-q') = to_char(inv.date_invoice, 'yyyy-q') as current_quarter            
             , agg.active
             , inv.partner_id
-            FROM account_invoice inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, construction_building_site bs, res_partner s_addr
-            WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.site_id = bs.id AND bs.address_id = s_addr.id
+            FROM account_invoice inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, res_partner s_addr
+            WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.address_id = s_addr.id
         )""" % (self._table))

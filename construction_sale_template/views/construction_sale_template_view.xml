@@ -35,7 +35,7 @@
             </field>
         </record>
         
-        <record id="building_site_view" model="ir.ui.view">
+        <record id="view_construction_sale_template_form" model="ir.ui.view">
             <field name="name">Sale Order Template Form</field>
             <field name="model">construction.sale_order_template</field>
             <field name="arch" type="xml">
