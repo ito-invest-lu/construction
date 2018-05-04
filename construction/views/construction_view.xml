@@ -70,8 +70,7 @@
             <field name="name">Building Asset Tree</field>
             <field name="model">construction.building_asset</field>
             <field name="arch" type="xml">
-                <tree string="Building Asset" create="0">
-                    <field name="site_id"/>
+                <tree string="Building Asset">
                     <field name="name"/>
                     <field name="type"/>
                     <field name="state"/>
@@ -102,9 +101,7 @@
                         </div>
                         <group col="2">
                             <field name="title" class="oe_edit_only"/>
-                            <field name="site_id"/>
-                            <field string="Address" name="address_id" attrs="{'invisible': [('site_id', '=', False)]}"/>
-                            <field string="Address" name="asset_address_id" context="{'form_view_ref':'construction.building_address_view','default_name':name,'show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('customer', '=', True)]" attrs="{'invisible': [('site_id', '!=', False)]}"/>
+                            <field string="Address" name="address_id" context="{'form_view_ref':'construction.building_address_view','default_name':name,'show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('customer', '=', True)]" attrs="{'invisible': [('site_id', '!=', False)]}"/>
                             <field name="partner_id" />
                             <field name="type" />
                             <field name="state"/>
