@@ -191,7 +191,7 @@ class Partner(models.Model):
     building_asset_ids = fields.One2many('construction.building_asset', 'partner_id', string='Building Assets')
     building_asset_count = fields.Integer(compute='_compute_building_asset_count', string='# of Assets')
     
-def _compute_building_asset_count(self):
+    def _compute_building_asset_count(self):
         asset_data = self.env['construction.building_asset'].read_group(domain=[('partner_id', 'child_of', self.ids)],
                                                       fields=['partner_id'], groupby=['partner_id'])
         # read to keep the child/parent relation while aggregating the read_group result in the loop
