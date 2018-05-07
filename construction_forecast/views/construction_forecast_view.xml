@@ -26,7 +26,6 @@
         <field name="name">Forecast</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_mode">kanban,tree,graph,pivot,form</field>
-        <field name="domain">[('qty_delivered','=', 0)]</field>
         <field name="view_ids"
                eval="[(5, 0, 0),
                       (0, 0, {'view_mode': 'tree', 'view_id': ref('sale.view_order_line_tree')}),
