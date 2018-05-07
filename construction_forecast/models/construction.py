@@ -69,5 +69,16 @@ class SaleOrderLine(models.Model):
 
     forecast_month_id = fields.Many2one('sale.order.line.forecast_month', string='Assigned to Month', track_visibility='onchange')
     
+    kanban_state = fields.Selection([
+        ('normal', 'Grey'),
+        ('done', 'Green'),
+        ('blocked', 'Red')], string='Kanban State',
+        copy=False, default='normal', required=True,
+        help="A task's kanban state indicates special situations affecting it:\n"
+             " * Grey is the default situation\n"
+             " * Red indicates something is preventing the progress of this task\n"
+             " * Green indicates the task is ready to be pulled to the next stage")
+    kanban_state_label = fields.Char(compute='_compute_kanban_state_label', string='Kanban State', track_visibility='onchange')
+    
     priority = fields.Selection([('0', 'Very Low'), ('1', 'Low'), ('2', 'Normal'), ('3', 'High')], string='Priority')
     color = fields.Integer(string='Color Index')

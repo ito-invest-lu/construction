@@ -52,7 +52,7 @@
                 <field name="order_partner_id"/>
                 <field name="currency_id"/>
                 <field name="building_asset_id"/>
-
+                <field name="kanban_state"/>
                 <progressbar field="invoice_status" colors='{"invoiced": "success", "upselling": "success", "to invoice": "warning", "no": "danger"}' sum_field="price_subtotal"/>
                 <templates>
                     <field name="forecast_month_id"/>
@@ -82,6 +82,7 @@
                                         <field name="priority" widget="priority" groups="base.group_user"/>
                                     </div>
                                     <div class="oe_kanban_bottom_right">
+                                        <field name="kanban_state" widget="state_selection" groups="base.group_user"/>
                                         <img t-att-src="kanban_image('res.users', 'image_small', record.salesman_id.raw_value)" t-att-title="record.salesman_id.value" width="24" height="24" class="oe_kanban_avatar"/>
                                     </div>
                                 </div>
