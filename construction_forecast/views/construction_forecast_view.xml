@@ -52,7 +52,7 @@
                 <field name="currency_id"/>
                 <field name="building_asset_id"/>
                 <field name="kanban_state"/>
-                <progressbar field="forecast_status" colors='{invoiced": "success", "to invoice": "warning", "danger": "danger"}' sum_field="price_subtotal"/>
+                <progressbar field="forecast_status" colors='{"invoiced": "success", "to invoice": "warning", "danger": "danger"}' sum_field="price_subtotal"/>
                 <templates>
                     <field name="forecast_month_id"/>
                     <t t-name="kanban-box">
