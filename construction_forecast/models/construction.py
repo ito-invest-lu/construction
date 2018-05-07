@@ -80,5 +80,15 @@ class SaleOrderLine(models.Model):
              " * Green indicates the task is ready to be pulled to the next stage")
     kanban_state_label = fields.Char(compute='_compute_kanban_state_label', string='Kanban State', track_visibility='onchange')
     
+    @api.depends('stage_id', 'kanban_state')
+    def _compute_kanban_state_label(self):
+        for task in self:
+            if task.kanban_state == 'normal':
+                task.kanban_state_label = 'planned'
+            elif task.kanban_state == 'blocked':
+                task.kanban_state_label = 'blocked'
+            else:
+                task.kanban_state_label = 'done'
+    
     priority = fields.Selection([('0', 'Very Low'), ('1', 'Low'), ('2', 'Normal'), ('3', 'High')], string='Priority')
     color = fields.Integer(string='Color Index')
