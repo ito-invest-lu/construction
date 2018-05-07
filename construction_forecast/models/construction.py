@@ -82,13 +82,29 @@ class SaleOrderLine(models.Model):
     
     @api.depends('kanban_state')
     def _compute_kanban_state_label(self):
-        for task in self:
-            if task.kanban_state == 'normal':
-                task.kanban_state_label = 'planned'
-            elif task.kanban_state == 'blocked':
-                task.kanban_state_label = 'blocked'
+        for line in self:
+            if line.kanban_state == 'normal':
+                line.kanban_state_label = 'planned'
+            elif line.kanban_state == 'blocked':
+                line.kanban_state_label = 'blocked'
             else:
-                task.kanban_state_label = 'done'
+                line.kanban_state_label = 'done'
+    
+    forecast_status = fields.Selection([('planned', 'Planned'), ('danger', 'Danger'), ('invoiced', 'Invoiced'), ('ongoing', 'On going'), ('to invoice', 'To invoice')], string='Forecast Status', stroe=True, compute='_compute_forecast_status', track_visibility='onchange')
+    
+    @api.depends('invoice_status','kanban_state')
+    def _compute_forecast_status(self):
+        for line in self:
+            if line.invoice_status == 'invoiced' or line.invoice_status == 'upselling' :
+                line.forecast_status = 'invoiced'
+            elif line.invoice_status == 'to invoice':
+                line.forecast_status = 'to invoice'
+            elif line.kanban_state == 'normal':
+                line.forecast_status = 'planned'
+            elif line.kanban_state == 'blocked':
+                line.kanban_state_label = 'danger'
+            else:
+                line.kanban_state_label = 'ongoing'
     
     priority = fields.Selection([('0', 'Very Low'), ('1', 'Low'), ('2', 'Normal'), ('3', 'High')], string='Priority')
     color = fields.Integer(string='Color Index')
