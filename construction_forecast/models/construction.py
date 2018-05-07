@@ -51,7 +51,7 @@ class SaleOrderForcastMonth(models.Model):
             for line in month.order_line_ids:
                 nbr += 1
                 total += line.currency_id.compute(line.price_subtotal, company_currency)
-                if line.qty_delivered == 0:
+                if line.qty_delivered > 0:
                     total_d += line.currency_id.compute(line.price_subtotal, company_currency)
             month.sale_amount_delivered = total_d
             month.sale_amount_total = total
