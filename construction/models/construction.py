@@ -122,7 +122,7 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id")
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id", store=True)
 
     is_next_candidate = fields.Boolean(compute='_compute_is_next_candidate',search='_search_next_candidate')
 
