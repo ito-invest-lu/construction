@@ -129,12 +129,12 @@ class AccountInvoice(models.Model):
         for invoice in self :
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
-            if self.reduced_vat_agreement_id :
+            if invoice.reduced_vat_agreement_id :
                 new_amount = 0
                 for line in invoice.invoice_line_ids:
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
-                if self.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
+                if invoice.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
                     raise UserError(_("The reduced tva agreement total amount is exceeded."))
         return res
         
