@@ -128,7 +128,7 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).invoice_validate()
         self.onchange_reduced_vat_agreement_id()
         if self.reduced_vat_agreement_id :
-            if self.reduced_vat_agreement_id.agreement_remaining_amount < self.amount_untaxed:
+            if self.reduced_vat_agreement_id.agreement_remaining_amount + 0.01 < self.amount_untaxed:
                 raise UserError(_("The reduced tva agreement total amount is exceeded."))
         return res
         
