@@ -28,7 +28,7 @@ _logger = logging.getLogger(__name__)
 class SaleOrderForcastMonth(models.Model):
     _name = 'sale.order.line.forecast_month'
     
-    _order = 'years, month'
+    _order = 'year, month'
     
     name = fields.Char(compute='_compute_name')
     
