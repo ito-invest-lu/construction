@@ -14,6 +14,7 @@
     'init_xml': [],
     'data': [
         'views/construction_forecast_view.xml',
+        'wizard/construction_forecast_wizard.xml',
     ],
     'installable': True,
     'active': True,
