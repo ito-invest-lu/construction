@@ -68,7 +68,7 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='price_subtotal']" position="after">
-                <button type="object" icon="fa-edit" name="%(action_construction_forecast_wizard)d" string="Month"/>
+                <button type="action" icon="fa-edit" name="%(action_construction_forecast_wizard)d" string="Month"/>
             </xpath>
         </field>
     </record>
