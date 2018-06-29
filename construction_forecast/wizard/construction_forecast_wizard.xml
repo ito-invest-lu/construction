@@ -61,25 +61,4 @@
                         'default_order_line_ids': context.get('active_ids', []),
                     }"/>
     
-    <act_window name="Set Forecast Month Line"
-            res_model="construction.forecast_wizard"
-            view_mode="form"
-            multi="False"
-            target="new"
-            id="action_construction_forecast_wizard"
-            context="{
-                        'default_order_line_ids': [active_id],
-                    }"/>
-    
-    <record id="view_order_line_tree_inherit_forecast" model="ir.ui.view">
-        <field name="name">sale.order.line.tree.sale.forecast</field>
-        <field name="inherit_id" ref="sale.view_order_line_tree"/>
-        <field name="model">sale.order.line</field>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='price_subtotal']" position="after">
-                <button type="action" icon="fa-edit" name="%(action_construction_forecast_wizard)d" string="Month"/>
-            </xpath>
-        </field>
-    </record>
-    
 </odoo>
