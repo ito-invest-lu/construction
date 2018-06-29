@@ -37,5 +37,5 @@ class ConstructionForecastWizard(models.TransientModel):
     def action_confirm(self):
         self.ensure_one()
         self.order_line_ids.write({
-            'forecast_month_id' : self.forecast_month_id
+            'forecast_month_id' : self.forecast_month_id.id
         })
