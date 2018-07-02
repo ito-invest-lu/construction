@@ -20,6 +20,8 @@
 ##############################################################################
 import logging
 
+
+import base64
 import zipfile
 try:
     from StringIO import StringIO
@@ -41,7 +43,7 @@ class BulkImportStatement(models.TransientModel):
     @api.multi
     def bulk_import_statement(self):
         self.ensure_one()
-        bin_data = self.zip_file and self.zip_file.decode('base64') or ''
+        bin_data = self.zip_file and base64.b64decode(self.zip_file) or ''
         zippedFiles = zipfile.ZipFile(StringIO(bin_data))
         statement_ids = []
         notifications = []
