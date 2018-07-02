@@ -19,4 +19,4 @@
 #
 ##############################################################################
 
-import account_bank_statement_bulk_import_wizard
+from . import account_bank_statement_bulk_import_wizard
