@@ -23,6 +23,7 @@ import logging
 
 import base64
 import zipfile
+from io import BytesIO
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
@@ -40,7 +41,7 @@ class BulkImportStatement(models.TransientModel):
     def bulk_import_statement(self):
         self.ensure_one()
         bin_data = self.zip_file and base64.b64decode(self.zip_file) or ''
-        zippedFiles = zipfile.ZipFile(bin_data)
+        zippedFiles = zipfile.ZipFile(BytesIO(bin_data))
         statement_ids = []
         notifications = []
         for filename in zippedFiles.namelist():
