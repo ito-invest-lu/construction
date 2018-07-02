@@ -21,7 +21,10 @@
 import logging
 
 import zipfile
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 from openerp import api, fields, models, _
 from openerp.exceptions import UserError
