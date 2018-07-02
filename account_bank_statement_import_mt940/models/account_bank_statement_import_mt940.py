@@ -61,11 +61,12 @@ class AccountBankStatementImport(models.TransientModel):
             
             # we iterate through each transaction
             for t in transactions:
+                _logger.info(t.data)
                 st_line = {
                     'date' : t.data.get('entry_date') or t.data.get('date'),    
                     'amount' : t.data['amount'].amount,
                     'ref' : t.data.get('bank_reference') or t.data.get('extra_details'),
-                    'name' : t.data['transaction_details'],
+                    'name' : t.data.get('transaction_details'),
                 }
                 statement['transactions'].append(st_line)
             
