@@ -26,6 +26,8 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 import mt940
 import logging
+
+import base64
 from io import BytesIO
 
 _logger = logging.getLogger(__name__)
@@ -40,7 +42,7 @@ class AccountBankStatementImport(models.TransientModel):
         statements = []
         
         try:
-            transactions = mt940.parse(BytesIO(data_file))
+            transactions = mt940.parse(BytesIO(base64.b64decode(data_file)))
             # if no statements found
             if not transactions:
                 _logger.debug("Statement file was not recognized as an MT940 file, trying next parser", exc_info=True)
