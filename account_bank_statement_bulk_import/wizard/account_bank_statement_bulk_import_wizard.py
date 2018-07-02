@@ -48,7 +48,7 @@ class BulkImportStatement(models.TransientModel):
             try :
                 data = zippedFiles.read(filename)
                 base_import = self.env['account.bank.statement.import'].create({
-                    'data_file' : data.encode('base64'),
+                    'data_file' : base64.b64encode(data),
                 })
                 currency_code, account_number, stmts_vals = base_import.with_context(active_id=self.ids[0])._parse_file(data)
                 if account_number:
