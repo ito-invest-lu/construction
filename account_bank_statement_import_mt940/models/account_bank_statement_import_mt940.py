@@ -26,7 +26,10 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 import mt940
 import logging
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 _logger = logging.getLogger(__name__)
 
