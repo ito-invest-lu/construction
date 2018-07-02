@@ -42,7 +42,7 @@ class AccountBankStatementImport(models.TransientModel):
         statements = []
         
         try:
-            transactions = mt940.parse(StringIO(data_file))
+            transactions = mt940.parse(data_file)
             # if no statements found
             if not transactions:
                 _logger.debug("Statement file was not recognized as an MT940 file, trying next parser", exc_info=True)
