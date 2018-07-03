@@ -136,7 +136,10 @@ class AccountInvoice(models.Model):
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
-                    raise UserError(_("The reduced tva agreement total amount is exceeded."))
+                    res = {
+                        'value' : res,
+                        'warning' : 'Reduced vat agreement maximum value exceeded !!',
+                    }
         return res
         
     @api.onchange('reduced_vat_agreement_id')
