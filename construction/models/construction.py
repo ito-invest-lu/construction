@@ -94,9 +94,10 @@ class SaleOrder(models.Model):
     @api.onchange('partner_id')
     def onchange_parter(self):
         if self.partner_id:
-            asset_id = self.env['construction.building_asset'].search([('partner_id','=',self.partner_id.id)])
-            if asset_id :
-                self.building_asset_id = asset_id[0]
+            if not self.building_asset_id :
+                asset_id = self.env['construction.building_asset'].search([('partner_id','=',self.partner_id.id)])
+                if asset_id :
+                    self.building_asset_id = asset_id[0]
             
     @api.multi
     def _prepare_invoice(self):
