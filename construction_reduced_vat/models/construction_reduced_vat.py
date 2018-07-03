@@ -126,6 +126,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
+        _logger.info(res)
         for invoice in self :
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
