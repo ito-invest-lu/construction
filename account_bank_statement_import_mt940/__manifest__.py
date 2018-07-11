@@ -33,7 +33,7 @@ This module allows you to import MT940 files in Odoo: they are parsed and stored
 Accounting \ Bank and Cash \ Bank Statements.
 
     """,
-    'data': ['account_bank_statement_import_mt940_view.xml'],
+    'data': ['views/account_bank_statement_import_mt940_view.xml'],
     'depends': ['account_bank_statement_import'],
     'demo': [],
     'auto_install': True,
