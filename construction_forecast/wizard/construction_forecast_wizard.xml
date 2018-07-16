@@ -27,7 +27,7 @@
         <field name="arch" type="xml">
             <form string="Set Forecast Month">
                 <group cols="2">
-                    <field name="order_line_ids"/>
+                    <field name="order_line_ids" readonly="1"/>
                     <field name="forecast_month_id"/>
                 </group>
                 <footer>
