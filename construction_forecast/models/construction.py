@@ -64,7 +64,7 @@ class SaleOrderForcastMonth(models.Model):
         self.name = '%s-%s' % (self.year,self.month)
     
     year = fields.Selection([('2018', '2018'), ('2019', '2019'), ('2020', '2020'), ('2021', '2021'), ('2022', '2022')],string='Year')
-    month = fields.Selection([('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'),('9', '9'), ('10', '10'), ('11', '11'), ('12', '12')],string='Year')
+    month = fields.Selection([('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'),('9', '9'), ('10', '10'), ('11', '11'), ('12', '12')],string='Month')
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
