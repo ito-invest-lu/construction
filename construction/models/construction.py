@@ -36,6 +36,8 @@ class BuildingAsset(models.Model):
     
     name = fields.Char(string="Name", compute='_compute_name', store=True)
     
+    active = fields.Boolean(string="Active", default=True)
+    
     @api.one
     @api.depends('title','partner_id.name')
     def _compute_name(self):
@@ -66,6 +68,7 @@ class BuildingAsset(models.Model):
     partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
     
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
+    
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
     
     @api.onchange('confirmed_lead_id')
@@ -74,6 +77,7 @@ class BuildingAsset(models.Model):
         self.state = 'sold'
     
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders", readonly=True)
+    
     invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True) 
     
 class SaleOrder(models.Model):
