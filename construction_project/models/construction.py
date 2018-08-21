@@ -21,7 +21,7 @@
 import logging
 
 from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from openerp.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -41,6 +41,11 @@ class Project(models.Model):
     child_ids = fields.One2many('project.project', 'parent_id', string='Children Projects')
     
     parent_cost_pct = fields.Float(string="Parent pourcentage of costs")
+
+    @api.constrains('parent_id')
+    def _check_parent_id(self):
+        if not self._check_recursion():
+            raise ValidationError(_('Error ! You cannot create recursive projects.'))
 
 # class SaleOrderForcastMonth(models.Model):
 #     _name = 'sale.order.line.forecast_month'
