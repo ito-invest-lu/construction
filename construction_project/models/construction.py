@@ -47,7 +47,11 @@ class BuildingAsset(models.Model):
         }
     
     def create_project(self):
-        pass
+        self.project_id = self.env['project.project'].create({
+            'name' : self.name,
+            'partner_id' : self.partner_id.id,
+            'building_asset_id' : self.id,
+        })
     
 class Project(models.Model):
     '''Invoice'''
