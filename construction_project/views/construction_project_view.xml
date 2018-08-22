@@ -57,7 +57,7 @@
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button name="open_or_create_project" string="Project" type="object"/>
                 </xpath>
-            </xpath>
+            </field>
         </field>
     </record>
 
