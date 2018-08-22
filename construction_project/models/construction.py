@@ -31,6 +31,19 @@ class BuildingAsset(models.Model):
 
     project_id = fields.One2many('project.project','building_asset_id', string="Project", readonly=True) 
     
+    @api.multi
+    def open_or_create_project(self):
+        self.ensure_one()
+        return {
+            'name': _('Project'),
+            'domain': [('res_model', '=', self._name), ('res_id', '=', self.project_id)],
+            'res_model': 'project.project',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': "{'default_res_model': '%s','default_res_id': %d }" % (self._name, self.id),
+        }
+    
 class Project(models.Model):
     '''Invoice'''
     _inherit = 'project.project'

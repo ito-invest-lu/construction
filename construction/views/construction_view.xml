@@ -123,6 +123,7 @@
                                         <field name="user_id"/>
                                         <field name="state"/>
                                         <field name="invoice_status"/>
+                                        <field name="amount_untaxed" string="Untaxed" sum="Untaxed"/>
                                     </tree>
                                 </field>
                             </page>

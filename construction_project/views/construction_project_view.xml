@@ -41,5 +41,24 @@
             </xpath>
         </field>
     </record>
+    
+    <!--
+    
+            Building Asset
+            
+    -->
+    
+    <record id="building_asset_view_project" model="ir.ui.view">
+            <field name="name">Building Asset Form</field>
+            <field name="model">construction.building_asset</field>
+            <field name="inherit_id" ref="construction.building_asset_view" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button name="open_or_create_project" string="Project" type="object"/>
+                </xpath>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
