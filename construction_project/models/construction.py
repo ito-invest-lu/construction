@@ -34,6 +34,8 @@ class BuildingAsset(models.Model):
     @api.multi
     def open_or_create_project(self):
         self.ensure_one()
+        if self.project_id is None :
+            self.create_project()
         return {
             'name': _('Project'),
             'domain': [('res_model', '=', self._name), ('res_id', '=', self.project_id)],
@@ -43,6 +45,9 @@ class BuildingAsset(models.Model):
             'view_type': 'form',
             'context': "{'default_res_model': '%s','default_res_id': %d }" % (self._name, self.id),
         }
+    
+    def create_project(self):
+        pass
     
 class Project(models.Model):
     '''Invoice'''
