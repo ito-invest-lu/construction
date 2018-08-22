@@ -37,13 +37,13 @@ class BuildingAsset(models.Model):
         if self.project_id is None :
             self.create_project()
         return {
-            'name': _('Project'),
-            'domain': [('res_model', '=', self._name), ('res_id', '=', self.project_id)],
+            'name': 'Project',
+            'view_type': 'form',
+            'view_mode': 'form',
             'res_model': 'project.project',
             'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': "{'default_res_model': '%s','default_res_id': %d }" % (self._name, self.id),
+            'res_id': self.project_id.id,
+            'context': self.env.context,
         }
     
     def create_project(self):
