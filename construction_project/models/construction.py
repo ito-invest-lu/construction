@@ -34,7 +34,7 @@ class BuildingAsset(models.Model):
     @api.multi
     def open_or_create_project(self):
         self.ensure_one()
-        if self.project_id is None :
+        if not self.project_id :
             self.create_project()
         return {
             'name': 'Project',
@@ -47,11 +47,13 @@ class BuildingAsset(models.Model):
         }
     
     def create_project(self):
+        _logger.info('create_project')
         self.project_id = self.env['project.project'].create({
             'name' : self.name,
             'partner_id' : self.partner_id.id,
             'building_asset_id' : self.id,
         })
+        _logger.info(self.project_id)
     
 class Project(models.Model):
     '''Invoice'''
