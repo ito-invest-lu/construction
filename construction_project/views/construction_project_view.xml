@@ -55,7 +55,7 @@
         <field eval="18" name="priority" />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button name="open_or_create_project" string="Project" type="object"/>
+                <button name="open_or_create_project" string="Project" type="object" icon="fa-tasks" />
             </xpath>
         </field>
     </record>
