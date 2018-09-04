@@ -38,6 +38,5 @@
             <field name="name">Terminé</field>
             <field name="fold" eval="True"/>
         </record>
-        
     </data>
 </odoo>
