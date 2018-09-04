@@ -57,7 +57,7 @@ class BuildingAsset(models.Model):
         })
     
 class Project(models.Model):
-    '''Invoice'''
+    '''Project'''
     _inherit = 'project.project'
     
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
@@ -72,6 +72,45 @@ class Project(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('Error ! You cannot create recursive projects.'))
 
+
+class Task(models.Model):
+    '''Task'''
+    _inherit = 'project.task'
+    
+    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.user.company_id.id)
+    company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
+    
+    budget = fields.Monetary(string="Budget", currency_field='company_currency')
+    is_on_budget = fields.Boolean(compute="_compute_total", string="Is On Budget", store=True)
+    
+    purchase_amount = fields.Monetary(string="Purchase Amount", currency_field='company_currency')
+    working_hours = fields.Float(string="Working Hours")
+    total_amount = fields.Monetary(compute="_compute_total", string="Total Amount", currency_field='company_currency', store=True)
+    
+    analytic_line_id = fields.Many2one('account.analytic.line', string='Analytic Line for Purchases', ondelete='restrict', readonly=True)
+    
+    @api.depends('budget','purchase_amount','working_hours')
+    @api.one
+    def _compute_total(self):
+        working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
+        total_amount = self.purchase_amount + self.working_hours * working_hours_price
+        if self.analytic_line_id :
+            self.analytic_line_id.write({
+                'unit_amount' : self.working_hours,
+                'amount' : total_amount,
+            })
+        else :
+            self.env['account.analytic.line'].create({
+                'name': self.name,
+                'project_id': self.project_id.id,
+                'task_id': self.id,
+                'unit_amount': self.working_hours,
+                'amount': total_amount,
+            })
+        self.total_amount = total_amount
+        self.is_on_budget = self.budget >= self.total_amount
+
+    
 # class SaleOrderForcastMonth(models.Model):
 #     _name = 'sale.order.line.forecast_month'
     

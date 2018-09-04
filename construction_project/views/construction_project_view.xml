@@ -42,6 +42,24 @@
         </field>
     </record>
     
+    <record id="view_task_kanban_inherited_construction_project" model="ir.ui.view">
+        <field name="name">project.task.kanban.inherited.construction.project</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <templates position="before">
+                <field name="purchase_amount" />
+                <field name="working_hours" />
+                <field name="budget" />
+            </templates>
+            <div class="o_kanban_record_body" position="inside">
+                <field name="budget" widget="monetary"/>
+                <field name="purchase_amount" widget="float_time" />
+                <field name="working_hours" widget="monetary"/>
+            </div>
+         </field>
+     </record>
+    
     <!--
     
             Building Asset

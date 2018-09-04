@@ -34,9 +34,10 @@
             <field name="legend_done">Peut démarrer l'étape suivante</field>
         </record>
         <record id="project_stage_finished" model="project.task.type">
-            <field name="sequence">20</field>
+            <field name="sequence">99</field>
             <field name="name">Terminé</field>
             <field name="fold" eval="True"/>
         </record>
+        
     </data>
 </odoo>
