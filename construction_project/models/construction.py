@@ -54,12 +54,6 @@ class BuildingAsset(models.Model):
             'partner_id' : self.partner_id.id,
             'building_asset_id' : self.id,
         })
-        for task_template_id in project_template.task_ids :
-            new_task = task_template_id.copy()
-            new_task.write({
-                'project_id' : self.project_id.id
-            })
-            # TODO : deep copy of tasks ?
     
 class Project(models.Model):
     '''Invoice'''
