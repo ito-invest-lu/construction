@@ -47,7 +47,7 @@ class BuildingAsset(models.Model):
         }
     
     def create_project(self):
-        project_template = self.env['project.project'].search([('name','=','Template')])
+        project_template = self.env['project.project'].search([('name','=','Template'),('active','=',False)])
         self.project_id = project_template.copy()
         self.project_id.write({
             'name' : self.name,
