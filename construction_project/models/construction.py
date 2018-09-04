@@ -102,7 +102,7 @@ class Task(models.Model):
         else :
             self.env['account.analytic.line'].create({
                 'name': self.name,
-                'account_id': self.project_id.id,
+                'account_id': self.project_id.analytic_account_id.id,
                 'task_id': self.id,
                 'unit_amount': self.working_hours,
                 'amount': total_amount,
