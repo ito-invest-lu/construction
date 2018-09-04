@@ -47,12 +47,19 @@ class BuildingAsset(models.Model):
         }
     
     def create_project(self):
-        self.project_id = self.env['project.project'].search([('name','=','Template')]).copy()
+        project_template = self.env['project.project'].search([('name','=','Template')])
+        self.project_id = project_template.copy()
         self.project_id.write({
             'name' : self.name,
             'partner_id' : self.partner_id.id,
             'building_asset_id' : self.id,
         })
+        for task_template_id in project_template.task_ids :
+            new_task = task_template_id.copy()
+            new_task.write({
+                'project_id' : self.project_id.id
+            })
+            # TODO : deep copy of tasks ?
     
 class Project(models.Model):
     '''Invoice'''
