@@ -57,8 +57,21 @@
                 <field name="purchase_amount" widget="float_time" />
                 <field name="working_hours" widget="monetary"/>
             </div>
-         </field>
-     </record>
+        </field>
+    </record>
+    
+    <record id="view_task_form_inherit_construction_project" model="ir.ui.view">
+        <field name="name">project.task.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="budget" widget="monetary"/>
+                <field name="purchase_amount" widget="float_time" />
+                <field name="working_hours" widget="monetary"/>
+            </field>
+        </field>
+    </record>
     
     <!--
     
