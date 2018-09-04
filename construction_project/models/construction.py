@@ -53,6 +53,7 @@ class BuildingAsset(models.Model):
             'name' : self.name,
             'partner_id' : self.partner_id.id,
             'building_asset_id' : self.id,
+            'active' : True,
         })
     
 class Project(models.Model):
