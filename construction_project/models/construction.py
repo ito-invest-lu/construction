@@ -92,23 +92,24 @@ class Task(models.Model):
     @api.depends('budget','purchase_amount','working_hours')
     @api.one
     def _compute_total(self):
-        working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
-        total_amount = self.purchase_amount + self.working_hours * working_hours_price
-        if self.analytic_line_id :
-            self.analytic_line_id.write({
-                'unit_amount' : self.working_hours,
-                'amount' : total_amount,
-            })
-        else :
-            self.env['account.analytic.line'].create({
-                'name': self.name,
-                'account_id': self.project_id.analytic_account_id.id,
-                'task_id': self.id,
-                'unit_amount': self.working_hours,
-                'amount': total_amount,
-            })
-        self.total_amount = total_amount
-        self.is_on_budget = self.budget >= self.total_amount
+        if self.project_id.active:
+            working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
+            total_amount = self.purchase_amount + self.working_hours * working_hours_price
+            if self.analytic_line_id :
+                self.analytic_line_id.write({
+                    'unit_amount' : self.working_hours,
+                    'amount' : total_amount,
+                })
+            else :
+                self.env['account.analytic.line'].create({
+                    'name': self.name,
+                    'account_id': self.project_id.analytic_account_id.id,
+                    'task_id': self.id,
+                    'unit_amount': self.working_hours,
+                    'amount': total_amount,
+                })
+            self.total_amount = total_amount
+            self.is_on_budget = self.budget >= self.total_amount
 
     
 # class SaleOrderForcastMonth(models.Model):
