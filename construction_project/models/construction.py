@@ -90,7 +90,7 @@ class Task(models.Model):
     analytic_line_id = fields.Many2one('account.analytic.line', string='Analytic Line for Purchases', ondelete='restrict', readonly=True)
     
     @api.depends('budget','purchase_amount','working_hours')
-    @api.one
+    @api.multi
     def _compute_total(self):
         working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
         total_amount = self.purchase_amount + self.working_hours * working_hours_price
@@ -109,13 +109,13 @@ class Task(models.Model):
             })
         self.total_amount = total_amount
         self.is_on_budget = self.budget >= self.total_amount
-        if not self.is_on_budget : 
-            res = {
-                'value': {
-                    'color': 1,
-                }
-            }
-            return res
+
+    @api.onchange('is_on_budget')
+    def _onchange_is_on_budget(self):
+        if self.is_on_budget:
+            self.color = 10
+        else :  
+            self.color = 1
 
     
 # class SaleOrderForcastMonth(models.Model):
