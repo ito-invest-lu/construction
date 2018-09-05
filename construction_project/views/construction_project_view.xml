@@ -65,11 +65,14 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <field name="tag_ids" position="after">
-                <field name="budget" widget="monetary"/>
-                <field name="purchase_amount" widget="float_time" />
-                <field name="working_hours" widget="monetary"/>
-            </field>
+            <xpath expr="//div[@class='oe_title']" position="after">
+                <group>
+                    <field name="budget" widget="monetary"/>
+                    <field name="purchase_amount" widget="float_time" />
+                    <field name="working_hours" widget="monetary"/>
+                    <field name="total_amount" widget="monetary"/>
+                </group>
+            </xpath>
         </field>
     </record>
     
