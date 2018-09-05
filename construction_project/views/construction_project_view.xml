@@ -42,6 +42,22 @@
         </field>
     </record>
     
+    
+    <record id="view_project_kanban_inherited_construction_project" model="ir.ui.view">
+    	<field name="name">project.project.kanban.inherited.construction.project</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
+                <a class="o_project_kanban_box">
+                    <div>
+                      <field name="on_going_task_ids" widget="many2many_tags" string="Website Tags"/>
+                    </div>
+                </a>
+            </xpath>
+        </field>
+    </record>
+    
     <record id="view_task_kanban_inherited_construction_project" model="ir.ui.view">
         <field name="name">project.task.kanban.inherited.construction.project</field>
         <field name="model">project.task</field>
