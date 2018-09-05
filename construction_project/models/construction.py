@@ -122,6 +122,7 @@ class Task(models.Model):
     def set_to_not_started(self):
         return {
             'values' : {
+                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_not_started').id
             }
         }
 
@@ -129,6 +130,7 @@ class Task(models.Model):
     def set_to_ongoing(self):
         return {
             'values' : {
+                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing').id
             }
         }
         
@@ -136,6 +138,7 @@ class Task(models.Model):
     def set_to_done(self):
         return {
             'values' : {
+                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_finished').id
             }
         }
     
