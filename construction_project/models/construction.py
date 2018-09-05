@@ -110,7 +110,7 @@ class Task(models.Model):
         self.total_amount = total_amount
         self.is_on_budget = self.budget >= self.total_amount
 
-    @api.onchange('is_on_budget')
+    @api.onchange('budget','purchase_amount','working_hours','is_on_budget')
     def _onchange_is_on_budget(self):
         if self.is_on_budget:
             self.color = 10
