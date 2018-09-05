@@ -51,6 +51,8 @@
                 <field name="purchase_amount" />
                 <field name="working_hours" />
                 <field name="budget" />
+                <field name="is_on_budget" />
+                <field name="total_amount" />
             </templates>
             <div class="o_kanban_record_body" position="inside">
                 <div>
