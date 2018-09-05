@@ -121,18 +121,23 @@ class Task(models.Model):
     @api.multi
     def set_to_not_started(self):
         return {
-            values : {
-                ''
+            'values' : {
             }
         }
 
     @api.multi
     def set_to_ongoing(self):
-        
+        return {
+            'values' : {
+            }
+        }
         
     @api.multi
     def set_to_done(self):
-        
+        return {
+            'values' : {
+            }
+        }
     
 # class SaleOrderForcastMonth(models.Model):
 #     _name = 'sale.order.line.forecast_month'
