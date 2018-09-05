@@ -112,10 +112,11 @@ class Task(models.Model):
 
     @api.onchange('budget','purchase_amount','working_hours','is_on_budget')
     def _onchange_is_on_budget(self):
-        if self.is_on_budget and self.budget > 0 :
-            self.color = 10
-        else :  
-            self.color = 1
+        if self.budget > 0 :
+            if self.is_on_budget :
+                self.color = 10
+            else :  
+                self.color = 1
 
     
 # class SaleOrderForcastMonth(models.Model):
