@@ -72,8 +72,13 @@ class Project(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('Error ! You cannot create recursive projects.'))
             
-    on_going_task_ids = fields.Many2many('project.task', string="OnGoing Tasks", compute=lambda self:self.task_ids.filtered(lambda t: t.stage_id == self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')))
+    on_going_task_ids = fields.Many2many('project.task', string="OnGoing Tasks", compute='_compute_on_going_task_ids')
 
+    @api.one
+    def _compute_on_going_task_ids(self):
+        on_going_stage_id = self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')
+        for project in self:
+            project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
 
 class Task(models.Model):
     '''Task'''
