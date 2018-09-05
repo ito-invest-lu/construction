@@ -80,6 +80,23 @@ class Project(models.Model):
         for project in self:
             project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
 
+    budget = fields.Monetary(string="Budget", currency_field='company_currency', compute='_compute_amounts')
+    is_on_budget = fields.Boolean(string="Is On Budget", compute="_compute_amounts")
+    
+    purchase_amount = fields.Monetary(string="Purchase Amount", currency_field='company_currency', compute='_compute_amounts')
+    working_hours = fields.Float(string="Working Hours", compute='_compute_amounts')
+    total_amount = fields.Monetary(string="Total Amount", currency_field='company_currency', compute='_compute_amounts')
+    
+    @api.depends('task_ids.budget','task_ids.purchase_amount','task_ids.working_hours')
+    @api.multi
+    def _compute_amounts(self):
+        for project in self:
+            project.budget = sum(project.task_ids.mapped('budget'))
+            project.purchase_amount = sum(project.task_ids.mapped('purchase_amount'))
+            project.working_hours = sum(project.task_ids.mapped('working_hours'))
+            project.total_amount = sum(project.task_ids.mapped('total_amount'))
+            project.is_on_budget = project.budget >= project.total_amount
+
 class Task(models.Model):
     '''Task'''
     _inherit = 'project.task'
