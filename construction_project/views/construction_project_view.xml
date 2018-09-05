@@ -82,8 +82,8 @@
                     <field name="purchase_amount" widget="monetary" />
                     <field name="working_hours" widget="float_time"/>
                     <field name="total_amount" widget="monetary"/>
-                    <field name="is_on_budget" />
-                    <field name="color" />
+                    <field name="is_on_budget"/>
+                    <field name="color" invisible="1"/>
                 </group>
             </xpath>
         </field>
