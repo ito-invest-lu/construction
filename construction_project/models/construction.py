@@ -120,28 +120,22 @@ class Task(models.Model):
 
     @api.multi
     def set_to_not_started(self):
-        return {
-            'values' : {
-                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_not_started').id
-            }
-        }
+        self.write ({
+            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_not_started').id
+        })
 
     @api.multi
     def set_to_ongoing(self):
-        return {
-            'values' : {
-                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing').id
-            }
-        }
+        self.write ({
+            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing').id
+        })
         
     @api.multi
     def set_to_done(self):
-        return {
-            'values' : {
-                'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_finished').id
-            }
-        }
-    
+        self.write ({
+            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_finished').id
+        })
+        
 # class SaleOrderForcastMonth(models.Model):
 #     _name = 'sale.order.line.forecast_month'
     
