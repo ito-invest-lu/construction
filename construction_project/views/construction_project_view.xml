@@ -53,12 +53,18 @@
                 <field name="budget" />
             </templates>
             <div class="o_kanban_record_body" position="inside">
-                <ul>
-                    <li>Budget : <field name="budget" widget="monetary"/> €</li>
-                    <li>Achats : <field name="purchase_amount" widget="monetary"/> €</li>
-                    <li>Heures : <field name="working_hours" widget="float_time"/> H</li>
-                    <li>Total : <field name="total_amount" widget="monetary"/> €</li>
-                </ul>
+                <div>
+                    Budget : <field name="budget" widget="monetary"/> €
+                </div>
+                <div>
+                    Achats : <field name="purchase_amount" widget="monetary"/> €
+                </div>
+                <div>
+                    Heures : <field name="working_hours" widget="float_time"/> H
+                </div>
+                <div>
+                    Total : <field name="total_amount" widget="monetary"/> €
+                </div>
             </div>
         </field>
     </record>
