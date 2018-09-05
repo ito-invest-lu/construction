@@ -90,7 +90,7 @@ class Task(models.Model):
     analytic_line_id = fields.Many2one('account.analytic.line', string='Analytic Line for Purchases', ondelete='restrict', readonly=True)
     
     @api.depends('budget','purchase_amount','working_hours')
-    @api.multi
+    @api.one
     def _compute_total(self):
         working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
         total_amount = self.purchase_amount + self.working_hours * working_hours_price
@@ -118,6 +118,21 @@ class Task(models.Model):
             else :  
                 self.color = 1
 
+    @api.multi
+    def set_to_not_started(self):
+        return {
+            values : {
+                ''
+            }
+        }
+
+    @api.multi
+    def set_to_ongoing(self):
+        
+        
+    @api.multi
+    def set_to_done(self):
+        
     
 # class SaleOrderForcastMonth(models.Model):
 #     _name = 'sale.order.line.forecast_month'
