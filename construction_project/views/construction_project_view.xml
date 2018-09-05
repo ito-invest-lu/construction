@@ -55,6 +55,20 @@
                     </div>
                 </a>
             </xpath>
+            <div class="o_kanban_card_content" position="inside">
+                <div>
+                    Budget : <field name="budget" widget="monetary"/> €
+                </div>
+                <div>
+                    Achats : <field name="purchase_amount" widget="monetary"/> €
+                </div>
+                <div>
+                    Heures : <field name="working_hours" widget="float_time"/> H
+                </div>
+                <div>
+                    Total : <field name="total_amount" widget="monetary"/> €
+                </div>
+            </div>
         </field>
     </record>
     
