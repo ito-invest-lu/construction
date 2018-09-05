@@ -113,9 +113,11 @@ class Task(models.Model):
     @api.onchange('budget','purchase_amount','working_hours','is_on_budget')
     def _onchange_is_on_budget(self):
         if self.budget > 0 :
-            if self.is_on_budget :
+            if self.budget * 0.80 >= self.total_amount :
                 self.color = 10
-            else :  
+            elif self.budget >= self.total_amount :
+                self.color = 2
+            else :
                 self.color = 1
 
     @api.multi
