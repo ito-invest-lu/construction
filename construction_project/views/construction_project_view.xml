@@ -53,9 +53,12 @@
                 <field name="budget" />
             </templates>
             <div class="o_kanban_record_body" position="inside">
-                <field name="budget" widget="monetary"/>
-                <field name="purchase_amount" widget="float_time" />
-                <field name="working_hours" widget="monetary"/>
+                <ul>
+                    <li>Budget : <field name="budget" widget="monetary"/> €</li>
+                    <li>Achats : <field name="purchase_amount" widget="monetary"/> €</li>
+                    <li>Heures : <field name="working_hours" widget="float_time"/> H</li>
+                    <li>Total : <field name="total_amount" widget="monetary"/> €</li>
+                </ul>
             </div>
         </field>
     </record>
@@ -68,8 +71,8 @@
             <xpath expr="//div[@class='oe_title']" position="after">
                 <group>
                     <field name="budget" widget="monetary"/>
-                    <field name="purchase_amount" widget="float_time" />
-                    <field name="working_hours" widget="monetary"/>
+                    <field name="purchase_amount" widget="monetary" />
+                    <field name="working_hours" widget="float_time"/>
                     <field name="total_amount" widget="monetary"/>
                 </group>
             </xpath>
