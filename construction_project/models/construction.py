@@ -80,6 +80,9 @@ class Project(models.Model):
         for project in self:
             project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
 
+    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.user.company_id.id)
+    company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
+
     budget = fields.Monetary(string="Budget", currency_field='company_currency', compute='_compute_amounts')
     is_on_budget = fields.Boolean(string="Is On Budget", compute="_compute_amounts")
     
