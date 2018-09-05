@@ -13,6 +13,7 @@
     'depends': ['construction','project'],
     'init_xml': [],
     'data': [
+        'data/task_type_definition.xml',
         'views/construction_project_view.xml',
         'wizard/construction_project_wizard.xml',
     ],
