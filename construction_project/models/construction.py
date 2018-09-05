@@ -110,7 +110,12 @@ class Task(models.Model):
         self.total_amount = total_amount
         self.is_on_budget = self.budget >= self.total_amount
         if not self.is_on_budget : 
-            self.color = 1
+            res = {
+                'value': {
+                    'color': 1,
+                }
+            }
+            return res
 
     
 # class SaleOrderForcastMonth(models.Model):
