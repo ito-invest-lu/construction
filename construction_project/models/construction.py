@@ -71,6 +71,8 @@ class Project(models.Model):
     def _check_parent_id(self):
         if not self._check_recursion():
             raise ValidationError(_('Error ! You cannot create recursive projects.'))
+            
+    on_going_task_ids = fields.Many2many('project.task', string="OnGoing Tasks", compute=lambda self:self.task_ids.filtered(lambda t: t.stage_id == self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')))
 
 
 class Task(models.Model):
