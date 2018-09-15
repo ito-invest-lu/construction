@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>       
+    <template id="report_invoice_document_inherit_socoma" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='page']" position="attributes">
+            <attribute name="style">font-size: 130%;color: black;</attribute>
+        </xpath>
+    </template>
+    
+    <template id="report_invoice_no_headers">
+        <t t-call="web.html_container">
+            <t t-set="no_headers" t-value="True"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+    
+    <template id="external_layout_inherit_socoma" inherit_id="web.external_layout">
+        <xpath expr="//" position="replace">
+            <!-- Multicompany -->
+            <t t-if="not o and doc">
+                <t t-set="o" t-value="doc"/>
+            </t>
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            
+            <t t-if="no_headers">
+                <t t-call="web.external_layout_no_header"><t t-raw="0"/></t>
+            </t>
+          
+            <t t-if="not no_headers and company.external_report_layout == 'background'">
+                <t t-call="web.external_layout_background"><t t-raw="0"/></t>
+            </t>
+            <t t-if="not no_headers and company.external_report_layout == 'boxed'">
+                <t t-call="web.external_layout_boxed"><t t-raw="0"/></t>
+            </t>
+            <t t-if="not no_headers and company.external_report_layout == 'clean'">
+                <t t-call="web.external_layout_clean"><t t-raw="0"/></t>
+            </t>
+            <t t-if="not no_headers and company.external_report_layout in (False, 'standard')">
+                <t t-call="web.external_layout_standard"><t t-raw="0"/></t>
+            </t>
+        </xpath>
+    </template>
+    
+</odoo>
