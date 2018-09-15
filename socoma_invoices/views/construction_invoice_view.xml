@@ -38,32 +38,34 @@
     
     <template id="external_layout_inherit_socoma" inherit_id="web.external_layout">
         <xpath expr="/t" position="replace">
-            <!-- Multicompany -->
-            <t t-if="not o and doc">
-                <t t-set="o" t-value="doc"/>
-            </t>
-            <t t-if="o and 'company_id' in o">
-                <t t-set="company" t-value="o.company_id.sudo()"/>
-            </t>
-            <t t-if="not o or not 'company_id' in o">
-                <t t-set="company" t-value="res_company"/>
-            </t>
-            
-            <t t-if="no_headers">
-                <t t-call="web.external_layout_no_header"><t t-raw="0"/></t>
-            </t>
-          
-            <t t-if="not no_headers and company.external_report_layout == 'background'">
-                <t t-call="web.external_layout_background"><t t-raw="0"/></t>
-            </t>
-            <t t-if="not no_headers and company.external_report_layout == 'boxed'">
-                <t t-call="web.external_layout_boxed"><t t-raw="0"/></t>
-            </t>
-            <t t-if="not no_headers and company.external_report_layout == 'clean'">
-                <t t-call="web.external_layout_clean"><t t-raw="0"/></t>
-            </t>
-            <t t-if="not no_headers and company.external_report_layout in (False, 'standard')">
-                <t t-call="web.external_layout_standard"><t t-raw="0"/></t>
+            <t t-name="web.external_layout">
+                <!-- Multicompany -->
+                <t t-if="not o and doc">
+                    <t t-set="o" t-value="doc"/>
+                </t>
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+                
+                <t t-if="no_headers">
+                    <t t-call="web.external_layout_no_header"><t t-raw="0"/></t>
+                </t>
+              
+                <t t-if="not no_headers and company.external_report_layout == 'background'">
+                    <t t-call="web.external_layout_background"><t t-raw="0"/></t>
+                </t>
+                <t t-if="not no_headers and company.external_report_layout == 'boxed'">
+                    <t t-call="web.external_layout_boxed"><t t-raw="0"/></t>
+                </t>
+                <t t-if="not no_headers and company.external_report_layout == 'clean'">
+                    <t t-call="web.external_layout_clean"><t t-raw="0"/></t>
+                </t>
+                <t t-if="not no_headers and company.external_report_layout in (False, 'standard')">
+                    <t t-call="web.external_layout_standard"><t t-raw="0"/></t>
+                </t>
             </t>
         </xpath>
     </template>
