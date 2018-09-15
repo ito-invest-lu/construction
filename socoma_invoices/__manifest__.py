@@ -2,19 +2,18 @@
 # see LICENSE file
 
 {
-    'name': 'Construction VEFA',
+    'name': 'Socoma Custom Invoices',
     'version': '0.1',
-    'category': 'Sales',
+    'category': 'Accounting',
     'description': """
-    Manage 'Vente en etat futur d achèvement' au Luxembourg.
+    Customisation des factures pour Socoma.
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['construction','sale'],
+    'depends': ['account'],
     'init_xml': [],
     'data': [
-        'views/construction_vefa_view.xml',
-        'security/ir.model.access.csv',
+        'views/construction_invoice_view.xml',
     ],
     'installable': True,
     'active': True,
