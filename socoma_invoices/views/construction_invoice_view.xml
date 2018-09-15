@@ -59,7 +59,7 @@
         </div>
     </template>
     
-    <template id="external_layout_no_header" inherit_id="web.external_layout">
+    <template id="external_layout_inherit_socoma" inherit_id="web.external_layout">
         <xpath expr="/t" position="replace">
             <t t-name="web.external_layout">
                 <!-- Multicompany -->
