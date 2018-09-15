@@ -74,7 +74,7 @@
                 </t>
                 
                 <t t-if="no_headers">
-                    <t t-call="socoma_invoice.external_layout_no_header"><t t-raw="0"/></t>
+                    <t t-call="socoma_invoices.external_layout_no_header"><t t-raw="0"/></t>
                 </t>
               
                 <t t-if="not no_headers and company.external_report_layout == 'background'">
