@@ -37,7 +37,7 @@
     </template>
     
     <template id="external_layout_inherit_socoma" inherit_id="web.external_layout">
-        <xpath expr="//" position="replace">
+        <xpath expr="/" position="replace">
             <!-- Multicompany -->
             <t t-if="not o and doc">
                 <t t-set="o" t-value="doc"/>
