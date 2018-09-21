@@ -132,7 +132,7 @@
                                     <tree string="Invoices" editable="false">
                                         <field name="number"/>
                                         <field name="date_invoice"/>
-                                        <field name="amount_untaxed" string="Untaxed" sum="Untaxed"/>
+                                        <field name="amount_untaxed_signed" string="Untaxed" sum="Untaxed"/>
                                         <field name="residual"  string="Due" sum="Total Due"/>
                                         <field name="state"/>
                                     </tree>
