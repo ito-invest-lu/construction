@@ -200,7 +200,7 @@ class Invoice(models.Model):
     
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
     
-    first_line_tax_id = fields.Many2one('account.tax.template', string='Fist Line Tax', compute='_compute_first_line_tax_id')
+    first_line_tax_id = fields.Many2one('account.tax', string='Fist Line Tax', compute='_compute_first_line_tax_id')
     
     @api.multi
     def _compute_first_line_tax_id(self):
