@@ -29,15 +29,5 @@ class Invoice(models.Model):
     '''Invoice'''
     _inherit = 'account.invoice'
     
-    first_line_tax_id = fields.Many2one('account.tax.template', string='Fist Line Tax', compute='_compute_first_line_tax_id')
     
-    @api.multi
-    def _compute_first_line_tax_id(self):
-        for invoice in self:
-            tax_id = False
-            if len(invoice.invoice_line_ids) > 0 :
-                line = invoice.invoice_line_ids[0]
-                if len(line.invoice_line_tax_ids) > 0 :
-                    tax_id = line.invoice_line_tax_ids[0]
-            invoice.first_line_tax_id = tax_id
         
