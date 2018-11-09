@@ -126,7 +126,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
-        _logger.info(res)
         for invoice in self :
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
@@ -136,10 +135,7 @@ class AccountInvoice(models.Model):
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
-                    res = {
-                        'value' : res,
-                        'warning' : 'Reduced vat agreement maximum value exceeded !!',
-                    }
+                    raise UserError(_('Reduced vat agreement maximum value exceeded !!'))
         return res
         
     @api.onchange('reduced_vat_agreement_id')
