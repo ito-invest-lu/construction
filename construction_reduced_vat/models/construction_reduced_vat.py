@@ -132,6 +132,8 @@ class AccountInvoice(models.Model):
             if invoice.reduced_vat_agreement_id :
                 new_amount = 0
                 for line in invoice.invoice_line_ids:
+                    if not line.invoice_line_tax_ids:
+                        raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
