@@ -99,9 +99,13 @@ class ReducedVATAgreement(models.Model):
         tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
         for invoice in self.invoice_ids:
             if invoice.state in ('open','in_payment','paid') :
+                if invoice.type in ['in_invoice', 'out_refund']:
+                    invoice_sign = 1
+                else :
+                    invoice_sign = -1
                 for line in invoice.invoice_line_ids:
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
-                        used_amount += line.price_subtotal_signed * invoice.invoice_type.sign
+                        used_amount += line.price_subtotal_signed * invoice_sign
         self.agreement_remaining_amount = self.agreement_total_amount - used_amount
 
 class SaleOrder(models.Model):
