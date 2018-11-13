@@ -100,9 +100,9 @@ class ReducedVATAgreement(models.Model):
         for invoice in self.invoice_ids:
             if invoice.state in ('open','in_payment','paid') :
                 if invoice.type in ['in_invoice', 'out_refund']:
-                    invoice_sign = 1
-                else :
                     invoice_sign = -1
+                else :
+                    invoice_sign = 1
                 for line in invoice.invoice_line_ids:
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         used_amount += line.price_subtotal_signed * invoice_sign
