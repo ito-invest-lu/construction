@@ -100,7 +100,7 @@ class ReducedVATAgreement(models.Model):
         for invoice in self.invoice_ids:
             for line in invoice.invoice_line_ids:
                 if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
-                    used_amount += line.price_subtotal_signed
+                    used_amount += line.price_subtotal_signed * invoice.invoice_type.sign
         self.agreement_remaining_amount = self.agreement_total_amount - used_amount
 
 class SaleOrder(models.Model):
@@ -136,7 +136,7 @@ class AccountInvoice(models.Model):
                         raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
-                if invoice.reduced_vat_agreement_id.agreement_remaining_amount < new_amount - 0.01 :
+                if invoice.reduced_vat_agreement_id.agreement_remaining_amount < 0 :
                     raise UserError(_('Reduced vat agreement maximum value exceeded !!'))
             else :
                 for line in invoice.invoice_line_ids:
