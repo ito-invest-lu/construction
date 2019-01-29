@@ -36,6 +36,7 @@
     'init_xml': [],
     'data': [
         'views/construction_view.xml',
+        'report/report_construction.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
