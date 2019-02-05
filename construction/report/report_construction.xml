@@ -45,7 +45,7 @@
                             <div class="panel-heading">
                                 <h3><span t-field="building_asset.name" /></h3>
                             </div>
-                            <!-- Table 
+                            <!-- Table sale_order_ids -->
                             <table class="table table-bordered">
                                 <thead>
                                     <colgroup>
@@ -56,31 +56,34 @@
                                         <col style="width:500px" />
                                     </colgroup>
                                     <tr>
-                                        <th>Row</th>
-                                        <th>Photo</th>
-                                        <th>Last Name</th>
-                                        <th>First Name</th>
-                                        <th>Comments</th>
+                                        <th>Date de la commande</th>
+                                        <th>Reférence</th>
+                                        <th>Vendeur</th>
+                                        <th>Etat</th>
+                                        <th>Facturation</th>
+                                        <th>Montant HTVA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="group.participant_ids" t-as="partner">
+                                    <t t-foreach="building_asset.sale_order_ids" t-as="order">
                                         <tr>
                                             <td>
-                                                <span t-esc="partner_index + 1" />
+                                                <span t-esc="order.date_order" />
                                             </td>
                                             <td>
-                                                <img t-att-src="partner.image_small and ('data:image/png;base64,' + partner.image_small) or '/web/static/src/img/placeholder.png'"
-                                                    class="img-rounded" t-att-alt="partner.name"/>
+                                                <span t-esc="order.name" />
                                             </td>
                                             <td>
-                                                <span t-field="partner.lastname" />
+                                                <span t-esc="order.user_id.name" />
                                             </td>
                                             <td>
-                                                <span t-field="partner.firstname" />
+                                                <span t-esc="order.state" />
                                             </td>
                                             <td>
-                                                
+                                                <span t-esc="order.invoice_status" />
+                                            </td>
+                                            <td>
+                                                <span t-esc="order.amount_untaxed" />
                                             </td>
                                         </tr>
                                     </t>

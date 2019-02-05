@@ -93,6 +93,13 @@ class SaleOrder(models.Model):
     
     is_main_order = fields.Boolean('Main Order for this building asset')
     
+    lines_summary = fields.Text('Summary of the sale order lines', compute="_compute_lines_summary")
+    
+    @api.depends('order_line.price_subtotal','order_line.qty_invoiced','order_line.product_uom_qty')
+    def _compute_lines_summary(self):
+        for order in self:
+            lines_summary = ', '.join(order.order_line.mapped('name')[:30])
+    
     @api.constrains('is_main_order')
     def _check_parent_id(self):
         main_order_count = self.env['sale.order'].search_count([('building_asset_id','=',self.building_asset_id.id),('is_main_order','=','true')])
