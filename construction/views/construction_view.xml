@@ -103,13 +103,14 @@
                         </div>
                         <div class="oe_title">
                             <h2>
-                                <field name="name" />
+                                <field name="name"/>
                             </h2>
                         </div>
+                        <div class="oe_edit_only">
+                          <field name="title" class="oe_inline"/> - <field name="partner_id" class="oe_inline"/>
+                        </div>
                         <group col="2">
-                            <field name="title" class="oe_edit_only"/>
                             <field string="Address" name="address_id" context="{'form_view_ref':'construction.building_address_view','default_name':name,'default_type':'delivery','show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('type', '=', 'delivery')]"/>
-                            <field name="partner_id" />
                             <field name="type" />
                             <field name="state"/>
                             <field name="confirmed_lead_id" />
