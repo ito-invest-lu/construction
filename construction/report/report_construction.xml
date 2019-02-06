@@ -34,8 +34,8 @@
         
     <template id="report_construction_content">
         <t t-call="web.html_container">
-            <t t-set="data_report_margin_top" t-value="45" />
-            <t t-set="data_report_header_spacing" t-value="35" />
+            <t t-set="data_report_margin_top" t-value="45"/>
+            <t t-set="data_report_header_spacing" t-value="35"/>
             <t t-foreach="docs" t-as="building_asset">
                 <t t-call="web.external_layout">
                 <div class="page">
@@ -43,52 +43,169 @@
                         <div class="panel panel-default" style="page-break-before:always;">
                             <!-- Default panel contents -->
                             <div class="panel-heading">
-                                <h3><span t-field="building_asset.name" /></h3>
+                                <h3><span t-field="building_asset.name"/></h3>
                             </div>
-                            <!-- Table sale_order_ids -->
-                            <table class="table table-bordered">
+                        </div>
+                        <t t-set="remaining_to_pay_main" t-value="0" />
+                        <t t-foreach="building_asset.sale_order_ids.filtered(lambda o: o.is_main_order)" t-as="order">
+                        <div class="panel panel-default" style="page-break-before:always;">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <h3>Commande principale - <span t-esc="order.name"/> - <span t-esc="order.date_order" t-options="{'widget': 'date'}"/> - <span t-esc="order.amount_untaxed" t-options="{'widget': 'float', 'precision': currency_precision}"/></h3>
+                            </div>
+                                <table class="table table-bordered">
                                 <thead>
                                     <colgroup>
-                                        <col style="width:2px" />
-                                        <col style="width:10px" />
-                                        <col style="width:10px" />
-                                        <col style="width:5px" />
-                                        <col style="width:500px" />
+                                        <col style="width:150px"/>
+                                        <col style="width:80px"/>
+                                        <col style="width:100%"/>
+                                        <col style="width:150px"/>
+                                        <col style="width:100px"/>
                                     </colgroup>
                                     <tr>
-                                        <th>Date de la commande</th>
-                                        <th>Reférence</th>
-                                        <th>Vendeur</th>
-                                        <th>Etat</th>
-                                        <th>Facturation</th>
+                                        <th>Statut</th>
+                                        <th>Date de livraison</th>
+                                        <th>Description</th>
+                                        <th>Factures</th>
                                         <th>Montant HTVA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="building_asset.sale_order_ids" t-as="order">
+                                      <t t-foreach="order.order_line" t-as="line">
+                                        <t t-if="line.qty_invoiced != line.product_uom_qty">
+                                          <t t-set="remaining_to_pay_main" t-value="remaining_to_pay_main+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty" />
+                                        </t>
                                         <tr>
-                                            <td>
-                                                <span t-esc="order.date_order" />
+                                          <td>
+                                              <span t-field="line.invoice_status"/>
                                             </td>
                                             <td>
-                                                <span t-esc="order.name" />
+                                              <span t-field="line.forecast_month_id.name"/>
                                             </td>
                                             <td>
-                                                <span t-esc="order.user_id.name" />
+                                              <span t-field="line.name"/>
                                             </td>
                                             <td>
-                                                <span t-esc="order.state" />
-                                            </td>
-                                            <td>
-                                                <span t-esc="order.invoice_status" />
-                                            </td>
-                                            <td>
-                                                <span t-esc="order.amount_untaxed" />
+                                              <t t-foreach="line.invoice_lines.mapped('invoice_id')" t-as="invoice">
+                                                <t t-if="not invoice_first">, </t>
+                                                <t t-if="invoice.state == 'draft'">
+                                                  <span style="color:blue" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'open'">
+                                                  <span style="color:orange" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'paid'">
+                                                  <span style="color:green" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'cancel'">
+                                                  <i style="color:grey" t-field="invoice.number"/>
+                                                </t>
+                                              </t>
+                                          </td>
+                                            <td align="right">
+                                              <span t-field="line.price_subtotal" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                             </td>
                                         </tr>
                                     </t>
+                                    <tr>
+                                        <th colspan="4" style="text-align: right;">Reste à facturer sur contrat : </th>
+                                        <th style="text-align: right;">
+                                          <span t-esc="remaining_to_pay_main" t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                        </th>
+                                    </tr>
                                 </tbody>
-                            </table>-->
+                            </table>
+                        </div>
+                        </t>
+                        
+                        <div class="panel panel-default" style="page-break-before:always;">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <h3>Suppléments</h3>
+                            </div>
+                          
+                            <!-- Table sale_order_ids -->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <colgroup>
+                                        <col style="width:100px"/>
+                                        <col style="width:80px"/>
+                                        <col style="width:100%"/>
+                                        <col style="width:150px"/>
+                                        <col style="width:100px"/>
+                                    </colgroup>
+                                    <tr>
+                                        <th>Date de la commande</th>
+                                        <th>Reférence</th>
+                                        <th>Description</th>
+                                        <th>Factures</th>
+                                        <th>Montant HTVA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="remaining_to_pay_sub" t-value="0" />
+                                    <t t-foreach="building_asset.sale_order_ids.filtered(lambda o: not(o.is_main_order)).sorted(key=lambda o: o.name)" t-as="order">
+                                      <t t-foreach="order.order_line" t-as="line">
+                                        <t t-if="order.state != 'cancel' and line.qty_invoiced != line.product_uom_qty">
+                                          <t t-set="remaining_to_pay_sub" t-value="remaining_to_pay_sub+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty" />
+                                        </t>
+                                      </t>
+                                      <tr t-attf-style="{{ order.state == 'cancel' and 'text-decoration: line-through;' }};">
+                                          <td>
+                                            <span t-field="order.date_order" t-options="{'widget': 'date'}"/>
+                                          </td>
+                                          <td>
+                                            <span t-field="order.name"/>
+                                          </td>
+                                          <td>
+                                            <span t-field="order.state"/> - <span t-esc="', '.join(order.order_line.mapped('name'))"/>
+                                          </td>
+                                          <td>
+                                              <t t-foreach="order.invoice_ids" t-as="invoice">
+                                                <t t-if="not invoice_first">, </t>
+                                                <t t-if="invoice.state == 'draft'">
+                                                  <span style="color:blue" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'open'">
+                                                  <span style="color:orange" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'paid'">
+                                                  <span style="color:green" t-field="invoice.number"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'cancel'">
+                                                  <i style="color:grey" t-field="invoice.number"/>
+                                                </t>
+                                              </t>
+                                          </td>
+                                          <td align="right">
+                                              <span t-field="order.amount_untaxed" t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                          </td>
+                                      </tr>
+                                    </t>
+                                    <tr>
+                                        <th colspan="4" style="text-align: right;">Reste à facturer sur suppléments : </th>
+                                        <th style="text-align: right;">
+                                          <span t-esc="remaining_to_pay_sub" t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <t t-set="remaining_to_pay_inv" t-value="0" />
+                                        <t t-foreach="building_asset.invoice_ids.filtered(lambda i: i.state == 'open')" t-as="invoice" >
+                                          <t t-set="remaining_to_pay_inv" t-value="remaining_to_pay_inv + invoice.residual" />
+                                        </t>
+                                        <th colspan="4" style="text-align: right;">Reste à payer sur factures : </th>
+                                        <th style="text-align: right;">
+                                          <span t-esc="remaining_to_pay_inv" t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" style="text-align: right;">Reste à payer au total : </th>
+                                        <th style="text-align: right;">
+                                          <span t-esc="remaining_to_pay_main+remaining_to_pay_inv+remaining_to_pay_sub" t-options="{'widget': 'float', 'precision': currency_precision}"/>
+                                        </th>
+                                    </tr>
+                                  </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
