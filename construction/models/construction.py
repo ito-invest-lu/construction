@@ -137,6 +137,15 @@ class SaleOrder(models.Model):
                 'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
             })
             
+    tag_ids = fields.Many2many('sale.order.tag', 'construction_sale_order_tag_rel', 'order_id', 'tag_id', string='Tags', copy=False)
+            
+class SaleOrderTag(models.Model):
+    _name = 'sale.order.tag'
+    _description = 'Sale Order Tags'
+    name = fields.Char(string='Analytic Tag', index=True, required=True)
+    color = fields.Integer('Color Index')
+    active = fields.Boolean(default=True, help="Set active to false to hide the Sale Order Tag without removing it.")
+            
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 

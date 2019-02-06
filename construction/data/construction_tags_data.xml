@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="0">
+        <record id='construction_velux' model='sale.order.tag'>
+            <field name='name'>VELUX</field>
+            <field name='color'>1</field>
+        </record>
+        <record id='construction_tuiles' model='sale.order.tag'>
+            <field name='name'>Ardoise/Tuiles</field>
+            <field name='color'>1</field>
+        </record>
+        <record id='construction_entree' model='sale.order.tag'>
+            <field name='name'>Porte Entrée</field>
+            <field name='color'>4</field>
+        </record>
+        <record id='construction_garage' model='sale.order.tag'>
+            <field name='name'>Porte Garage</field>
+            <field name='color'>4</field>
+        </record>
+        <record id='construction_chassis' model='sale.order.tag'>
+            <field name='name'>Châssis</field>
+            <field name='color'>4</field>
+        </record>
+        <record id='construction_elect' model='sale.order.tag'>
+            <field name='name'>Electricité</field>
+            <field name='color'>8</field>
+        </record>
+        <record id='construction_app_sanit' model='sale.order.tag'>
+            <field name='name'>App Sanitaires</field>
+            <field name='color'>8</field>
+        </record>
+        <record id='construction_pac' model='sale.order.tag'>
+            <field name='name'>PAC</field>
+            <field name='color'>8</field>
+        </record>
+        <record id='construction_carr' model='sale.order.tag'>
+            <field name='name'>Carrelage</field>
+            <field name='color'>10</field>
+        </record>
+        <record id='construction_parquet' model='sale.order.tag'>
+            <field name='name'>Parquet</field>
+            <field name='color'>10</field>
+        </record>
+        <record id='construction_portes_int' model='sale.order.tag'>
+            <field name='name'>Portes Int</field>
+            <field name='color'>10</field>
+        </record>
+    </data>
+</odoo>

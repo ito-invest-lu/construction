@@ -35,6 +35,7 @@
     'depends': ['sale','crm'],
     'init_xml': [],
     'data': [
+        'data/construction_tags_data.xml',
         'views/construction_view.xml',
         'report/report_construction.xml',
         'security/ir.model.access.csv',
