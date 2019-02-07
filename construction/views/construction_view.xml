@@ -201,6 +201,7 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="building_asset_id"/>
+                    <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 </field>
             </field>
         </record>
@@ -228,7 +229,6 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="building_asset_id"/>
-                    <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 </field>
             </field>
         </record>
