@@ -128,8 +128,7 @@
                                         <field name="date_order"/>
                                         <field name="name"/>
                                         <field name="user_id"/>
-                                        <field name="state"/>
-                                        <field name="invoice_status"/>
+                                        <field name="so_summary"/>
                                         <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
                                         <field name="amount_untaxed" string="Untaxed" sum="Untaxed"/>
                                     </tree>

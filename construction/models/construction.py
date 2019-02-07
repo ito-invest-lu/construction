@@ -101,7 +101,10 @@ class SaleOrder(models.Model):
     
     @api.one
     def _compute_so_summary(self):
-        self.so_summary = ', '.join(self.order_line.mapped('name'))
+        if not self.is_main_order:
+            self.so_summary = ', '.join(self.order_line.mapped('name'))
+        else :
+            self.so_summary = 'voir détails...'
     
     @api.constrains('is_main_order')
     def _check_parent_id(self):
