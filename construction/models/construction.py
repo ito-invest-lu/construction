@@ -84,7 +84,7 @@ class BuildingAsset(models.Model):
     @api.one
     def _compute_main_order(self):
         self.main_order_id = self.env['sale.order'].search([('building_asset_id','=',self.id),('is_main_order','=','true')])
-        self.all_tags = self.sale_order_ids.mapped('construction_tag_ids')
+        self.all_tags = self.sale_order_ids.filtered(lambda o: o.state == 'sale').mapped('construction_tag_ids')
         self.missing_tags = self.env['sale.order.tag'].search([]) - self.all_tags
     
     invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True) 
