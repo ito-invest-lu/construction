@@ -45,5 +45,9 @@
             <field name='name'>Portes Int</field>
             <field name='color'>10</field>
         </record>
+        <record id='construction_autred' model='sale.order.tag'>
+            <field name='name'>Autre</field>
+            <field name='color'>12</field>
+        </record>
     </data>
 </odoo>
