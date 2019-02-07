@@ -137,7 +137,7 @@ class SaleOrder(models.Model):
                 'amount_outstanding': order.pricelist_id.currency_id.round(amount_outstanding),
             })
             
-    tag_ids = fields.Many2many('sale.order.tag', 'construction_sale_order_tag_rel', 'order_id', 'tag_id', string='Tags', copy=False)
+    construction_tag_ids = fields.Many2many('sale.order.tag', 'construction_sale_order_tag_rel', 'order_id', 'tag_id', string='Tags', copy=False)
             
 class SaleOrderTag(models.Model):
     _name = 'sale.order.tag'
