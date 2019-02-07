@@ -128,10 +128,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <colgroup>
-                                        <col style="width:100px"/>
+                                        <col style="width:80px"/>
                                         <col style="width:80px"/>
                                         <col style="width:100%"/>
-                                        <col style="width:150px"/>
+                                        <col style="width:80px"/>
+                                        <col style="width:80px"/>
                                         <col style="width:100px"/>
                                     </colgroup>
                                     <tr>
@@ -139,15 +140,16 @@
                                         <th>Reférence</th>
                                         <th>Description</th>
                                         <th>Factures</th>
+                                        <th>Etiquettes</th>
                                         <th>Montant HTVA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-set="remaining_to_pay_sub" t-value="0" />
+                                    <t t-set="remaining_to_pay_sub" t-value="0"/>
                                     <t t-foreach="building_asset.sale_order_ids.filtered(lambda o: not(o.is_main_order)).sorted(key=lambda o: o.name)" t-as="order">
                                       <t t-foreach="order.order_line" t-as="line">
                                         <t t-if="order.state != 'cancel' and line.qty_invoiced != line.product_uom_qty">
-                                          <t t-set="remaining_to_pay_sub" t-value="remaining_to_pay_sub+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty" />
+                                          <t t-set="remaining_to_pay_sub" t-value="remaining_to_pay_sub+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty"/>
                                         </t>
                                       </t>
                                       <tr t-attf-style="{{ order.state == 'cancel' and 'text-decoration: line-through;' }};">
@@ -177,6 +179,9 @@
                                                 </t>
                                               </t>
                                           </td>
+                                          <td>
+                                            <span t-field="order.construction_tag_ids" t-options="{'widget': 'many2many_tags'}"/>
+                                          </td>
                                           <td align="right">
                                               <span t-field="order.amount_untaxed" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                           </td>
@@ -189,9 +194,9 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <t t-set="remaining_to_pay_inv" t-value="0" />
-                                        <t t-foreach="building_asset.invoice_ids.filtered(lambda i: i.state == 'open')" t-as="invoice" >
-                                          <t t-set="remaining_to_pay_inv" t-value="remaining_to_pay_inv + invoice.residual" />
+                                        <t t-set="remaining_to_pay_inv" t-value="0"/>
+                                        <t t-foreach="building_asset.invoice_ids.filtered(lambda i: i.state == 'open')" t-as="invoice">
+                                          <t t-set="remaining_to_pay_inv" t-value="remaining_to_pay_inv + invoice.residual"/>
                                         </t>
                                         <th colspan="4" style="text-align: right;">Reste à payer sur factures : </th>
                                         <th style="text-align: right;">
