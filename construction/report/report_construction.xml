@@ -40,7 +40,7 @@
                 <t t-call="web.external_layout">
                 <div class="page">
                     <div class="container">
-                        <div class="panel panel-default" style="page-break-before:always;">
+                        <div class="panel panel-default">
                             <!-- Default panel contents -->
                             <div class="panel-heading">
                                 <h3><span t-field="building_asset.name"/></h3>
@@ -48,7 +48,7 @@
                         </div>
                         <t t-set="remaining_to_pay_main" t-value="0" />
                         <t t-foreach="building_asset.sale_order_ids.filtered(lambda o: o.is_main_order)" t-as="order">
-                        <div class="panel panel-default" style="page-break-before:always;">
+                        <div class="panel panel-default">
                             <!-- Default panel contents -->
                             <div class="panel-heading">
                                 <h3>Commande principale - <span t-esc="order.name"/> - <span t-esc="order.date_order" t-options="{'widget': 'date'}"/> - <span t-esc="order.amount_untaxed" t-options="{'widget': 'float', 'precision': currency_precision}"/></h3>
@@ -56,7 +56,7 @@
                                 <table class="table table-bordered">
                                 <thead>
                                     <colgroup>
-                                        <col style="width:150px"/>
+                                        <col style="width:120px"/>
                                         <col style="width:80px"/>
                                         <col style="width:100%"/>
                                         <col style="width:150px"/>
@@ -118,7 +118,7 @@
                         </div>
                         </t>
                         
-                        <div class="panel panel-default" style="page-break-before:always;">
+                        <div class="panel panel-default">
                             <!-- Default panel contents -->
                             <div class="panel-heading">
                                 <h3>Suppléments</h3>

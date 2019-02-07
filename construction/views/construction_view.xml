@@ -117,7 +117,7 @@
                                 <field name="confirmed_lead_id" />
                             </group>
                             <group col="2">
-                                <field name="all_tags" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="all_tags" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}}"/>
                                 <field name="missing_tags" widget="many2many_tags" />
                             </group>
                         </group>
@@ -130,6 +130,7 @@
                                         <field name="user_id"/>
                                         <field name="state"/>
                                         <field name="invoice_status"/>
+                                        <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
                                         <field name="amount_untaxed" string="Untaxed" sum="Untaxed"/>
                                     </tree>
                                 </field>
