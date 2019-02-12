@@ -117,9 +117,13 @@ class SaleOrder(models.Model):
         if self.state == 'sent':
             self.building_asset_id.state = 'proposal'
             # TODO add to the candidate lead_ids
-        if self.state == 'sale':
+        if self.state == 'sale' and self.is_main_order:
             self.building_asset_id.state = 'sold'
             self.confirmed_lead_id.id = self.opportunity_id.id
+        if self.state == 'sale' and not self.is_main_order:
+             for line in self.order_line:
+                 line.qty_delivered = line.product_uom_qty
+            
                 
     @api.onchange('partner_id')
     def onchange_parter(self):
