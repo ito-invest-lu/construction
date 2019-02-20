@@ -80,7 +80,7 @@ class ConstructionSaleWizard(models.TransientModel):
         _logger.info(vals)
         
         if self.sale_order_id :
-            self.sale_order_id.write({'order_line' : (5)})
+            self.sale_order_id.write({'order_line' : (5,0,0)})
             self.sale_order_id.write(vals)
         else :
             self.sale_order_id = self.env['sale.order'].create(vals)
