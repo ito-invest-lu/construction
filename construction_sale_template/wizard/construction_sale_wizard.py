@@ -33,7 +33,7 @@ class ConstructionSaleWizard(models.TransientModel):
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', required=True)
     partner_id = fields.Many2one('res.partner', string='Customer', related="building_asset_id.partner_id")
     
-    sale_order_id = fields.Many2one('sale.order', string='Existing Order',domain=[('state', '=', 'draft')])
+    sale_order_id = fields.Many2one('sale.order', string='Existing Order')
     
     date = fields.Date(string='Date', required=True, default=lambda self:fields.Date.from_string(fields.Date.today()))
     template_id = fields.Many2one('construction.sale_order_template', string="Template", required=True)
@@ -48,7 +48,7 @@ class ConstructionSaleWizard(models.TransientModel):
         
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
             lines.append(
-                (0,0,{
+                (6,0,{
                     'sequence': line.sequence, 
                     'name': line.name, 
                     'product_id': line.product_id.id, 
@@ -60,7 +60,7 @@ class ConstructionSaleWizard(models.TransientModel):
             total = total - line.product_uom_qty * line.price_unit
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.percentage > 0) :
             lines.append(
-                (0,0,{
+                (6,0,{
                     'sequence': line.sequence,
                     'name': line.name, 
                     'product_id': line.product_id.id, 
@@ -78,14 +78,17 @@ class ConstructionSaleWizard(models.TransientModel):
         } 
             
         _logger.info(vals)
-            
-        so = self.env['sale.order'].create(vals)
+        
+        if not self.sale_order_id :
+            self.sale_order_id.write(vals)
+        else :
+            self.sale_order_id = self.env['sale.order'].create(vals)
         
         return {
             'name': _('Sale Order'),
             'domain': [],
-            'context': dict(self._context, active_ids=[so.id]),
-            'res_id': so.id,
+            'context': dict(self._context, active_ids=[self.sale_order_id.id]),
+            'res_id': self.sale_order_id.id,
             'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
