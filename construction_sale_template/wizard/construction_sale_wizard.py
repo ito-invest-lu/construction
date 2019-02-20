@@ -48,7 +48,7 @@ class ConstructionSaleWizard(models.TransientModel):
         
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
             lines.append(
-                (6,0,{
+                (0,0,{
                     'sequence': line.sequence, 
                     'name': line.name, 
                     'product_id': line.product_id.id, 
@@ -60,7 +60,7 @@ class ConstructionSaleWizard(models.TransientModel):
             total = total - line.product_uom_qty * line.price_unit
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.percentage > 0) :
             lines.append(
-                (6,0,{
+                (0,0,{
                     'sequence': line.sequence,
                     'name': line.name, 
                     'product_id': line.product_id.id, 
@@ -80,6 +80,7 @@ class ConstructionSaleWizard(models.TransientModel):
         _logger.info(vals)
         
         if self.sale_order_id :
+            self.sale_order_id.write({'order_line' : (5)})
             self.sale_order_id.write(vals)
         else :
             self.sale_order_id = self.env['sale.order'].create(vals)
