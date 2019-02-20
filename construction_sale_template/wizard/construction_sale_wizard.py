@@ -33,6 +33,8 @@ class ConstructionSaleWizard(models.TransientModel):
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', required=True)
     partner_id = fields.Many2one('res.partner', string='Customer', related="building_asset_id.partner_id")
     
+    sale_order_id = fields.Many2one('sale.order', string='Existing Order',domain=('state','=','draft'))
+    
     date = fields.Date(string='Date', required=True, default=lambda self:fields.Date.from_string(fields.Date.today()))
     template_id = fields.Many2one('construction.sale_order_template', string="Template", required=True)
     company_currency_id = fields.Many2one('res.currency', readonly=True, default=lambda self: self.env.user.company_id.currency_id)

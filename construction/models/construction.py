@@ -112,6 +112,7 @@ class SaleOrder(models.Model):
         if main_order_count > 1 :
             raise ValidationError(_('Error ! You cannot have mutiple main order for an asset.'))
     
+
     @api.onchange('state')
     def update_asset_state(self):
         if self.state == 'sent':

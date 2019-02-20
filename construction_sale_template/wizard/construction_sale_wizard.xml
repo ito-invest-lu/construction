@@ -30,6 +30,7 @@
                     <field name="building_asset_id" domain="[('state', 'in', ('proposal','sold'))]"/>
                     <field name="date"/> 
                     <field name="template_id"/> 
+                    <field name="sale_order_id"/>
                     <field name="total_untaxed"/>
                 </group>
                 <footer>
