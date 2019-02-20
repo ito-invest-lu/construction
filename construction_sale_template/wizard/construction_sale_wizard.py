@@ -79,7 +79,7 @@ class ConstructionSaleWizard(models.TransientModel):
             
         _logger.info(vals)
         
-        if not self.sale_order_id :
+        if self.sale_order_id :
             self.sale_order_id.write(vals)
         else :
             self.sale_order_id = self.env['sale.order'].create(vals)
