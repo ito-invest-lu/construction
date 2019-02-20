@@ -43,7 +43,10 @@ class ConstructionSaleWizard(models.TransientModel):
     @api.multi
     def action_confirm(self):
         self.ensure_one()
-        lines = []  
+        if self.sale_order_id :
+            lines = [(5,0,0)]
+        else :
+            lines = []
         total = self.total_untaxed
         
         for line in self.template_id.sale_order_template_line_ids.filtered(lambda l: l.price_unit > 0) :
@@ -80,7 +83,6 @@ class ConstructionSaleWizard(models.TransientModel):
         _logger.info(vals)
         
         if self.sale_order_id :
-            self.sale_order_id.write({'order_line' : (5,0,0)})
             self.sale_order_id.write(vals)
         else :
             self.sale_order_id = self.env['sale.order'].create(vals)
