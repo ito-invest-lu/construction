@@ -138,7 +138,13 @@ class AccountInvoice(models.Model):
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < 0 :
-                    raise UserError(_('Reduced vat agreement maximum value exceeded !!'))
+                    title = _("Reduced vat agreement maximum value exceeded !! - %d ") %invoice.reduced_vat_agreement_id.agreement_remaining_amount
+                    message = "Please review the amount or change VAT to 17%"
+                    warning = {
+                        'title': title,
+                        'message': message
+                    }
+                    return {'warning': warning}
             else :
                 for line in invoice.invoice_line_ids:
                     if not line.invoice_line_tax_ids:
