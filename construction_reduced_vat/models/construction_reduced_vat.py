@@ -130,15 +130,20 @@ class AccountInvoice(models.Model):
         for invoice in self :
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
+            tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
             if invoice.reduced_vat_agreement_id :
                 new_amount = 0
+                has_line_at_3 = False
                 for line in invoice.invoice_line_ids:
                     if not line.invoice_line_tax_ids:
                         raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                         new_amount += line.price_subtotal_signed
+                        has_line_at_3 = True
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < 0 :
                     raise Warning(_('Reduced vat agreement maximum value exceeded !!'))
+                if not has_line_at_3:
+                    raise UserError(_('An agreement is defined however there is no line at 3%...'))
             else :
                 for line in invoice.invoice_line_ids:
                     if not line.invoice_line_tax_ids:
