@@ -75,6 +75,7 @@
                     <field name="name"/>
                     <field name="address_id"/>
                     <field name="type"/>
+                    <field name="company_id"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -115,6 +116,7 @@
                                 <field name="type" />
                                 <field name="state"/>
                                 <field name="confirmed_lead_id" />
+                                <field name="company_id"/>
                             </group>
                             <group col="2">
                                 <field name="all_tags" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}}"/>

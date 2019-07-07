@@ -67,6 +67,8 @@ class BuildingAsset(models.Model):
     
     partner_id = fields.Many2one('res.partner', string='Customer', ondelete='restrict', help="Customer for this asset.")
     
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
+    
     confirmed_lead_id = fields.Many2one('crm.lead', string='Confirmed Lead')
     
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
