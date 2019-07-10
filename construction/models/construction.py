@@ -127,7 +127,11 @@ class SaleOrder(models.Model):
              for line in self.order_line:
                  line.qty_delivered = line.product_uom_qty
             
-                
+    @api.onchange('building_asset_id')
+    def onchange_parter(self):
+        if self.building_asset_id:
+            self.company_id = self.building_asset_id.company_id
+    
     @api.onchange('partner_id')
     def onchange_parter(self):
         if self.partner_id:
