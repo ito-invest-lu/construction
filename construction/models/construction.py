@@ -108,13 +108,12 @@ class SaleOrder(models.Model):
         else :
             self.so_summary = 'voir détails...'
     
-    @api.constrains('is_main_order')
-    def _check_parent_id(self):
-        main_order_count = self.env['sale.order'].search_count([('building_asset_id','=',self.building_asset_id.id),('is_main_order','=','true')])
-        if main_order_count > 1 :
-            raise ValidationError(_('Error ! You cannot have mutiple main order for an asset.'))
+    # @api.constrains('is_main_order')
+    # def _check_parent_id(self):
+    #     main_order_count = self.env['sale.order'].search_count([('building_asset_id','=',self.building_asset_id.id),('is_main_order','=','true')])
+    #     if main_order_count > 1 :
+    #         raise ValidationError(_('Error ! You cannot have mutiple main order for an asset.'))
     
-
     @api.onchange('state')
     def update_asset_state(self):
         if self.state == 'sent':
