@@ -128,7 +128,7 @@ class SaleOrder(models.Model):
                  line.qty_delivered = line.product_uom_qty
             
     @api.onchange('building_asset_id')
-    def onchange_parter(self):
+    def update_building_asset_id(self):
         if self.building_asset_id:
             self.company_id = self.building_asset_id.company_id
     
