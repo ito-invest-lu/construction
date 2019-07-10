@@ -44,7 +44,9 @@ class SaleOrder(models.Model):
     
     @api.onchange('building_asset_id')
     def update_building_asset_id(self):
-        self.is_vefa = self.building_asset_id.is_vefa
+        ret = super(SaleOrder, self).update_building_asset_id()
+        if self.building_asset_id :
+            self.is_vefa = self.building_asset_id.is_vefa
     
     @api.multi
     def _prepare_invoice(self):
