@@ -43,7 +43,7 @@ class CrmLead(models.Model):
 
         try:
             _logger.info('Parse message body')
-            _logger.info(html.fromstring(msg_dict.get('body')))
+            _logger.info(msg_dict.get('body'))
             if msg_dict.get('body').find('no-reply@athome.lu'):
 
                 body = html.fromstring(msg_dict.get('body'))
