@@ -38,9 +38,8 @@ class SaleOrder(models.Model):
 
     @api.depends('initial_index')
     def _setup_initial_index(self):
-        if state == 'draft' :
-            for order in self:
-                order.current_index = order.initial_index
+        if self.state == 'draft' :
+            self.current_index = self.initial_index
 
 class SaleOrderLine(models.Model):
     '''Sale Order Line'''
