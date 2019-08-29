@@ -29,4 +29,5 @@ _logger = logging.getLogger(__name__)
 
 class ConstructionIndexWizard(models.TransientModel):
     _name = "construction.index_wizard"
-    
+
+    new_index = fields.Float(string="New Index")
