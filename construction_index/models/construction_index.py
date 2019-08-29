@@ -38,6 +38,7 @@ class SaleOrder(models.Model):
 
     @api.depends('initial_index')
     def _setup_initial_index(self):
+        _logger.info(self)
         if self.state == 'draft' :
             self.current_index = self.initial_index
 
