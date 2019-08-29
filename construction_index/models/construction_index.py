@@ -34,11 +34,13 @@ class SaleOrder(models.Model):
     is_indexed = fields.Boolean(string="Is Indexed")
 
     initial_index = fields.Float(string="Initial Index", readonly=True, states={'draft': [('readonly', False)]})
-    current_index = fields.Float(string="Current Index")
+    current_index = fields.Float(string="Current Index", readonly=False, states={'draft': [('readonly', True)]})
 
-    @api.onchange('initial_index')
-    def _onchange_initial_index(self):
-        self.current_index = self.initial_index
+    @api.depends('initial_index')
+    def _setup_initial_index(self):
+        if state == 'draft' :
+            for order in self:
+                order.current_index = order.initial_index
 
 class SaleOrderLine(models.Model):
     '''Sale Order Line'''
