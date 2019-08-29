@@ -2,19 +2,19 @@
 # see LICENSE file
 
 {
-    'name': 'Construction Sale Order Template',
+    'name': 'Construction Index Management',
     'version': '0.1',
     'category': 'Sales',
     'description': """
-    Create template of Sale Order which build Sale Orders using percentages.
+    Add an index on Sale Order Lines and allow global indexing of all contracts.
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
     'depends': ['construction'],
     'init_xml': [],
     'data': [
-        'views/construction_sale_template_view.xml',
-        'wizard/construction_sale_wizard.xml',
+        'views/construction_index_view.xml',
+        'wizard/construction_index_wizard.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
