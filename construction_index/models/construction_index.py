@@ -38,8 +38,7 @@ class SaleOrder(models.Model):
 
     @api.multi
     def write(self, vals):
-        if state == 'draft' and 'initial_index' in vals :
-            _logger.info('Change current_index')
+        if 'initial_index' in vals :
             vals['current_index'] = vals['initial_index']
         return super(SaleOrder, self).write(vals)
 
