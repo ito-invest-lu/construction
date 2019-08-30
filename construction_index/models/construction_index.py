@@ -37,11 +37,11 @@ class SaleOrder(models.Model):
     current_index = fields.Float(string="Current Index", readonly=False, states={'draft': [('readonly', True)]})
 
     @api.multi
-     def write(self, vals):
-         if state == 'draft' and 'initial_index' in vals :
-             _logger.info('Change current_index')
-             vals['current_index'] = vals['initial_index']
-         return super(SaleOrder, self).write(vals)
+    def write(self, vals):
+        if state == 'draft' and 'initial_index' in vals :
+            _logger.info('Change current_index')
+            vals['current_index'] = vals['initial_index']
+        return super(SaleOrder, self).write(vals)
 
 class SaleOrderLine(models.Model):
     '''Sale Order Line'''
