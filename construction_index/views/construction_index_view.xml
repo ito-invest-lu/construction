@@ -32,7 +32,7 @@
               <xpath expr="//field[@name='confirmation_date']" position="after">
                   <field name="is_indexed" />
                   <field name='initial_index' />
-                  <field name='current_index' readonly='true'/>
+                  <field name='current_index' />
               </xpath>
           </field>
       </record>
