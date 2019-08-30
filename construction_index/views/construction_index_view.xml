@@ -31,8 +31,8 @@
           <field name="arch" type="xml">
               <xpath expr="//field[@name='confirmation_date']" position="after">
                   <field name="is_indexed" />
-                  <field name='initial_index' />
-                  <field name='current_index' />
+                  <field name='initial_index' attrs="{'invisible': [('is_indexed', '=', False)]}"/>
+                  <field name='current_index' attrs="{'invisible': [('is_indexed', '=', False)]}"/>
               </xpath>
           </field>
       </record>
