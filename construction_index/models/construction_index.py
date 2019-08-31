@@ -53,6 +53,10 @@ class SaleOrderLine(models.Model):
 
     initial_price_unit = fields.Float('Initial Unit Price', required=True, digits=dp.get_precision('Product Price'), default=0.0, readonly=True)
 
+    @api.multi
+    def reset_initial_price_unit(self):
+        self.initial_price_unit = self.price_unit
+
     @api.onchange('price_unit')
     def _onchange_unit_price(self):
         if self.state == 'draft' :
