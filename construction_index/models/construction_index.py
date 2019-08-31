@@ -65,4 +65,6 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _update_index(self):
         for line in self :
+            if line.initial_price_unit == 0 :
+                raise UserError('Initial Price not set, cannot use index')
             line.price_unit = line.initial_price_unit * line.order_id.current_index / line.order_id.initial_index
