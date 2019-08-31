@@ -33,7 +33,10 @@ class ConstructionIndexWizard(models.TransientModel):
     new_index = fields.Float(string="New Index")
 
     sale_order_ids = fields.Many2many('sale.order', 'sale_order_index_wizard_rel', 'wizard_id', 'sale_order_id',
-                                      string='Sales Orders', copy=False, readonly=True, default='_default_active_ids')
+                                      string='Sales Orders', copy=False, readonly=True)
 
-    def _default_active_ids(self):
-        return self.env['sale.order'].browse(self._context.get('active_ids', []))
+    @api.model
+    def default_get(self, fields):
+        res = super(ConstructionIndexWizard, self).default_get(fields)
+        res['sale_order_id'] = self._context.get('active_ids')
+        return res
