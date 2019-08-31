@@ -51,7 +51,7 @@ class SaleOrderLine(models.Model):
     '''Sale Order Line'''
     _inherit = "sale.order.line"
 
-    initial_price_unit = fields.Float('Initial Unit Price', required=True, digits=dp.get_precision('Product Price'), default=0.0, readonly=True)
+    initial_price_unit = fields.Float('Initial Unit Price', required=True, digits=dp.get_precision('Product Price'), default=0.0)
 
     @api.multi
     def reset_initial_price_unit(self):
