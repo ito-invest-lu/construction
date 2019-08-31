@@ -31,3 +31,7 @@ class ConstructionIndexWizard(models.TransientModel):
     _name = "construction.index_wizard"
 
     new_index = fields.Float(string="New Index")
+
+    sale_order_ids = fields.Many2one('sale.order', string="Choose the Sales Order to index", required=True)
+
+    

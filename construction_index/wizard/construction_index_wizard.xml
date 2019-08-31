@@ -40,6 +40,7 @@
     <record id="action_construction_index_wizard_view" model="ir.actions.act_window">
         <field name="name">Change Index on Sale Orders</field>
         <field name="res_model">construction.index_wizard</field>
+        <field name="src_model">sale.order</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
