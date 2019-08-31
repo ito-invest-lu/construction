@@ -39,7 +39,7 @@ class SaleOrder(models.Model):
     @api.one
     def update_index(self, index):
         self.current_index = index
-        self.order_line._update_index()
+        self.order_line.filtered(lambda line : line.qty_invoiced < line.product_uom_qty)._update_index()
 
     @api.multi
     def write(self, vals):
