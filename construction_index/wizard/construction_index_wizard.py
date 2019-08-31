@@ -37,4 +37,4 @@ class ConstructionIndexWizard(models.TransientModel):
 
     def _default_active_ids(self):
         return self.env['sale.order'].browse(self._context.get('active_ids', []))
-​
+        
