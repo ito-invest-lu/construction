@@ -28,7 +28,7 @@
             <form string="Change Index on Sale Orders">
                 <group cols="2">
                     <field name="new_index" />
-                    <field name="sale_order_ids" widget="many2many" readonly="True">
+                    <field name="sale_order_ids" mode="tree" readonly="True">
                         <tree>
                             <field name="name"/>
                             <field name="partner_id"/>
