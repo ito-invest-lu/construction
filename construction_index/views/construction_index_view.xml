@@ -37,6 +37,9 @@
               <xpath expr="//field[@name='order_line']//form//field[@name='price_unit']" position="before">
                   <field name='initial_price_unit' attrs="{'column_invisible': [('parent.is_indexed', '=', False)]}" />
               </xpath>
+              <xpath expr="//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
+                  <field name='initial_price_unit' column_invisible="1" />
+              </xpath>
           </field>
       </record>
     </data>
