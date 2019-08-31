@@ -34,6 +34,7 @@
                             <field name="partner_id"/>
                             <field name="confirmation_date"/>
                             <field name="state"/>
+                            <field nams="current_index"/>
                         </tree>
                     </field>
                 </group>
