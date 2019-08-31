@@ -34,7 +34,12 @@ class SaleOrder(models.Model):
     is_indexed = fields.Boolean(string="Is Indexed")
 
     initial_index = fields.Float(string="Initial Index", readonly=True, states={'draft': [('readonly', False)]})
-    current_index = fields.Float(string="Current Index", readonly=False, states={'draft': [('readonly', True)]})
+    current_index = fields.Float(string="Current Index", readonly=True)
+
+    @api.one
+    def update_index(self, index):
+        self.current_index = index
+        self.order_line._update_index()
 
     @api.multi
     def write(self, vals):
@@ -48,13 +53,12 @@ class SaleOrderLine(models.Model):
 
     initial_price_unit = fields.Float('Initial Unit Price', required=True, digits=dp.get_precision('Product Price'), default=0.0, readonly=True)
 
-    @api.depends('price_unit')
-    def _setup_initial_price(self):
-        if state == 'draft' :
-            for line in self:
-                line.initial_price_unit = line.price_unit
+    @api.onchange('price_unit')
+    def _onchange_unit_price(self):
+        if self.state == 'draft' :
+            self.initial_price_unit = self.price_unit
 
-    @api.depends('order_id.current_index')
+    @api.multi
     def _update_index(self):
         for line in self :
-            line.price_unit = line.initial_price_unit * order_id.current_index / order_id.initial_index
+            line.price_unit = line.initial_price_unit * line.order_id.current_index / line.order_id.initial_index

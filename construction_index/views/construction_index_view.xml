@@ -34,6 +34,9 @@
                   <field name='initial_index' attrs="{'invisible': [('is_indexed', '=', False)]}"/>
                   <field name='current_index' attrs="{'invisible': [('is_indexed', '=', False)]}"/>
               </xpath>
+              <xpath expr="//field[@name='unit_price']" position="before">
+                  <field name='initial_price_unit' attrs="{'invisible': [('is_indexed', '=', False)]}"/>
+              </xpath>
           </field>
       </record>
     </data>
