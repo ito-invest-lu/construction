@@ -38,5 +38,5 @@ class ConstructionIndexWizard(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super(ConstructionIndexWizard, self).default_get(fields)
-        res['sale_order_id'] = self._context.get('active_ids') or self._context.get('active_id')
+        res['sale_order_ids'] = self._context.get('active_ids') or self._context.get('active_id')
         return res
