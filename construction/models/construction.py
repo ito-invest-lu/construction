@@ -79,13 +79,12 @@ class BuildingAsset(models.Model):
         self.state = 'sold'
     
     sale_order_ids = fields.One2many('sale.order', 'building_asset_id', string="Sale Orders", readonly=True)
-    main_order_id = fields.Many2one('sale.order', string='Main Order', compute="_compute_main_order")
-    all_tags = fields.Many2many('sale.order.tag', string='SO', compute="_compute_main_order")
-    missing_tags = fields.Many2many('sale.order.tag', string='Missing SO', compute="_compute_main_order")
+    
+    all_tags = fields.Many2many('sale.order.tag', string='SO', compute="_compute_tags")
+    missing_tags = fields.Many2many('sale.order.tag', string='Missing SO', compute="_compute_tags")
     
     @api.one
-    def _compute_main_order(self):
-        self.main_order_id = self.env['sale.order'].search([('building_asset_id','=',self.id),('is_main_order','=','true')])
+    def _compute_tags(self):
         self.all_tags = self.sale_order_ids.filtered(lambda o: o.state == 'sale').mapped('construction_tag_ids')
         self.missing_tags = self.env['sale.order.tag'].search([]) - self.all_tags
     
