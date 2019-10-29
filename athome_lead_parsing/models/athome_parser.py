@@ -30,40 +30,46 @@ _logger = logging.getLogger(__name__)
 class CrmLead(models.Model):
     '''Building Site'''
     _inherit = 'crm.lead'
-    
+
     @api.model
     def message_new(self, msg_dict, custom_values=None):
-        """ 
-        Overrides crm_lead message_new to update the document according 
+        """
+        Overrides crm_lead message_new to update the document according
         to the athome emails.
         """
-        
+
         if custom_values is None:
             custom_values = {}
-        
+
         try:
+            _logger.info('Parse message body')
+            _logger.info(msg_dict.get('body'))
             if msg_dict.get('body').find('no-reply@athome.lu'):
-                
+
                 body = html.fromstring(msg_dict.get('body'))
-                
-                # Hack into msg_dict because message_new in CrmLead is not 
+
+                # Hack into msg_dict because message_new in CrmLead is not
                 # written to be updated !!
-                
+
                 node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
                 if len(node) > 0 :
+                    _logger.info('Parse name')
                     msg_dict.update({'subject' : node[0].text})
                 node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
                 if len(node) > 0 :
+                    _logger.info('Parse email')
                     msg_dict.update({'email_from' : node[0].text})
                 node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
                 if len(node) > 0 :
+                    _logger.info('Parse phone number')
                     custom_values.update({'phone' : node[0].text})
                 custom_values.update({'tag_ids' : '[(4, 1)]'})
         except:
+            _logger.info('Error during parsing - skip')
             pass # ignore errors and continue if any, best effort here
-        
+        _logger.info('Continue with default behavior')
         return super(CrmLead, self).message_new(msg_dict, custom_values)
-    
+
     @api.one
     def parse_message(self):
         for message in self.message_ids:
