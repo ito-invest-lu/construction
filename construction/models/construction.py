@@ -239,7 +239,7 @@ class Invoice(models.Model):
 
     @api.one
     def _compute_summary(self):
-        self.summary = ', '.join(self.invoice_line_ids.mapped('description'))
+        self.summary = ', '.join(self.invoice_line_ids.mapped('name'))
 
     @api.multi
     def _compute_first_line_tax_id(self):
