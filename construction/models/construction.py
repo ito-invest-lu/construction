@@ -145,7 +145,7 @@ class SaleOrder(models.Model):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         journal_id = self.env['account.journal'].search([('company_id', '=', self.company_id.id), ('type', '=', 'out_invoice')], limit=1)
         _logger.info('Journal : %s' % journal_id.name)
-        invoice_vals['journal_id'] = self.journal_id.id or False
+        invoice_vals['journal_id'] = journal_id.id or False
         invoice_vals['building_asset_id'] = self.building_asset_id.id or False
         return invoice_vals
 
