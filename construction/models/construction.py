@@ -143,6 +143,9 @@ class SaleOrder(models.Model):
     @api.multi
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        journal_id = self.env['account.move'].with_context(force_company=self.company_id.id, default_type='out_invoice')._get_default_journal()
+        _logger.info('Journal : %s' % journal_id.name)
+        invoice_vals['journal_id'] = self.journal_id.id or False
         invoice_vals['building_asset_id'] = self.building_asset_id.id or False
         return invoice_vals
 
