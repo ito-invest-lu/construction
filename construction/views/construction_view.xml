@@ -125,9 +125,10 @@
                         <notebook>
                             <page string="Sale Orders">
                                 <field name="sale_order_ids" nolabel="1" >
-                                    <tree string="Sale Orders" editable="false" decoration-muted="state=='cancel'" decoration-danger="state=='done'" decoration-warning="state=='done' or state=='sent' or state=='draft'">
+                                    <tree string="Sale Orders" editable="false" decoration-muted="state=='cancel'" decoration-danger="state=='done'" decoration-warning="state=='done' or state=='sent' or state=='draft'" context="{'group_by':'company_id'}">
                                         <field name="date_order"/>
                                         <field name="name"/>
+                                        <field name="company_id"/>
                                         <field name="user_id"/>
                                         <field name="so_summary"/>
                                         <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}" attrs="{'invisible': ['|',('state', '==', 'cancel'),('state', '==', 'draft')]}"/>

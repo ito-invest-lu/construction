@@ -235,6 +235,12 @@ class Invoice(models.Model):
 
     first_line_tax_id = fields.Many2one('account.tax', string='Fist Line Tax', compute='_compute_first_line_tax_id')
 
+    summary = fields.Text("Summary", compute="_compute_summary")
+
+    @api.one
+    def _compute_summary(self):
+        self.summary = ', '.join(self.invoice_line_ids.mapped('description'))
+
     @api.multi
     def _compute_first_line_tax_id(self):
         for invoice in self:
