@@ -95,8 +95,8 @@ class ReducedVATAgreement(models.Model):
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed','invoice_ids.state')
     def _compute_remaining_amount(self):
         used_amount = 0
-        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
-        tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
+        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+        tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % self.company_id.id)
         for invoice in self.invoice_ids:
             if invoice.state in ('open','in_payment','paid') :
                 for line in invoice.invoice_line_ids:
@@ -128,9 +128,9 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
         for invoice in self :
-            tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
-            tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VB-PA-3')
-            tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
+            tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+            tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % self.company_id.id)
+            tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
             if invoice.reduced_vat_agreement_id :
                 new_amount = 0
                 has_line_at_3 = False
@@ -152,8 +152,8 @@ class AccountInvoice(models.Model):
         
     @api.onchange('reduced_vat_agreement_id')
     def onchange_reduced_vat_agreement_id(self):
-        tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2015_tax_VP-PA-17')
-        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.1_lu_2011_tax_VP-PA-3')
+        tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
+        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
                     'invoice_line_tax_ids' : [(6, 0, [tax_3.id])]
