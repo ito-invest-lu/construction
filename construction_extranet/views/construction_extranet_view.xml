@@ -62,7 +62,6 @@
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">Client</th>
-                          <th scope="col">Date</th>
                           <th scope="col">Description</th>
                           <th scope="col">Montant</th>
                         </tr>
@@ -71,9 +70,8 @@
                         <tr t-foreach="draft_invoice_ids" t-as="invoice">
                           <th scope="row"><span t-field="invoice.number"/></th>
                           <td><span t-field="invoice.partner_id"/></td>
-                          <td><span t-field="invoice.date_invoice"/></td>
                           <td><span t-field="invoice.summary"/></td>
-                          <td class="text-right"><span t-field="invoice.residual"/></td>
+                          <td class="text-right"><span t-field="invoice.amount_untaxed"/></td>
                         </tr>
                       </tbody>
                     </table>
