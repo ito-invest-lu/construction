@@ -57,13 +57,13 @@
                 </div>
                 <div class="jumbotron">
                     <h3>Factures en attente</h3>
-                    <table class="table">
+                    <table class="table table-striped">
                       <thead>
-                        <tr>
+                        <tr class="thead-dark">
                           <th scope="col">#</th>
                           <th scope="col">Client</th>
                           <th scope="col">Description</th>
-                          <th scope="col">Montant</th>
+                          <th class="text-right" scope="col">Montant</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -73,19 +73,25 @@
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.amount_untaxed"/></td>
                         </tr>
+                        <tr class="thead-dark">
+                          <th scope="row"></th>
+                          <th></th>
+                          <th></th>
+                          <th class="text-right font-weight-bold"><span t-esc="sum(draft_invoice_ids.mapped('amount_untaxed'))" t-options="{'widget': 'monetary', 'display_currency': company_id.currency_id}"/></th>
+                        </tr>
                       </tbody>
                     </table>
                 </div>
                 <div class="jumbotron">
                     <h3>Factures ouvertes</h3>
-                    <table class="table">
+                    <table class="table table-striped">
                       <thead>
-                        <tr>
+                        <tr class="thead-dark">
                           <th scope="col">#</th>
                           <th scope="col">Client</th>
                           <th scope="col">Date</th>
                           <th scope="col">Description</th>
-                          <th scope="col">Montant</th>
+                          <th class="text-right" scope="col">Montant</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -96,19 +102,25 @@
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.residual"/></td>
                         </tr>
+                        <tr class="thead-dark">
+                          <th scope="row"></th>
+                          <th></th>
+                          <th></th>
+                          <th class="text-right font-weight-bold"><span t-esc="sum(open_invoice_ids.mapped('amount_untaxed'))" t-options="{'widget': 'monetary', 'display_currency': company_id.currency_id}"/></th>
+                        </tr>
                       </tbody>
                     </table>
                 </div>
                 <div class="jumbotron">
                     <h3>Factures payées</h3>
-                    <table class="table">
+                    <table class="table table-striped">
                       <thead>
-                        <tr>
+                        <tr class="thead-dark">
                           <th scope="col">#</th>
                           <th scope="col">Client</th>
                           <th scope="col">Date</th>
                           <th scope="col">Description</th>
-                          <th scope="col">Montant</th>
+                          <th class="text-right" scope="col">Montant</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -118,6 +130,12 @@
                           <td><span t-field="invoice.date_invoice"/></td>
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.residual"/></td>
+                        </tr>
+                        <tr class="thead-dark">
+                          <th scope="row"></th>
+                          <th></th>
+                          <th></th>
+                          <th class="text-right font-weight-bold"><span t-esc="sum(paid_invoice_ids.mapped('amount_untaxed'))" t-options="{'widget': 'monetary', 'display_currency': company_id.currency_id}"/></th>
                         </tr>
                       </tbody>
                     </table>
