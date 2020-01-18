@@ -52,7 +52,7 @@
             </html>
         </template>
         
-        <template id="layout_container" name="Construction Layout Container">
+        <template id="invoices" name="Construction Layout Container">
             <t t-call="construction_extranet.layout_container">
                 <h1>Company : <t t-esc="company_id"/></h1>
             </t>
