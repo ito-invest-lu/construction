@@ -39,5 +39,6 @@ class ConstructionController(http.Controller):
     def invoices(self, company_id, debug=False, **k):
         values = {
             'company_id': company_id,
+            'open_invoice_ids' : request.env['account.invoice'].search([('company_id','=',company_id),('state','=','open')]),
         }
         return request.render('construction_extranet.invoices', values)
