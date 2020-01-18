@@ -52,27 +52,78 @@
         
         <template id="invoices" name="Construction Layout Container">
             <t t-call="construction_extranet.layout_container">
-                <h1><span t-field="company_id"/></h1>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Client</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Montant</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr t-foreach="open_invoice_ids" t-as="invoice">
-                      <th scope="row"><span t-field="invoice.number"/></th>
-                      <td><span t-field="invoice.partner_id"/></td>
-                      <td><span t-field="invoice.date_invoice"/></td>
-                      <td><span t-field="invoice.summary"/></td>
-                      <td><span t-field="invoice.residual"/></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="jumbotron">
+                    <h1><span t-field="company_id.name"/></h1>
+                </div>
+                <div class="jumbotron">
+                    <h3>Factures en attente</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Client</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Montant</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr t-foreach="draft_invoice_ids" t-as="invoice">
+                          <th scope="row"><span t-field="invoice.number"/></th>
+                          <td><span t-field="invoice.partner_id"/></td>
+                          <td><span t-field="invoice.date_invoice"/></td>
+                          <td><span t-field="invoice.summary"/></td>
+                          <td class="text-right"><span t-field="invoice.residual"/></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="jumbotron">
+                    <h3>Factures ouvertes</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Client</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Montant</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr t-foreach="open_invoice_ids" t-as="invoice">
+                          <th scope="row"><span t-field="invoice.number"/></th>
+                          <td><span t-field="invoice.partner_id"/></td>
+                          <td><span t-field="invoice.date_invoice"/></td>
+                          <td><span t-field="invoice.summary"/></td>
+                          <td class="text-right"><span t-field="invoice.residual"/></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="jumbotron">
+                    <h3>Factures payées</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Client</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Montant</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr t-foreach="paid_invoice_ids" t-as="invoice">
+                          <th scope="row"><span t-field="invoice.number"/></th>
+                          <td><span t-field="invoice.partner_id"/></td>
+                          <td><span t-field="invoice.date_invoice"/></td>
+                          <td><span t-field="invoice.summary"/></td>
+                          <td class="text-right"><span t-field="invoice.residual"/></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
             </t>
         </template>
         
