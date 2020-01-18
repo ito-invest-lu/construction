@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+#    Copyright (c) 2015 be-cloud.be
+#                       Jerome Sonnet <jerome.sonnet@be-cloud.be>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<odoo>
+    <data>
+        <template id="assets" name="construction_extranet_assets">
+            <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+            <script type="text/javascript" src="/web/static/lib/jquery.ui/jquery-ui.js"></script>
+            <script type="text/javascript" src="/web/static/lib/jquery/jquery.browser.js"></script>
+            <script type="text/javascript" src="/web/static/lib/moment/moment.js"></script>
+        </template>
+        
+        <template id="layout_container" name="Construction Layout Container">
+            <html>
+                <head>
+                    <!-- set the encoding of your site -->
+                	<meta charset="utf-8"/>
+                	<!-- set the viewport width and initial-scale on mobile devices -->
+                	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+                	<title>Horizon Student</title>
+                	<!-- include google fonts -->
+                	<link href="https://fonts.googleapis.com/css?family=Heebo:300,400,500,700,800,900&amp;display=swap" rel="stylesheet"/>
+                	<!-- include the site stylesheet -->
+                	
+                	<!-- include custom JavaScript -->
+                    <t t-call-assets="construction_extranet.assets"/>
+                </head>
+                <body class="dashboard">
+	                <div id="wrapper" class="d-flex position-relative">
+                        <t t-raw="0"/>
+                    </div>
+                </body>
+            </html>
+        </template>
+        
+        <template id="layout_container" name="Construction Layout Container">
+            <t t-call="construction_extranet.layout_container">
+                <h1>Company : <t t-esc="company_id"/></h1>
+            </t>
+        </template>
+        
+    </data>
+</odoo>
