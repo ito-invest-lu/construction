@@ -52,7 +52,7 @@
         
         <template id="invoices" name="Construction Layout Container">
             <t t-call="construction_extranet.layout_container">
-                <h1>Company : <t t-esc="company_id"/></h1>
+                <h1><span t-field="company_id"/></h1>
                 <table class="table">
                   <thead>
                     <tr>
@@ -65,7 +65,7 @@
                   </thead>
                   <tbody>
                     <tr t-foreach="open_invoice_ids" t-as="invoice">
-                      <th scope="row"><t t-field="invoice.number"/></th>
+                      <th scope="row"><span t-field="invoice.number"/></th>
                       <td><span t-field="invoice.partner_id"/></td>
                       <td><span t-field="invoice.date_invoice"/></td>
                       <td><span t-field="invoice.summary"/></td>
