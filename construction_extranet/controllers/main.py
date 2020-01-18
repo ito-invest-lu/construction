@@ -38,7 +38,7 @@ class ConstructionController(http.Controller):
     @http.route('/invoices/<int:company_id>', type='http', auth='public', website=True)
     def invoices(self, company_id, debug=False, **k):
         values = {
-            'company_id': company_id,
+            'company_id': request.env['res.company'].browse(company_id),
             'open_invoice_ids' : request.env['account.invoice'].search([('company_id','=',company_id),('state','=','open')]),
         }
         return request.render('construction_extranet.invoices', values)
