@@ -65,11 +65,11 @@
                   </thead>
                   <tbody>
                     <tr t-foreach="open_invoice_ids" t-as="invoice">
-                      <th scope="row" t-field="invoice.number"/>
-                      <td t-field="invoice.partner_id"/>
-                      <td t-field="invoice.date_invoice"/>
-                      <td t-field="invoice.summary"/>
-                      <td t-field="invoice.residual"/>
+                      <th scope="row"><t t-field="invoice.number"/></th>
+                      <td><t t-field="invoice.partner_id"/></td>
+                      <td><t t-field="invoice.date_invoice"/></td>
+                      <td><t t-field="invoice.summary"/></td>
+                      <td><t t-field="invoice.residual"/></td>
                     </tr>
                   </tbody>
                 </table>
