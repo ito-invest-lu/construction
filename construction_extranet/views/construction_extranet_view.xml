@@ -38,11 +38,12 @@
                 	<meta charset="utf-8"/>
                 	<!-- set the viewport width and initial-scale on mobile devices -->
                 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-                	<title>Horizon Student</title>
+                	<title>Extranet Suivi</title>
                 	<t t-call-assets="construction_extranet.assets"/>
                 </head>
-                <body class="dashboard">
-	                <div id="wrapper" class="d-flex position-relative">
+                <body>
+                    <div class="container">
+                        <!-- Content here -->
                         <t t-raw="0"/>
                     </div>
                 </body>
@@ -52,6 +53,26 @@
         <template id="invoices" name="Construction Layout Container">
             <t t-call="construction_extranet.layout_container">
                 <h1>Company : <t t-esc="company_id"/></h1>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Client</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr t-foreach="open_invoice_ids" t-as="invoice">
+                      <th scope="row" t-field="invoice.number"/>
+                      <td t-field="invoice.partner_id"/>
+                      <td t-field="invoice.date_invoice"/>
+                      <td t-field="invoice.summary"/>
+                      <td t-field="invoice.residual"/>
+                    </tr>
+                  </tbody>
+                </table>
             </t>
         </template>
         
