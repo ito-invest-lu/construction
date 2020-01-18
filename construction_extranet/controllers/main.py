@@ -35,7 +35,7 @@ _logger = logging.getLogger(__name__)
 
 class ConstructionController(http.Controller):
     
-    @http.route('/invoices/<int:company_id>', type='http', auth='public', website=True)
+    @http.route('/invoices/<int:company_id>', type='http', auth='none', csrf=False)
     def invoices(self, company_id, debug=False, **k):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
