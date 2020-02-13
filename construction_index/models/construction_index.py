@@ -41,6 +41,10 @@ class SaleOrder(models.Model):
         self.current_index = index
         self.order_line.filtered(lambda line : line.qty_invoiced < line.product_uom_qty)._update_index()
 
+    @api.onchange('is_indexed')
+    def onchange_is_indexed(self):
+        self.order_line.reset_initial_price_unit()
+
     @api.multi
     def write(self, vals):
         if 'initial_index' in vals :
