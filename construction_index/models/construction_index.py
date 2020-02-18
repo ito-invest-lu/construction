@@ -59,7 +59,8 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def reset_initial_price_unit(self):
-        self.initial_price_unit = self.price_unit
+        for line in self:
+            line.initial_price_unit = line.price_unit
 
     @api.onchange('price_unit')
     def _onchange_unit_price(self):
