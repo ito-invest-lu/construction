@@ -73,7 +73,7 @@ class BuildingAsset(models.Model):
 
     candidate_lead_ids = fields.One2many('crm.lead', 'building_asset_id', string='Candidate Leads', domain=['|',('active','=',True),('active','=',False)])
     
-    analytic_account = fields.text(string="BookIn Analytic")
+    analytic_account = fields.Char(string="BookIn Analytic")
 
     @api.onchange('confirmed_lead_id')
     def update_confirmed_lead_id(self):
@@ -175,7 +175,7 @@ class SaleOrderTag(models.Model):
     color = fields.Integer('Color Index')
     active = fields.Boolean(default=True, help="Set active to false to hide the Sale Order Tag without removing it.")
 
-    analytic_account = fields.text(string="BookIn Analytic")
+    analytic_account = fields.Char(string="BookIn Analytic")
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
