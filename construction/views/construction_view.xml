@@ -114,6 +114,7 @@
                                 <field string="Address" name="address_id" context="{'form_view_ref':'construction.building_address_view','default_name':name,'default_type':'delivery','default_customer': False,'show_address': 1}" options="{&quot;always_reload&quot;: True}" domain="[('type', '=', 'delivery')]"/>
                                 <field name="type" />
                                 <field name="state"/>
+                                <field name="analytic_account"/>
                                 <field name="confirmed_lead_id" />
                                 <field name="company_id"/>
                             </group>
