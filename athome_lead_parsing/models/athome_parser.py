@@ -70,18 +70,19 @@ class CrmLead(models.Model):
         _logger.info('Continue with default behavior')
         return super(CrmLead, self).message_new(msg_dict, custom_values)
 
-    @api.one
     def parse_message(self):
-        for message in self.message_ids:
-            if message.body:
-                body = html.fromstring(message.body)
-                node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
-                if len(node) > 0 :
-                    self.name = node[0].text
-                node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
-                if len(node) > 0 :
-                    self.email_from = node[0].text
-                node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
-                if len(node) > 0 :
-                    self.phone = node[0].text
-        self.tag_ids = [(4, 1)] # athome tag ;-)
+        self.ensure_one()
+        for rec in self:
+            for message in rec.message_ids:
+                if message.body:
+                    body = html.fromstring(message.body)
+                    node = body.xpath("//td[text() = 'Nom :']/following-sibling::td")
+                    if len(node) > 0 :
+                        rec.name = node[0].text
+                    node = body.xpath("//td[text() = 'Email :']/following-sibling::td/a")
+                    if len(node) > 0 :
+                        rec.email_from = node[0].text
+                    node = body.xpath("//td[text() = 'Téléphone :']/following-sibling::td")
+                    if len(node) > 0 :
+                        rec.phone = node[0].text
+            rec.tag_ids = [(4, 1)] # athome tag ;-)

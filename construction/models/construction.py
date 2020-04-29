@@ -38,15 +38,15 @@ class BuildingAsset(models.Model):
 
     active = fields.Boolean(string="Active", default=True)
 
-    @api.one
     @api.depends('title','partner_id.name')
     def _compute_name(self):
-        if self.partner_id and self.title:
-            self.name = "%s - %s" % (self.title, self.partner_id.name)
-        elif self.partner_id:
-            self.name = self.partner_id.name
-        else:
-            self.name = self.title
+        for rec in self :
+            if rec.partner_id and rec.title:
+                rec.name = "%s - %s" % (rec.title, rec.partner_id.name)
+            elif rec.partner_id:
+                rec.name = rec.partner_id.name
+            else:
+                rec.name = rec.title
 
     state = fields.Selection([
             ('development', 'In development'),
@@ -85,10 +85,10 @@ class BuildingAsset(models.Model):
     all_tags = fields.Many2many('sale.order.tag', string='SO', compute="_compute_tags")
     missing_tags = fields.Many2many('sale.order.tag', string='Missing SO', compute="_compute_tags")
 
-    @api.one
     def _compute_tags(self):
-        self.all_tags = self.sale_order_ids.filtered(lambda o: o.state == 'sale').mapped('construction_tag_ids')
-        self.missing_tags = self.env['sale.order.tag'].search([]) - self.all_tags
+        for rec in self :
+            rec.all_tags = rec.sale_order_ids.filtered(lambda o: o.state == 'sale').mapped('construction_tag_ids')
+            rec.missing_tags = rec.env['sale.order.tag'].search([]) - rec.all_tags
 
     invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True)
 
@@ -104,12 +104,12 @@ class SaleOrder(models.Model):
 
     active = fields.Boolean(default=True, help="If you uncheck the active field, it will disable the sale order without deleting it.")
 
-    @api.one
     def _compute_so_summary(self):
-        if not self.is_main_order:
-            self.so_summary = ', '.join(self.order_line.mapped('name'))
-        else :
-            self.so_summary = 'voir détails...'
+        for rec in self:
+            if not rec.is_main_order:
+                rec.so_summary = ', '.join(rec.order_line.mapped('name'))
+            else :
+                rec.so_summary = 'voir détails...'
 
     # @api.constrains('is_main_order')
     # def _check_parent_id(self):
@@ -241,9 +241,9 @@ class Invoice(models.Model):
 
     summary = fields.Text("Summary", compute="_compute_summary")
 
-    @api.one
     def _compute_summary(self):
-        self.summary = ', '.join(self.invoice_line_ids.mapped('name'))
+        for rec in self:
+            rec.summary = ', '.join(rec.invoice_line_ids.mapped('name'))
 
     def _compute_first_line_tax_id(self):
         for invoice in self:

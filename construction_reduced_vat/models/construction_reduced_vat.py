@@ -66,18 +66,18 @@ class ReducedVATAgreement(models.Model):
     
     name = fields.Char(compute='_compute_name', store=True)
     
-    @api.one
     @api.depends('agreement_code','partner_id.name')
     def _compute_name(self):
-       self.name = "%s - %s" % (self.agreement_code, self.partner_id.name)
+        for rec in self :
+            rec.name = "%s - %s" % (v.agreement_code, rec.partner_id.name)
     
     agreement_total_amount = fields.Monetary(string="Total Amount", currency_field='company_currency_id', track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]})
     
-    @api.one
     @api.constrains('agreement_total_amount')
     def _check_agreement_total_amount(self):
-        if self.agreement_total_amount > 357142.86 :
-            raise ValidationError("The total amount shall not exeed 357.142,86€ (ie 50.000€ of VAT reduction).")
+        for rec in self :
+            if rec.agreement_total_amount > 357142.86 :
+                raise ValidationError("The total amount shall not exeed 357.142,86€ (ie 50.000€ of VAT reduction).")
     
     invoice_ids = fields.One2many('account.invoice','reduced_vat_agreement_id',string="Invoices")
     agreement_remaining_amount = fields.Monetary(string="Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
@@ -86,18 +86,18 @@ class ReducedVATAgreement(models.Model):
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
     
-    @api.one
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed','invoice_ids.state')
     def _compute_remaining_amount(self):
-        used_amount = 0
-        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
-        tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % self.company_id.id)
-        for invoice in self.invoice_ids:
-            if invoice.state in ('open','in_payment','paid') :
-                for line in invoice.invoice_line_ids:
-                    if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
-                        used_amount += line.price_subtotal_signed
-        self.agreement_remaining_amount = self.agreement_total_amount - used_amount
+        for rec in self:
+            used_amount = 0
+            tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
+            tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
+            for invoice in rec.invoice_ids:
+                if invoice.state in ('open','in_payment','paid') :
+                    for line in invoice.invoice_line_ids:
+                        if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
+                            used_amount += line.price_subtotal_signed
+            rec.agreement_remaining_amount = rec.agreement_total_amount - used_amount
 
 class SaleOrder(models.Model):
     '''Sale Order'''

@@ -41,6 +41,6 @@ class ConstructionIndexWizard(models.TransientModel):
         res['sale_order_ids'] = self._context.get('active_ids') or self._context.get('active_id')
         return res
 
-    @api.one
     def action_confirm(self) :
+        self.ensure_one()
         return self.sale_order_ids.update_index(self.new_index)

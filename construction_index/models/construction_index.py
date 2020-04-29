@@ -36,10 +36,10 @@ class SaleOrder(models.Model):
     initial_index = fields.Float(string="Initial Index", readonly=True, states={'draft': [('readonly', False)]})
     current_index = fields.Float(string="Current Index", readonly=True)
 
-    @api.one
     def update_index(self, index):
-        self.current_index = index
-        self.order_line.filtered(lambda line : line.qty_invoiced < line.product_uom_qty)._update_index()
+        for rec in self :
+            rec.current_index = index
+            rec.order_line.filtered(lambda line : line.qty_invoiced < line.product_uom_qty)._update_index()
 
     @api.onchange('is_indexed')
     def onchange_is_indexed(self):

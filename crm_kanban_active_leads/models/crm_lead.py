@@ -47,12 +47,12 @@ class CRMLead(models.Model):
         leads._update_color()
         return True
     
-    @api.one
     def _update_color(self):
-        w_date = fields.Datetime.from_string(self.last_modification_for_followup)
-        if  w_date < datetime.now()-timedelta(days=10) :
-            self.color = 9 # Red
-        elif w_date < datetime.now()-timedelta(days=3) :
-            self.color = 2 # Orange
-        else :
-            self.color = 10 # Green
+        for rec in self:
+            w_date = fields.Datetime.from_string(rec.last_modification_for_followup)
+            if  w_date < datetime.now()-timedelta(days=10) :
+                rec.color = 9 # Red
+            elif w_date < datetime.now()-timedelta(days=3) :
+                rec.color = 2 # Orange
+            else :
+                rec.color = 10 # Green

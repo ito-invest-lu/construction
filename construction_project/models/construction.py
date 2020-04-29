@@ -73,11 +73,11 @@ class Project(models.Model):
             
     on_going_task_ids = fields.Many2many('project.task', string="OnGoing Tasks", compute='_compute_on_going_task_ids')
 
-    @api.one
     def _compute_on_going_task_ids(self):
-        on_going_stage_id = self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')
-        for project in self:
-            project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
+        for rec in self :
+            on_going_stage_id = self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')
+            for project in rec:
+                project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
 
     company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.user.company_id.id)
     company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
@@ -115,25 +115,25 @@ class Task(models.Model):
     analytic_line_id = fields.Many2one('account.analytic.line', string='Analytic Line for Purchases', ondelete='restrict', readonly=True)
     
     @api.depends('budget','purchase_amount','working_hours')
-    @api.one
     def _compute_total(self):
-        working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
-        total_amount = self.purchase_amount + self.working_hours * working_hours_price
-        if self.analytic_line_id :
-            self.analytic_line_id.write({
-                'unit_amount' : self.working_hours,
-                'amount' : total_amount,
-            })
-        else :
-            self.env['account.analytic.line'].create({
-                'name': self.name,
-                'account_id': self.project_id.analytic_account_id.id,
-                'task_id': self.id,
-                'unit_amount': self.working_hours,
-                'amount': total_amount,
-            })
-        self.total_amount = total_amount
-        self.is_on_budget = self.budget >= self.total_amount
+        for rec in self :
+            working_hours_price = self.env['ir.config_parameter'].sudo().get_param('construction.hour_price', default=50)
+            total_amount = rec.purchase_amount + rec.working_hours * working_hours_price
+            if rec.analytic_line_id :
+                rec.analytic_line_id.write({
+                    'unit_amount' : rec.working_hours,
+                    'amount' : total_amount,
+                })
+            else :
+                self.env['account.analytic.line'].create({
+                    'name': self.name,
+                    'account_id': rec.project_id.analytic_account_id.id,
+                    'task_id': rec.id,
+                    'unit_amount': rec.working_hours,
+                    'amount': total_amount,
+                })
+            rec.total_amount = total_amount
+            rec.is_on_budget = rec.budget >= rec.total_amount
 
     @api.onchange('budget','purchase_amount','working_hours','is_on_budget')
     def _onchange_is_on_budget(self):
@@ -194,7 +194,6 @@ class Task(models.Model):
 #             month.sale_amount_total = total
 #             month.sale_number = nbr
     
-#     @api.one
 #     def _compute_name(self):
 #         self.name = '%s-%s' % (self.year,self.month)
     
