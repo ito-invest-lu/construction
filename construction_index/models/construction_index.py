@@ -45,7 +45,6 @@ class SaleOrder(models.Model):
     def onchange_is_indexed(self):
         self.order_line.reset_initial_price_unit()
 
-    @api.multi
     def write(self, vals):
         if 'initial_index' in vals :
             vals['current_index'] = vals['initial_index']
@@ -57,7 +56,6 @@ class SaleOrderLine(models.Model):
 
     initial_price_unit = fields.Float('Initial Unit Price', required=True, digits=dp.get_precision('Product Price'), default=0.0)
 
-    @api.multi
     def reset_initial_price_unit(self):
         for line in self:
             line.initial_price_unit = line.price_unit
@@ -67,7 +65,6 @@ class SaleOrderLine(models.Model):
         if self.state == 'draft' :
             self.initial_price_unit = self.price_unit
 
-    @api.multi
     def _update_index(self):
         for line in self :
             if line.initial_price_unit == 0 :

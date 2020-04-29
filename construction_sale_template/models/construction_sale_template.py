@@ -41,7 +41,6 @@ class SaleOrderTemplate(models.Model):
     
     sale_order_template_line_ids = fields.One2many('construction.sale_order_template.line','sale_order_template_id',string="Sale Order Template Lines", copy=True)
     
-    @api.multi
     def write(self, vals):
         res = super(SaleOrderTemplate, self).write(vals)
         for order in self:
@@ -83,17 +82,14 @@ class SaleOrderTemplateLine(models.Model):
         if self.filtered(lambda c: c.percentage < 0 or c.percentage > 100):
             raise ValidationError(_('Percentage must be between 0 and 100 and sum to 100.'))
     
-    @api.multi
     @api.onchange('percentage')
     def _percentage_change(self):
         self.price_unit = 0
         
-    @api.multi
     @api.onchange('price_unit')
     def _price_unit_change(self):
         self.percentage = 0
         
-    @api.multi
     @api.onchange('product_id')
     def _product_id_change(self):
         if not self.product_id:
@@ -121,7 +117,6 @@ class SaleOrderTemplateLine(models.Model):
 
         return {'domain': domain}
         
-    @api.multi
     def _compute_tax_id(self):
         for line in self:
             line.tax_id = line.product_id.taxes_id.filtered(lambda r: not line.company_id or r.company_id == line.company_id)

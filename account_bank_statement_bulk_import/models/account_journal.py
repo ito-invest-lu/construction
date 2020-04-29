@@ -28,7 +28,6 @@ _logger = logging.getLogger(__name__)
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    @api.multi
     def bulk_import_statement(self):
         """return action to bulk import bank/cash statements. This button should be called only on journals with type =='bank'"""
         action_name = 'action_account_bank_statement_bulk_import'

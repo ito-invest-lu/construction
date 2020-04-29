@@ -37,7 +37,6 @@ class BulkImportStatement(models.TransientModel):
     
     zip_file = fields.Binary(string='Bank Statement File', required=True, help='Bulk import all files in a zip...')
     
-    @api.multi
     def bulk_import_statement(self):
         self.ensure_one()
         bin_data = self.zip_file and base64.b64decode(self.zip_file) or ''

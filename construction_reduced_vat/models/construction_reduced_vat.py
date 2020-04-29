@@ -38,29 +38,24 @@ class ReducedVATAgreement(models.Model):
             ('archived', 'Archived'),
         ], string='State', required=True, help="", default="draft")
         
-    @api.multi
     def action_request(self):
         if self.filtered(lambda inv: inv.state != 'draft'):
             raise UserError(_("Agreement must be a draft in order to set it to requested."))
         return self.write({'state': 'requested'})
     
-    @api.multi
     def action_approve(self):
         if self.filtered(lambda inv: inv.state != 'draft' and inv.state != 'requested'):
             raise UserError(_("Agreement must be a draft or requested in order to set it to approved."))
         return self.write({'state': 'approved'})
         
-    @api.multi
     def action_reject(self):
         if self.filtered(lambda inv: inv.state != 'requested'):
             raise UserError(_("Agreement must be a requested in order to set it to rejected."))
         return self.write({'state': 'rejected'})
         
-    @api.multi
     def action_draft(self):
         return self.write({'state': 'draft','active':True})
         
-    @api.multi
     def action_archive(self):
         return self.write({'state': 'archived','active':False})
         
@@ -108,7 +103,6 @@ class SaleOrder(models.Model):
     '''Sale Order'''
     _inherit = "sale.order"
     
-    @api.multi
     def _prepare_invoice(self):
         self.ensure_one()
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
@@ -124,7 +118,6 @@ class AccountInvoice(models.Model):
     
     reduced_vat_agreement_id = fields.Many2one('construction.reduced_vat_agreement', string='Reduced VAT Agreement', readonly=True, states={'draft': [('readonly', False)]})
     
-    @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
         for invoice in self :

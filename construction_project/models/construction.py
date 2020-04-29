@@ -31,7 +31,6 @@ class BuildingAsset(models.Model):
 
     project_id = fields.One2many('project.project','building_asset_id', string="Project", readonly=True) 
     
-    @api.multi
     def open_or_create_project(self):
         self.ensure_one()
         if not self.project_id :
@@ -91,7 +90,6 @@ class Project(models.Model):
     total_amount = fields.Monetary(string="Total Amount", currency_field='company_currency', compute='_compute_amounts')
     
     @api.depends('task_ids.budget','task_ids.purchase_amount','task_ids.working_hours')
-    @api.multi
     def _compute_amounts(self):
         for project in self:
             project.budget = sum(project.task_ids.mapped('budget'))
@@ -147,19 +145,16 @@ class Task(models.Model):
             else :
                 self.color = 1
 
-    @api.multi
     def set_to_not_started(self):
         self.write ({
             'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_not_started').id
         })
 
-    @api.multi
     def set_to_ongoing(self):
         self.write ({
             'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing').id
         })
         
-    @api.multi
     def set_to_done(self):
         self.write ({
             'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_finished').id

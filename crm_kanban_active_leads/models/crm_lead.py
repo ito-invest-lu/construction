@@ -34,7 +34,6 @@ class CRMLead(models.Model):
     
     last_modification_for_followup = fields.Datetime('Last Modification for Followup', default=fields.Datetime.now())
     
-    @api.multi
     def write(self, values):
         if bool(set(values).intersection(IMPORTANT_FIELDS)) :
             _logger.info('Modification for followup detected')

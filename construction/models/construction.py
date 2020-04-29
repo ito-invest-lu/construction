@@ -142,7 +142,6 @@ class SaleOrder(models.Model):
                 if asset_id :
                     self.building_asset_id = asset_id[0]
 
-    @api.multi
     def _prepare_invoice(self):
         old_company_id = self.env.user.company_id
         self.env.user.company_id = self.company_id
@@ -218,7 +217,6 @@ class SaleOrderLine(models.Model):
     #     return res
 
 
-    @api.multi
     def action_deliver_line(self):
         for order_line in self:
             order_line.write({'qty_delivered' : order_line.product_uom_qty})
@@ -229,7 +227,6 @@ class CrmLean(models.Model):
 
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
 
-    @api.multi
     def _convert_opportunity_data(self, customer, team_id=False):
         res = super(CrmLean, self)._convert_opportunity_data(self, customer, team_id)
         res['building_asset_id'] = self.building_asset_id.id or False
@@ -248,7 +245,6 @@ class Invoice(models.Model):
     def _compute_summary(self):
         self.summary = ', '.join(self.invoice_line_ids.mapped('name'))
 
-    @api.multi
     def _compute_first_line_tax_id(self):
         for invoice in self:
             tax_id = False

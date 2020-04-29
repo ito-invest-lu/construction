@@ -40,7 +40,6 @@ class ConstructionSaleWizard(models.TransientModel):
     company_currency_id = fields.Many2one('res.currency', readonly=True, default=lambda self: self.env.user.company_id.currency_id)
     total_untaxed = fields.Monetary(string='Total Untaxed', currency_field='company_currency_id', required=True)
     
-    @api.multi
     def action_confirm(self):
         self.ensure_one()
         if self.sale_order_id :

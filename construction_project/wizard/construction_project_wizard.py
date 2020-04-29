@@ -33,7 +33,6 @@ _logger = logging.getLogger(__name__)
 #     order_line_ids = fields.One2many('sale.order.line', 'forecast_month_id', string='Lines')
 #     forecast_month_id = fields.Many2one('sale.order.line.forecast_month', string='Assigned to Month')
     
-#     @api.multi
 #     def action_confirm(self):
 #         self.ensure_one()
 #         self.order_line_ids.write({

@@ -48,7 +48,6 @@ class SaleOrder(models.Model):
         if self.building_asset_id :
             self.is_vefa = self.building_asset_id.is_vefa
     
-    @api.multi
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         invoice_vals['is_vefa'] = self.is_vefa
