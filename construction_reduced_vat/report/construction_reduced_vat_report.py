@@ -52,7 +52,7 @@ class ReducedVATAgreementReport(models.Model):
     
     def init(self):
         # self._table = construction_reduced_vat_agreement_report
-        with self.registry.cursor() as cr:
+        with self._cr as cr:
             tools.drop_view_if_exists(cr, self._table)
             cr.execute("""CREATE or REPLACE VIEW %s as (
                 SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
