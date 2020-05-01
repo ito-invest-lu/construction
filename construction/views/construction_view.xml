@@ -50,8 +50,8 @@
                                     <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />
                                 </div>
                             </div>
-                            <field name="supplier" invisible="True" />
-                            <field name="customer" invisible="True" />
+                            <!--<field name="supplier" invisible="True" />
+                            <field name="customer" invisible="True" />-->
                             <field name="lang" invisible="True" />
                             <field name="type" invisible="True" />
                         </group>
@@ -115,7 +115,6 @@
                                 <field name="type" />
                                 <field name="state"/>
                                 <field name="analytic_account"/>
-                                <field name="confirmed_lead_id" />
                                 <field name="company_id"/>
                             </group>
                             <group col="2">
