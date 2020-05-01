@@ -36,6 +36,6 @@ Accounting \ Bank and Cash \ Bank Statements.
     'data': ['views/account_bank_statement_import_mt940_view.xml'],
     'depends': ['account_bank_statement_import'],
     'demo': [],
-    'auto_install': True,
-    'installable': True,
+    'auto_install': False,
+    'installable': False,
 }

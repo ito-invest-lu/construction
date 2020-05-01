@@ -16,7 +16,7 @@
         'views/construction_forecast_view.xml',
         'wizard/construction_forecast_wizard.xml',
     ],
-    'installable': True,
-    'active': True,
+    'installable': False,
+    'active': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
