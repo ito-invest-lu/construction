@@ -55,9 +55,9 @@ class ReducedVATAgreementReport(models.Model):
         with self._cr as cr:
             tools.drop_view_if_exists(cr, self._table)
             cr.execute("""CREATE or REPLACE VIEW %s as (
-                SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date_invoice as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
-                , to_char(date_trunc('quarter', current_date)::date - 1, 'yyyy-q') = to_char(inv.date_invoice, 'yyyy-q') as last_quarter
-                , to_char(current_date, 'yyyy-q') = to_char(inv.date_invoice, 'yyyy-q') as current_quarter            
+                SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date as date, inv.move_name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
+                , to_char(date_trunc('quarter', current_date)::date - 1, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as last_quarter
+                , to_char(current_date, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as current_quarter            
                 , agg.active
                 , inv.partner_id
                 FROM account_move inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, res_partner s_addr
