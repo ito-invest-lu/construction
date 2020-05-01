@@ -50,7 +50,6 @@ class ReducedVATAgreementReport(models.Model):
     active = fields.Boolean('Active')
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True)
     
-    @api.model_cr
     def init(self):
         # self._table = construction_reduced_vat_agreement_report
         with self.registry.cursor() as cr:
