@@ -20,7 +20,7 @@
 #
 ##############################################################################
 -->
-<openerp>
+<odoo>
     <data>
         
         <!-- Top menu item -->
@@ -250,7 +250,7 @@
         <record id="invoice_form_construction" model="ir.ui.view">
             <field name="name">account.move.form.construction</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.move.form" />
+            <field name="inherit_id" ref="account.view_move_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_invoice']" position="after">
@@ -321,4 +321,4 @@
         </template>
         
     </data>
-</openerp>
+</odoo>
