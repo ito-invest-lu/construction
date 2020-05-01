@@ -45,11 +45,11 @@
             <field name="arch" type="xml">
                 <form string="Reduced VAT Agreement">
                     <header>
-                        <button name="action_request" type="object" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
-                        <button name="action_approve" type="object" states="draft,requested" string="Approve" groups="account.group_account_invoice"/>
-                        <button name="action_reject" type="object" states="requested" string="Reject" groups="account.group_account_invoice"/>
-                        <button name="action_draft" type="object" states="requested,approved,rejected,archived" string="Reset to Draft" groups="account.group_account_invoice"/>
-                        <button name="action_archive" type="object" states="draft,requested,approved,rejected" string="Archive" groups="account.group_account_invoice"/>
+                        <button name="action_request" type="object" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_move"/>
+                        <button name="action_approve" type="object" states="draft,requested" string="Approve" groups="account.group_account_move"/>
+                        <button name="action_reject" type="object" states="requested" string="Reject" groups="account.group_account_move"/>
+                        <button name="action_draft" type="object" states="requested,approved,rejected,archived" string="Reset to Draft" groups="account.group_account_move"/>
+                        <button name="action_archive" type="object" states="draft,requested,approved,rejected" string="Archive" groups="account.group_account_move"/>
                         <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,requested,approved,rejected" />
                     </header>
                     <sheet>
@@ -99,9 +99,9 @@
         
         <!-- Add link Invoice form view -->
         <record id="invoice_form_reduced_vat_agreement" model="ir.ui.view">
-            <field name="name">account.invoice.form.reduced_vat_agreement</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="name">account.move.form.reduced_vat_agreement</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.move_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_invoice']" position="after">

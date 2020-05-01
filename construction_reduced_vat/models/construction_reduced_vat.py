@@ -79,12 +79,12 @@ class ReducedVATAgreement(models.Model):
             if rec.agreement_total_amount > 357142.86 :
                 raise ValidationError("The total amount shall not exeed 357.142,86€ (ie 50.000€ of VAT reduction).")
     
-    invoice_ids = fields.One2many('account.invoice','reduced_vat_agreement_id',string="Invoices")
+    invoice_ids = fields.One2many('account.move','reduced_vat_agreement_id',string="Invoices")
     agreement_remaining_amount = fields.Monetary(string="Remaining Amount", compute="_compute_remaining_amount", currency_field='company_currency_id', store=True)
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string="Company Currency", readonly=True)
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
-        default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
+        default=lambda self: self.env['res.company']._company_default_get('account.move'))
     
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed','invoice_ids.state')
     def _compute_remaining_amount(self):
@@ -114,7 +114,7 @@ class SaleOrder(models.Model):
     
 class AccountInvoice(models.Model):
     '''Invoice'''
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
     
     reduced_vat_agreement_id = fields.Many2one('construction.reduced_vat_agreement', string='Reduced VAT Agreement', readonly=True, states={'draft': [('readonly', False)]})
     

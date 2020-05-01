@@ -90,7 +90,7 @@ class BuildingAsset(models.Model):
             rec.all_tags = rec.sale_order_ids.filtered(lambda o: o.state == 'sale').mapped('construction_tag_ids')
             rec.missing_tags = rec.env['sale.order.tag'].search([]) - rec.all_tags
 
-    invoice_ids = fields.One2many('account.invoice','building_asset_id', string="Invoices", readonly=True)
+    invoice_ids = fields.One2many('account.move','building_asset_id', string="Invoices", readonly=True)
 
 class SaleOrder(models.Model):
     '''Sale Order'''
@@ -233,7 +233,7 @@ class CrmLean(models.Model):
 
 class Invoice(models.Model):
     '''Invoice'''
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
 

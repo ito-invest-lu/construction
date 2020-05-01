@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 
 class Invoice(models.Model):
     '''Invoice'''
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
     
     
         

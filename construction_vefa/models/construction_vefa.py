@@ -55,7 +55,7 @@ class SaleOrder(models.Model):
 
 class Invoice(models.Model):
     '''Invoice'''
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
     
     is_vefa =fields.Boolean(string="Is VEFA")
     is_asset_vefa = fields.Boolean(related="building_asset_id.is_vefa")
