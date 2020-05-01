@@ -144,7 +144,7 @@
                                         <field name="id"/>
                                         <field name="date"/>
                                         <field name="amount_untaxed_signed" string="Untaxed" sum="Untaxed"/>
-                                        <field name="residual"  string="Due" sum="Total Due"/>
+                                        <field name="amount_residual_signed"  string="Due" sum="Total Due"/>
                                         <field name="state"/>
                                     </tree>
                                 </field>
