@@ -92,7 +92,7 @@
         
         <record id="building_asset_view" model="ir.ui.view">
             <field name="name">Building Asset Form</field>
-            <field name="model">construction.building_asset</fielgd>
+            <field name="model">construction.building_asset</field>
             <field name="arch" type="xml">
                 <form string="Building Asset">
                     <sheet>
