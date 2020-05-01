@@ -32,7 +32,7 @@
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['sale','crm'],
+    'depends': ['sale','crm','sale_crm'],
     'init_xml': [],
     'data': [
         'data/construction_tags_data.xml',
