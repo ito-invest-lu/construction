@@ -37,7 +37,6 @@ class BuildingAsset(models.Model):
             self.create_project()
         return {
             'name': 'Project',
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'project.project',
             'type': 'ir.actions.act_window',

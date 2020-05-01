@@ -45,7 +45,6 @@
         <field name="name">Generate Sale Order</field>
         <field name="res_model">construction.sale_wizard</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="construction_sale_wizard_view" />
         <field name="context">{}</field>

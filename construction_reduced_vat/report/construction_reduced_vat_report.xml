@@ -34,7 +34,6 @@
         <record id="open_view_reduced_vat_agreement_report" model="ir.actions.act_window">
             <field name="name">Reduced VAT Agreements Report</field>
             <field name="res_model">construction.reduced_vat_agreement_report</field>
-            <field name="view_type">form</field>
             <field name="domain">[]</field>
             <field name="view_mode">list</field>
             <field name="search_view_id" ref="construction_reduced_vat.reduced_vat_agreement_report_filter"/>

@@ -94,5 +94,4 @@ class ConstructionSaleWizard(models.TransientModel):
             'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
-            'view_type': 'form',
         }
