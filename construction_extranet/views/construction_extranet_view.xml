@@ -98,7 +98,7 @@
                         <tr t-foreach="open_invoice_ids" t-as="invoice">
                           <th scope="row"><span t-field="invoice.name"/></th>
                           <td><span t-field="invoice.partner_id"/></td>
-                          <td><span t-field="invoice.date_invoice"/></td>
+                          <td><span t-field="invoice.date"/></td>
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.residual"/></td>
                         </tr>
@@ -128,7 +128,7 @@
                         <tr t-foreach="paid_invoice_ids" t-as="invoice">
                           <th scope="row"><span t-field="invoice.name"/></th>
                           <td><span t-field="invoice.partner_id"/></td>
-                          <td><span t-field="invoice.date_invoice"/></td>
+                          <td><span t-field="invoice.date"/></td>
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.residual"/></td>
                         </tr>
