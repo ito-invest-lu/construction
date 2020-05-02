@@ -54,7 +54,7 @@ class SaleOrderTemplateLine(models.Model):
     _name = 'construction.sale_order_template.line'
     _description = 'Sale Order Template Line'
     
-    _order = 'sale_order_template_id, layout_category_id, sequence, id'
+    _order = 'sale_order_template_id, sequence, id'
     
     sale_order_template_id = fields.Many2one('construction.sale_order_template')
     name = fields.Text(string='Description', required=True)
@@ -65,9 +65,6 @@ class SaleOrderTemplateLine(models.Model):
     
     product_uom_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1.0)
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
-    
-    #layout_category_id = fields.Many2one('sale.layout_category', string='Section')
-    #layout_category_sequence = fields.Integer(related='layout_category_id.sequence', string='Layout Sequence', store=True)
     
     company_id = fields.Many2one(related='sale_order_template_id.company_id', string='Company', store=True, readonly=True)
     
