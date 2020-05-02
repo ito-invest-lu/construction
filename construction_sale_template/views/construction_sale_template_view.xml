@@ -58,7 +58,7 @@
                                     <field name="product_id"
                                         context="{'quantity':product_uom_qty, 'uom':product_uom, 'company_id': parent.company_id}"
                                        />
-                                    <field name="layout_category_id" groups="sale.group_sale_layout"/>
+                                    <!--<field name="layout_category_id" groups="sale.group_sale_layout"/>-->
                                     <field name="name"/>
                                     <field name="product_uom" invisible="1"/>
                                     <field name="product_uom_qty"
