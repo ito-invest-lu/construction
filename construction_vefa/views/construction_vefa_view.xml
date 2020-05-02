@@ -30,8 +30,8 @@
             <field name="inherit_id" ref="construction.building_asset_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='confirmed_lead_id']" position="after">
-                    <field name="is_vefa"/>
-                    <field name="vefa_bank_account_id" attrs="{'required':[('is_vefa','=',True)],'invisible': [('is_vefa', '=', False)]}"/>
+                    <!--<field name="is_vefa"/>
+                    <field name="vefa_bank_account_id" attrs="{'required':[('is_vefa','=',True)],'invisible': [('is_vefa', '=', False)]}"/>-->
                 </xpath>
             </field>
         </record>
