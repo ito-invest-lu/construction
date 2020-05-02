@@ -89,16 +89,16 @@
                                               <t t-foreach="line.invoice_lines.mapped('invoice_id')" t-as="invoice">
                                                 <t t-if="not invoice_first">, </t>
                                                 <t t-if="invoice.state == 'draft'">
-                                                  <span style="color:blue" t-field="invoice.number"/>
+                                                  <span style="color:blue" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'open'">
-                                                  <span style="color:orange" t-field="invoice.number"/>
+                                                  <span style="color:orange" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'paid'">
-                                                  <span style="color:green" t-field="invoice.number"/>
+                                                  <span style="color:green" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'cancel'">
-                                                  <i style="color:grey" t-field="invoice.number"/>
+                                                  <i style="color:grey" t-field="invoice.name"/>
                                                 </t>
                                               </t>
                                           </td>
@@ -166,16 +166,16 @@
                                               <t t-foreach="order.invoice_ids" t-as="invoice">
                                                 <t t-if="not invoice_first">, </t>
                                                 <t t-if="invoice.state == 'draft'">
-                                                  <span style="color:blue" t-field="invoice.number"/>
+                                                  <span style="color:blue" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'open'">
-                                                  <span style="color:orange" t-field="invoice.number"/>
+                                                  <span style="color:orange" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'paid'">
-                                                  <span style="color:green" t-field="invoice.number"/>
+                                                  <span style="color:green" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'cancel'">
-                                                  <i style="color:grey" t-field="invoice.number"/>
+                                                  <i style="color:grey" t-field="invoice.name"/>
                                                 </t>
                                               </t>
                                           </td>
