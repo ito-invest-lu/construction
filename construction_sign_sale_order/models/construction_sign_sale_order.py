@@ -34,8 +34,8 @@ class SignRequest(models.Model):
     sale_order_id = fields.Many2one(related='template_id.sale_order_id', readonly=True)
 
 class SignTemplate(models.Model):
-    _name = 'signature.template'
-    _inherit = ['signature.template']
+    _name = 'signature.request.template'
+    _inherit = ['signature.request.template']
 
     sale_order_id = fields.Many2one('sale.order', 'Signed Sale Order')
 
@@ -64,13 +64,14 @@ class SaleOrder(models.Model):
             'name': this.name + '-' + this.partner_id.name,
             'attachment_id': self.upload_order_details.id,
             'favorited_ids': [(4, self.env.user.id)],
+            'sale_order_id' : self.id,
         }
 
-        new_obj = self.env['signature.template'].create(create_values)
+        new_obj = self.env['signature.request.template'].create(create_values)
         
         action = {
             'type': 'ir.actions.act_window',
-            'res_model': 'signature.template',
+            'res_model': 'signature.request.template',
             'name': _("New templates"),
             'view_id': False,
             'view_mode': 'form',
