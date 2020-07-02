@@ -28,14 +28,14 @@ import odoo.addons.decimal_precision as dp
 _logger = logging.getLogger(__name__)
 
 class SignRequest(models.Model):
-    _name = 'sign.request'
-    _inherit = ['sign.request', 'documents.mixin']
+    _name = 'website_sign.request'
+    _inherit = ['website_sign.request', 'documents.mixin']
 
     sale_order_id = fields.Many2one(related='template_id.sale_order_id', readonly=True)
 
 class SignTemplate(models.Model):
-    _name = 'sign.template'
-    _inherit = ['sign.template', 'documents.mixin']
+    _name = 'website_sign.template'
+    _inherit = ['website_sign.template', 'documents.mixin']
 
     sale_order_id = fields.Many2one('sale.order', 'Signed Sale Order')
 
