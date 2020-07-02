@@ -10,7 +10,7 @@
     """,
     "author": "be-cloud.be (Jerome Sonnet)",
     "website": "http://www.be-cloud.be",
-    'depends': ['construction','website_sign'],
+    'depends': ['construction','document','website_sign'],
     'init_xml': [],
     'data': [
         'views/construction_sign_sale_order.xml',
