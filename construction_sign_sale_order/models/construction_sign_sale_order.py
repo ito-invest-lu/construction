@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
     upload_order_details = fields.Binary(string="Upload Order Details", attachment=True)
     order_details_file_name = fields.Char(string="Order Details File Name")
     
-    order_details_sign_request_ids = fields.One2many('sign.request', 'sale_order_id', string="Sign requests")
+    order_details_sign_request_ids = fields.One2many('website_sign.request', 'sale_order_id', string="Sign requests")
     order_details_sign_request_count = fields.Integer(compute='_compute_sign_request_count', string='Sign requests Count')
     
     @api.depends('order_details_sign_request_ids')
@@ -66,11 +66,11 @@ class SaleOrder(models.Model):
             'favorited_ids': [(4, self.env.user.id)],
         }
 
-        new_obj = self.env['sign.template'].create(create_values)
+        new_obj = self.env['website_sign.template'].create(create_values)
         
         action = {
             'type': 'ir.actions.act_window',
-            'res_model': 'sign.template',
+            'res_model': 'website_sign.template',
             'name': _("New templates"),
             'view_id': False,
             'view_mode': 'form',
