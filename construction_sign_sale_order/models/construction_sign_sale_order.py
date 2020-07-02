@@ -57,7 +57,7 @@ class SaleOrder(models.Model):
     @api.multi
     def sign_sale_order_details(self):
         
-        if not upload_order_details :
+        if not self.upload_order_details :
             raise UserError('Vous devez d''abords uploader le détail du devis')
         
         create_values = {
