@@ -36,7 +36,7 @@
                     <field name="order_details_file_name" invisible="1"/>
               </xpath>
               <xpath expr="//field[@name='state']" position="before">
-                  <button name="sign_sale_order_details" string="Sign Order" type="object" states="sent,sale"/>
+                  <button name="sign_sale_order_details" string="Sign Order" type="object" states="draft,sent"/>
               </xpath>
           </field>
       </record>
