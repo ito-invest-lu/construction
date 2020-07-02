@@ -27,17 +27,17 @@ import odoo.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
-# class SignRequest(models.Model):
-#     _name = 'signature.request'
-#     _inherit = ['signature.request', 'documents.mixin']
+class SignRequest(models.Model):
+    _name = 'signature.request'
+    _inherit = ['signature.request']
 
-#     sale_order_id = fields.Many2one(related='template_id.sale_order_id', readonly=True)
+    sale_order_id = fields.Many2one(related='template_id.sale_order_id', readonly=True)
 
-# class SignTemplate(models.Model):
-#     _name = 'signature.template'
-#     _inherit = ['signature.template', 'documents.mixin']
+class SignTemplate(models.Model):
+    _name = 'signature.template'
+    _inherit = ['signature.template']
 
-#     sale_order_id = fields.Many2one('sale.order', 'Signed Sale Order')
+    sale_order_id = fields.Many2one('sale.order', 'Signed Sale Order')
 
 class SaleOrder(models.Model):
     '''Sale Order'''
@@ -46,13 +46,13 @@ class SaleOrder(models.Model):
     upload_order_details = fields.Binary(string="Upload Order Details", attachment=True)
     order_details_file_name = fields.Char(string="Order Details File Name")
     
-    # order_details_sign_request_ids = fields.One2many('signature.request', 'sale_order_id', string="Sign requests")
-    # order_details_sign_request_count = fields.Integer(compute='_compute_sign_request_count', string='Sign requests Count')
+    order_details_sign_request_ids = fields.One2many('signature.request', 'sale_order_id', string="Sign requests")
+    order_details_sign_request_count = fields.Integer(compute='_compute_sign_request_count', string='Sign requests Count')
     
-    # @api.depends('order_details_sign_request_ids')
-    # def _compute_sign_request_count(self):
-    #     for so in self:
-    #         so.order_details_sign_request_count = len(so.order_details_sign_request_ids)
+    @api.depends('order_details_sign_request_ids')
+    def _compute_sign_request_count(self):
+        for so in self:
+            so.order_details_sign_request_count = len(so.order_details_sign_request_ids)
     
     @api.multi
     def sign_sale_order_details(self):
