@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
             raise UserError('Vous devez d''abords uploader le détail du devis')
         
         create_values = {
-            'name': this.name + '-' + this.partner_id.name,
+            'name': self.name + '-' + self.partner_id.name,
             'attachment_id': self.upload_order_details.id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
