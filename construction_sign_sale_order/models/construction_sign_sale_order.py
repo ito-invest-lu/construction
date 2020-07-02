@@ -28,14 +28,14 @@ import odoo.addons.decimal_precision as dp
 _logger = logging.getLogger(__name__)
 
 class SignRequest(models.Model):
-    _name = 'website_sign.request'
-    _inherit = ['website_sign.request', 'documents.mixin']
+    _name = 'signature.request'
+    _inherit = ['signature.request', 'documents.mixin']
 
     sale_order_id = fields.Many2one(related='template_id.sale_order_id', readonly=True)
 
 class SignTemplate(models.Model):
-    _name = 'website_sign.template'
-    _inherit = ['website_sign.template', 'documents.mixin']
+    _name = 'signature.template'
+    _inherit = ['signature.template', 'documents.mixin']
 
     sale_order_id = fields.Many2one('sale.order', 'Signed Sale Order')
 
@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
     upload_order_details = fields.Binary(string="Upload Order Details", attachment=True)
     order_details_file_name = fields.Char(string="Order Details File Name")
     
-    order_details_sign_request_ids = fields.One2many('website_sign.request', 'sale_order_id', string="Sign requests")
+    order_details_sign_request_ids = fields.One2many('signature.request', 'sale_order_id', string="Sign requests")
     order_details_sign_request_count = fields.Integer(compute='_compute_sign_request_count', string='Sign requests Count')
     
     @api.depends('order_details_sign_request_ids')
@@ -66,11 +66,11 @@ class SaleOrder(models.Model):
             'favorited_ids': [(4, self.env.user.id)],
         }
 
-        new_obj = self.env['website_sign.template'].create(create_values)
+        new_obj = self.env['signature.template'].create(create_values)
         
         action = {
             'type': 'ir.actions.act_window',
-            'res_model': 'website_sign.template',
+            'res_model': 'signature.template',
             'name': _("New templates"),
             'view_id': False,
             'view_mode': 'form',
