@@ -31,8 +31,11 @@
           <field eval="10" name="priority" />
           <field name="arch" type="xml">
               <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <separator/>
                     <field name="upload_order_details" filename="order_details_file_name"/>
                     <field name="order_details_file_name" invisible="1"/>
+                    <field name="upload_signed_order_details" filename="order_signed_details_file_name"/>
+                    <field name="order_signed_details_file_name" invisible="1"/>
               </xpath>
           </field>
       </record>
