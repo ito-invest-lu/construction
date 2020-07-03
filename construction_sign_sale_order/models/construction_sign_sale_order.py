@@ -106,7 +106,7 @@ class SaleOrder(models.Model):
                 create_signature_items_value.append(
                     (0,_,{
                         'name'      : "initiales",
-                        'page'      : p,
+                        'page'      : p+1,
                         'height'    : 0.030,
                         'width'     : 0.085,
                         'posX'      : 0.895,
