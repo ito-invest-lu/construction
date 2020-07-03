@@ -87,7 +87,7 @@ class SaleOrder(models.Model):
         }]
 
         create_values = {
-            'attachment_id': attachments[0].id,
+            'attachment_id': attachment[0].id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
             'signature_item_ids' : (0,0,create_signature_items_value),
