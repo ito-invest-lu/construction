@@ -75,7 +75,7 @@ class SaleOrder(models.Model):
             'posY'      : 0.881,
             'type_id'   : 'website_sign.signature_item_type_signature',
             'required'  : True,
-        ,{
+        },{
             'name'      : "date",
             'page'      : 1,
             'height'    : 0.015,
