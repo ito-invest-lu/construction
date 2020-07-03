@@ -143,7 +143,7 @@ class SaleOrder(models.Model):
             return {
                 "type": "ir.actions.act_window",
                 "res_model": "signature.request",
-                "views": [[self.env.ref('signature.request.kanban').id, "kanban"], [False, "tree"]],
+                "views": [[self.env.ref('website_sign.signature_request_view_kanban').id, "kanban"], [False, "tree"]],
                 'view_mode': 'kanban,tree',
                 "domain": [('id','in',self.order_details_sign_request_ids.ids)],
                 "name": "Sale Order Signature Requests",
