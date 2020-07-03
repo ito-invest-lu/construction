@@ -60,25 +60,46 @@ class SaleOrder(models.Model):
         if not self.upload_order_details :
             raise UserError('Vous devez d''abords uploader le détail du devis')
         
-        attachments = self.env["ir.attachment"].search([('res_model', '=', 'sale.order'), ('res_field', '=', 'upload_order_details'), ('res_id', '=', self.id)])
+        attachment = self.env["ir.attachment"].search([('res_model', '=', 'sale.order'), ('res_field', '=', 'upload_order_details'), ('res_id', '=', self.id)])
+
+        # Fix attachment name as it is the template name
+        attachment.write({'name' : self.name + '-' + self.partner_id.name })
         
+        
+        create_signature_items_value = [{
+            'name'      : "signature",
+            'page'      : 1,
+            'height'    : 0.05,
+            'width'     : 0.2,
+            'posX'      : 0.288,
+            'posY'      : 0.881,
+            'type_id'   : 'website_sign.signature_item_type_signature',
+            'required'  : True,
+        ,{
+            'name'      : "date",
+            'page'      : 1,
+            'height'    : 0.015,
+            'width'     : 0.15,
+            'posX'      : 0.288,
+            'posY'      : 0.854,
+            'type_id'   : 'website_sign.signature_item_type_date',
+            'required'  : True,
+        }]
+
         create_values = {
-            'name': self.name + '-' + self.partner_id.name,
             'attachment_id': attachments[0].id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
+            'signature_item_ids' : (0,0,create_signature_items_value),
         }
 
         new_obj = self.env['signature.request.template'].create(create_values)
         
-        action = {
-            'type': 'ir.actions.act_window',
-            'res_model': 'signature.request.template',
-            'name': _("New templates"),
-            'view_id': False,
-            'view_mode': 'form',
-            'views': [(False, "kanban"), (False, "form")],
-            'domain': [('id', '=', new_obj.id)],
-            'context': self._context,
+        return {
+            'name': "Template \"%(name)s\"" % {'name': attachment.name},
+            'type': 'ir.actions.client',
+            'tag': 'website_sign.Template',
+            'context': {
+                'id': new_obj.id,
+            },
         }
-        
