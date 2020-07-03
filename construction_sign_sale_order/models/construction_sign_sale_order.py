@@ -74,6 +74,7 @@ class SaleOrder(models.Model):
             'posY'      : 0.881,
             'type_id'   : self.env.ref('website_sign.signature_item_type_signature').id,
             'required'  : True,
+            'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,:
         },{
             'name'      : "date",
             'page'      : 1,
@@ -83,6 +84,7 @@ class SaleOrder(models.Model):
             'posY'      : 0.854,
             'type_id'   : self.env.ref('website_sign.signature_item_type_date').id,
             'required'  : True,
+            'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,
         }]
 
         create_values = {
