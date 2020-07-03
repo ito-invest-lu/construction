@@ -90,7 +90,7 @@ class SaleOrder(models.Model):
             'attachment_id': attachment[0].id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
-            'signature_item_ids' : (0,0,create_signature_items_value),
+            'signature_item_ids' : [(0,0,create_signature_items_value)],
         }
 
         new_obj = self.env['signature.request.template'].create(create_values)
