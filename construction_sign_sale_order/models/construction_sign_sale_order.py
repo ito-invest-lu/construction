@@ -79,7 +79,7 @@ class SaleOrder(models.Model):
         
         pages = self._count_pages_pdf(base64.b64decode(attachment.datas))
         
-        create_signature_items_value = [{
+        create_signature_items_value = [(0,_,{
             'name'      : "signature",
             'page'      : pages,
             'height'    : 0.05,
@@ -89,7 +89,7 @@ class SaleOrder(models.Model):
             'type_id'   : self.env.ref('website_sign.signature_item_type_signature').id,
             'required'  : True,
             'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,
-        },{
+        }),(0,_,{
             'name'      : "date",
             'page'      : pages,
             'height'    : 0.015,
@@ -99,13 +99,29 @@ class SaleOrder(models.Model):
             'type_id'   : self.env.ref('website_sign.signature_item_type_date').id,
             'required'  : True,
             'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,
-        }]
+        })]
+        
+        if pages > 1 :
+            for p in range(pages-1):
+                create_signature_items_value.append(
+                    (0,_,{
+                        'name'      : "initiales",
+                        'page'      : p,
+                        'height'    : 0.030,
+                        'width'     : 0.085,
+                        'posX'      : 0.895,
+                        'posY'      : 0.939,
+                        'type_id'   : self.env.ref('website_sign.signature_item_type_initial').id,
+                        'required'  : True,
+                        'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,
+                    })
+                )
 
         create_values = {
             'attachment_id': attachment[0].id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
-            'signature_item_ids' : [(0,_,create_signature_items_value[0]),(0,_,create_signature_items_value[1])],
+            'signature_item_ids' : create_signature_items_value,
         }
 
         new_obj = self.env['signature.request.template'].create(create_values)
