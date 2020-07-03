@@ -65,7 +65,6 @@ class SaleOrder(models.Model):
         # Fix attachment name as it is the template name
         attachment.write({'name' : self.name + '-' + self.partner_id.name })
         
-        
         create_signature_items_value = [{
             'name'      : "signature",
             'page'      : 1,
@@ -73,7 +72,7 @@ class SaleOrder(models.Model):
             'width'     : 0.2,
             'posX'      : 0.288,
             'posY'      : 0.881,
-            'type_id'   : 'website_sign.signature_item_type_signature',
+            'type_id'   : self.env.ref('website_sign.signature_item_type_signature').id,
             'required'  : True,
         },{
             'name'      : "date",
@@ -82,11 +81,9 @@ class SaleOrder(models.Model):
             'width'     : 0.15,
             'posX'      : 0.288,
             'posY'      : 0.854,
-            'type_id'   : 'website_sign.signature_item_type_date',
+            'type_id'   : self.env.ref('website_sign.signature_item_type_date').id,
             'required'  : True,
         }]
-
-        #new_items = self.env['signature.item'].create(create_signature_items_value)
 
         create_values = {
             'attachment_id': attachment[0].id,
