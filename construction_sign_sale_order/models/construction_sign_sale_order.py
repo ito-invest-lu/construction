@@ -60,9 +60,11 @@ class SaleOrder(models.Model):
         if not self.upload_order_details :
             raise UserError('Vous devez d''abords uploader le détail du devis')
         
+        attachments = self.env["ir.attachment"].search([('res_model', '=', 'sale.order'), ('res_field', '=', 'upload_order_details'), ('res_id', '=', self.id)])
+        
         create_values = {
             'name': self.name + '-' + self.partner_id.name,
-            'attachment_id': self.upload_order_details.id,
+            'attachment_id': attachments[0].id,
             'favorited_ids': [(4, self.env.user.id)],
             'sale_order_id' : self.id,
         }
