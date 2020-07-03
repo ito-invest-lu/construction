@@ -74,8 +74,11 @@ class SaleOrder(models.Model):
         
         attachment = self.env["ir.attachment"].search([('res_model', '=', 'sale.order'), ('res_field', '=', 'upload_order_details'), ('res_id', '=', self.id)])
 
-        # Fix attachment name as it is the template name
-        attachment.write({'name' : self.name + '-' + self.partner_id.name })
+        # Fix attachment name and datas_fname for signature
+        attachment.write({
+            'name' : self.name + '-' + self.partner_id.name ,
+            'datas_fname': self.order_details_file_name
+        })
         
         pages = self._count_pages_pdf(base64.b64decode(attachment.datas))
         
