@@ -38,6 +38,15 @@
               <xpath expr="//field[@name='state']" position="before">
                   <button name="sign_sale_order_details" string="Sign Order" type="object" states="draft,sent"/>
               </xpath>
+              <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_signed_order"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('order_details_sign_request_count', '=', 0)]}">
+                        <field name="order_details_sign_request_count" widget="statinfo" string="Signatures"/>
+                    </button>
+              </xpath>  
           </field>
       </record>
         
