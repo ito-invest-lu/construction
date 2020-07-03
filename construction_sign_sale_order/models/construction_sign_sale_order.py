@@ -81,7 +81,7 @@ class SaleOrder(models.Model):
         
         create_signature_items_value = [{
             'name'      : "signature",
-            'page'      : 1,
+            'page'      : pages,
             'height'    : 0.05,
             'width'     : 0.2,
             'posX'      : 0.288,
@@ -91,7 +91,7 @@ class SaleOrder(models.Model):
             'responsible_id' : self.env.ref('website_sign.signature_item_party_customer').id,
         },{
             'name'      : "date",
-            'page'      : 1,
+            'page'      : pages,
             'height'    : 0.015,
             'width'     : 0.15,
             'posX'      : 0.288,
