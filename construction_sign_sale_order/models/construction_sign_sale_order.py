@@ -20,6 +20,9 @@
 ##############################################################################
 import logging
 
+import re
+import base64
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -54,6 +57,15 @@ class SaleOrder(models.Model):
         for so in self:
             so.order_details_sign_request_count = len(so.order_details_sign_request_ids)
     
+    def _count_pages_pdf(self, bin_pdf):
+        """ Count the number of pages of the given pdf file.
+            :param bin_pdf : binary content of the pdf file
+        """
+        pages = 0
+        for match in re.compile(b"/Count\s+(\d+)").finditer(bin_pdf):
+            pages = int(match.group(1))
+        return pages
+    
     @api.multi
     def sign_sale_order_details(self):
         
@@ -64,6 +76,8 @@ class SaleOrder(models.Model):
 
         # Fix attachment name as it is the template name
         attachment.write({'name' : self.name + '-' + self.partner_id.name })
+        
+        pages = self._count_pages_pdf(base64.b64decode(attachment.datas))
         
         create_signature_items_value = [{
             'name'      : "signature",
