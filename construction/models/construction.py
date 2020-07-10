@@ -111,12 +111,6 @@ class SaleOrder(models.Model):
         else :
             self.so_summary = 'voir détails...'
 
-    # @api.constrains('is_main_order')
-    # def _check_parent_id(self):
-    #     main_order_count = self.env['sale.order'].search_count([('building_asset_id','=',self.building_asset_id.id),('is_main_order','=','true')])
-    #     if main_order_count > 1 :
-    #         raise ValidationError(_('Error ! You cannot have mutiple main order for an asset.'))
-
     @api.onchange('state')
     def update_asset_state(self):
         if self.state == 'sent':
@@ -182,41 +176,13 @@ class SaleOrderLine(models.Model):
 
     building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', related="order_id.building_asset_id", store=True)
 
-    # is_next_candidate = fields.Boolean(compute='_compute_is_next_candidate',search='_search_next_candidate')
+    qty_to_deliver = fields.Float(compute='_compute_qty_to_deliver',store=True, readonly=True)
 
-    # @api.depends('order_id.order_line.qty_delivered','order_id.order_line.product_uom_qty')
-    # def _compute_is_next_candidate(self):
-    #     for line in self:
-    #         if line.qty_delivered == line.product_uom_qty :
-    #             line.is_next_candidate = False
-    #         else :
-    #             previous_line = self.env['sale.order.line'].search([
-    #                 ('order_id', '=', line.order_id.id),
-    #                 ('sequence', '<', line.sequence)
-    #                 ], limit=1, order='sequence desc')
-    #             if previous_line:
-    #                 if previous_line.qty_delivered == line.product_uom_qty :
-    #                     line.is_next_candidate = True
-    #                 else :
-    #                     line.is_next_candidate = False
-
-    # def _search_next_candidate(self, operator, value):
-    #     res = []
-    #     assert operator in ('=', '!=', '<>') and value in (True, False), 'Operation not supported'
-    #     if (operator == '=' and value is True) or (operator in ('<>', '!=') and value is False):
-    #         search_operator = 'in'
-    #     else:
-    #         search_operator = 'not in'
-    #     self.env.cr.execute("""SELECT id FROM
-    #                             (SELECT
-    #                                 (select id from sale_order_line where order_id = so.id AND qty_delivered = 0 AND qty_invoiced = 0 ORDER BY sequence ASC LIMIT 1) AS id
-    #                                 FROM sale_order so WHERE so.state = 'sale'
-    #                             )
-    #                             out WHERE out.id IS NOT NULL;""")
-    #     res_ids = [x[0] for x in self.env.cr.fetchall()]
-    #     res.append(('id', search_operator, res_ids))
-    #     return res
-
+    @api.depends('product_id', 'product_uom_qty', 'qty_delivered', 'state')
+    def _compute_qty_to_deliver(self):
+        """Compute the visibility of the inventory widget."""
+        for line in self:
+            line.qty_to_deliver = line.product_uom_qty - line.qty_delivered
 
     @api.multi
     def action_deliver_line(self):
