@@ -69,7 +69,7 @@ class ReducedVATAgreement(models.Model):
     @api.depends('agreement_code','partner_id.name')
     def _compute_name(self):
         for rec in self :
-            rec.name = "%s - %s" % (v.agreement_code, rec.partner_id.name)
+            rec.name = "%s - %s" % (rec.agreement_code, rec.partner_id.name)
     
     agreement_total_amount = fields.Monetary(string="Total Amount", currency_field='company_currency_id', track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]})
     
