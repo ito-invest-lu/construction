@@ -89,12 +89,15 @@ class ReducedVATAgreement(models.Model):
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed','invoice_ids.state')
     def _compute_remaining_amount(self):
         for rec in self:
+            _logger.info('_compute_remaining_amount')
             used_amount = 0
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
             for invoice in rec.invoice_ids:
+                _logger.info('invoice %s' invoice.name)
                 if invoice.state in ('open','in_payment','paid') :
                     for line in invoice.invoice_line_ids:
+                        _logger.info('invoice line %s' invoice.name)
                         if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
                             used_amount += line.balance
             rec.agreement_remaining_amount = rec.agreement_total_amount - used_amount
@@ -131,8 +134,8 @@ class AccountInvoice(models.Model):
                     if not line.invoice_line_tax_ids:
                         raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
                     if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
-                        new_amount += line.price_subtotal_signed
                         has_line_at_3 = True
+                        break
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < 0 :
                     raise Warning(_('Reduced vat agreement maximum value exceeded !!'))
                 if not has_line_at_3:
