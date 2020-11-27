@@ -88,8 +88,8 @@ class ReducedVATAgreement(models.Model):
     
     @api.depends('agreement_total_amount','invoice_ids.amount_untaxed','invoice_ids.state')
     def _compute_remaining_amount(self):
+        _logger.info('_compute_remaining_amount')
         for rec in self:
-            _logger.info('_compute_remaining_amount')
             used_amount = 0
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
