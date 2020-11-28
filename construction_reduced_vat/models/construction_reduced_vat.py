@@ -94,7 +94,7 @@ class ReducedVATAgreement(models.Model):
             tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
             tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
             for invoice in rec.invoice_ids:
-                _logger.info('invoice %s' invoice.name)
+                _logger.info('invoice %s' % invoice.name)
                 if invoice.state in ('open','in_payment','paid') :
                     for line in invoice.invoice_line_ids:
                         _logger.info('invoice line %s' % invoice.name)
