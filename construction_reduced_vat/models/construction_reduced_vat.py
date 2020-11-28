@@ -99,7 +99,7 @@ class ReducedVATAgreement(models.Model):
                     for line in invoice.invoice_line_ids:
                         _logger.info('invoice line %s' % invoice.name)
                         if tax_3 in line.tax_ids or tax_3_b in line.tax_ids:
-                            used_amount += line.balance
+                            used_amount -= line.balance
             rec.agreement_remaining_amount = rec.agreement_total_amount - used_amount
 
 class SaleOrder(models.Model):
