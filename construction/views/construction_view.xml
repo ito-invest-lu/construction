@@ -239,7 +239,7 @@
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='confirmation_date']" position="after">
-                    <field name='building_asset_id' options="{'no_create': True}"/>
+                    <field name='building_asset_id' options="{'no_create': True}" attrs="{'required': [('is_main_order', '=', False)]}"/>
                     <field name="is_main_order" />
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
                 </xpath>
@@ -254,7 +254,7 @@
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='company_id']" position="after">
-                    <field name='building_asset_id' options="{'no_create': True}" attrs="{'required': [('is_main_order', '=', False)]}"/>
+                    <field name='building_asset_id' options="{'no_create': True}"/>
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
                 </xpath>
             </field>
