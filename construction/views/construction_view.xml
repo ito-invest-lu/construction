@@ -205,6 +205,19 @@
             </field>
         </record>
         
+        <!-- Add link to building asset on Purchase Order tree view -->
+        <record id="view_purchase_order_tree_construction" model="ir.ui.view">
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="	purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="building_asset_id"/>
+                    <field name="po_summary"/>
+                    <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </field>
+            </field>
+        </record>
+        
         <!-- Add link to building asset on Sale Order tree view -->
         <record id="view_order_tree_construction" model="ir.ui.view">
             <field name="model">sale.order</field>
@@ -228,6 +241,20 @@
                 <xpath expr="//field[@name='confirmation_date']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}" attrs="{'required': [('is_main_order', '=', False)]}"/>
                     <field name="is_main_order" />
+                    <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Add link to building asset on Sale Order form view -->
+        <record id="view_purchase_order_form_construction" model="ir.ui.view">
+            <field name="name">view.purchase.order.form.construction</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field eval="18" name="priority" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name='building_asset_id' options="{'no_create': True}" attrs="{'required': [('is_main_order', '=', False)]}"/>
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
                 </xpath>
             </field>
@@ -298,7 +325,7 @@
                     </button>     
                 </button>
                 <xpath expr="//field[@name='function']" position="before">
-                    <field name='matricule' />
+                    <field name='matricule' />  
                 </xpath>
             </field>
         </record>

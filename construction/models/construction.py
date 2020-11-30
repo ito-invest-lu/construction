@@ -275,3 +275,17 @@ class Partner(models.Model):
             partner_ids = [partner.id] + item.get('child_ids')
             # then we can sum for all the partner's child
             partner.building_asset_count = sum(mapped_data.get(child, 0) for child in partner_ids)
+
+class PurchaseOrder(models.Model):
+    '''Purchase Order'''
+    _inherit = "purchase.order"
+
+    building_asset_id = fields.Many2one('construction.building_asset', string='Building Asset', ondelete='restrict')
+    
+    construction_tag_ids = fields.Many2many('sale.order.tag', 'construction_purchase_order_tag_rel', 'order_id', 'tag_id', string='Tags', copy=False)
+    
+    po_summary = fields.Text("PO Summary", compute="_compute_po_summary")
+    
+    def _compute_po_summary(self):
+        for rec in self:
+            rec.po_summary = ', '.join(rec.order_line.mapped('name'))
