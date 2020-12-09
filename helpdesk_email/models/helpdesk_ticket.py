@@ -64,7 +64,7 @@ class HelpdeskTicket(models.Model):
                 ticket.partner_id = partner_id
                 ticket.partner_email = partner_id.email
             else :
-                _logger.info("No customer found leave to %s" % ticket.partner_id.name if ticket.partner_id else 'None')
+                _logger.info("No customer found for %s leave to %s" % (foreign_emails, ticket.partner_id.name if ticket.partner_id else 'None'))
             return ticket
         else:
             # We have a match we switch to message_update
