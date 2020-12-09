@@ -59,7 +59,7 @@ class HelpdeskTicket(models.Model):
             foreign_emails = [x for x in all_emails if alias_domain not in x]
             partner_id = False
             for parsed_email in foreign_emails:
-                partner_id = self.search([('email', '=ilike', parsed_email)], limit=1)
+                partner_id = self.env["res.partner"].search([('email', '=ilike', parsed_email)], limit=1)
                 if partner_id:
                     break
             if partner_id :
