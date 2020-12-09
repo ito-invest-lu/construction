@@ -289,3 +289,11 @@ class PurchaseOrder(models.Model):
     def _compute_po_summary(self):
         for rec in self:
             rec.po_summary = ', '.join(rec.order_line.mapped('name'))
+            
+    state = fields.Selection(selection_add([('to_approve','To approve'),('approved','Approved'),('posted')])
+    
+    def to_approve(self):
+        return self.write({'state': 'to_approve'})
+
+    def approved(self):
+        return self.write({'state': 'approved'})
