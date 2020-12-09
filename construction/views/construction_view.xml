@@ -279,6 +279,11 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_post']" position="replace">
+                    <button name="action_post" string="Post" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                    <button name="action_to_approve" string="To approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_approved" string="Approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'to_approve')]}"/>
+                </xpath>
                 <xpath expr="//field[@name='date']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}" />
                 </xpath>
