@@ -280,7 +280,7 @@
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_post']" position="replace">
-                    <button name="action_post" string="Post" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                    <button name="action_post" string="Post" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'approved'),('state', '!=', 'draft')]}"/>
                     <button name="action_to_approve" string="To approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
                     <button name="action_approved" string="Approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'to_approve')]}"/>
                 </xpath>

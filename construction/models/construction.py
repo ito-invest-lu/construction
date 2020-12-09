@@ -256,10 +256,10 @@ class Invoice(models.Model):
             
     state = fields.Selection(selection_add=[('to_approve','To approve'),('approved','Approved'),('posted','')])
     
-    def to_approve(self):
+    def action_to_approve(self):
         return self.write({'state': 'to_approve'})
 
-    def approved(self):
+    def action_approved(self):
         return self.write({'state': 'approved'})
 
 class Partner(models.Model):
