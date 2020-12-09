@@ -55,7 +55,7 @@ class HelpdeskTicket(models.Model):
             alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
             foreign_emails = [x for x in all_emails if alias_domain not in x]
             partner_id = False
-            for em in foreign_emails:
+            for parsed_email in foreign_emails:
                 partner_id = self.search([('email', '=ilike', parsed_email)], limit=1)
                 if partner_id:
                     break
