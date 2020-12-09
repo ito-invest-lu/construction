@@ -284,6 +284,9 @@
                     <button name="action_to_approve" string="To approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
                     <button name="action_approved" string="Approve" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': [('state', '!=', 'to_approve')]}"/>
                 </xpath>
+                <xpath expr="//button[@name='button_draft']" position="replace">
+                    <button name="button_draft" string="Reset to Draft" type="object" groups="account.group_account_invoice" attrs="{'invisible' : ['|', ('restrict_mode_hash_table', '=', True), ('state', 'not in', ('to_approve', 'posted', 'cancel'))]}"/>
+                </xpath>
                 <xpath expr="//field[@name='date']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}" />
                 </xpath>
