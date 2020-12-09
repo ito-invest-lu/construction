@@ -51,6 +51,7 @@ class HelpdeskTicket(models.Model):
             try:
                 all_emails = list(set(all_emails + re.findall('[\w\.]+\@[\w]+(?:\.[\w]{3}|\.[\w]{2}\.[\w]{2})\b',msg_dict.get('body', ''))))
             except:
+                _logger.info("Cannot find all emails in %s" % msg_dict.get('body', ''))
                 pass
             alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
             foreign_emails = [x for x in all_emails if alias_domain not in x]
