@@ -49,14 +49,13 @@ class HelpdeskTicket(models.Model):
             ticket = super(HelpdeskTicket, self).message_new(msg_dict, custom_values)
             all_emails = ticket._ticket_email_split(msg_dict)
             try:
-                _logger.info("Look for emails in %s" % msg_dict.get('body', ''))
                 all_emails = list(set(all_emails + re.findall('[a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+',msg_dict.get('body', ''))))
-                _logger.info("Found emails %s" % all_emails)
             except:
-                _logger.info("Cannot find all emails in %s" % msg_dict.get('body', ''))
                 pass
             alias_domain = self.env["ir.config_parameter"].sudo().get_param("mail.catchall.domain")
             foreign_emails = [x for x in all_emails if alias_domain not in x]
+            foreign_emails = [x for x in foreign_emails if 'imply.lu' not in x]
+            foreign_emails = [x for x in foreign_emails if 'socomaconstruction.com' not in x]
             partner_id = False
             for parsed_email in foreign_emails:
                 partner_id = self.env["res.partner"].search([('email', '=ilike', parsed_email)], limit=1)
