@@ -51,6 +51,7 @@ class HelpdeskTicket(models.Model):
             try:
                 _logger.info("Look for emails in %s" % msg_dict.get('body', ''))
                 all_emails = list(set(all_emails + re.findall('[\w\.]+\@[\w]+(?:\.[\w]{3}|\.[\w]{2}\.[\w]{2})\b',msg_dict.get('body', ''))))
+                _logger.info("Found emails %s" % all_emails)
             except:
                 _logger.info("Cannot find all emails in %s" % msg_dict.get('body', ''))
                 pass
