@@ -253,6 +253,14 @@ class Invoice(models.Model):
                 if len(line.invoice_line_tax_ids) > 0 :
                     tax_id = line.invoice_line_tax_ids[0]
             invoice.first_line_tax_id = tax_id
+            
+    state = fields.Selection(selection_add([('to_approve','To approve'),('approved','Approved'),('posted')])
+    
+    def to_approve(self):
+        return self.write({'state': 'to_approve'})
+
+    def approved(self):
+        return self.write({'state': 'approved'})
 
 class Partner(models.Model):
     '''Partner'''
@@ -289,11 +297,3 @@ class PurchaseOrder(models.Model):
     def _compute_po_summary(self):
         for rec in self:
             rec.po_summary = ', '.join(rec.order_line.mapped('name'))
-            
-    state = fields.Selection(selection_add([('to_approve','To approve'),('approved','Approved'),('posted')])
-    
-    def to_approve(self):
-        return self.write({'state': 'to_approve'})
-
-    def approved(self):
-        return self.write({'state': 'approved'})
