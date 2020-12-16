@@ -227,7 +227,6 @@
                     <field name="building_asset_id"/>
                     <field name="so_summary"/>
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                    <field name="google_drive_link" widget="url" text="Google Drive Link"/>
                 </field>
             </field>
         </record>
@@ -257,6 +256,7 @@
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}"/>
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True, 'no_create': True}"/>
+                    <field name="google_drive_link" widget="url" text="Google Drive Link"/>
                 </xpath>
             </field>
         </record>
