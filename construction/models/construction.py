@@ -268,7 +268,7 @@ class Invoice(models.Model):
     purchase_order_count = fields.Integer(compute="_compute_orders", string='Purchase Order Count')
     purchase_order_ids = fields.Many2many('purchase.order', compute="_compute_orders", string='Purchase Orders')
         
-    @api.depends('invoice_lines')
+    @api.depends('move_lines')
     def _compute_orders(self):
         for invoice in self:
             sale_orders = self.env['sale.order'].search([('order_line.invoice_lines.move_id','=',self.id)])
