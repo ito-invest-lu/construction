@@ -291,7 +291,7 @@ class Invoice(models.Model):
                     'res_model': 'sale.order',
                     'domain': domain
             }
-            else :
+        else :
             return {
                     'name': _('Sale Order'),
                     'type': 'ir.actions.act_window',
