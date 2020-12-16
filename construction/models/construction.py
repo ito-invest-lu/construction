@@ -281,27 +281,47 @@ class Invoice(models.Model):
 
     def action_view_sale_order(self):
         sale_order_ids = self.mapped('sale_order_ids')
-        domain = "[('id', 'in', " + str(sale_order_ids.ids) + ")]"
-        return {
-                'name': _('Sale Orders'),
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'tree,form',
-                'res_model': 'sale.order',
-                'domain': domain
-        }
+        if len(sale_order_ids) > 1 :
+            domain = "[('id', 'in', " + str(sale_order_ids.ids) + ")]"
+            return {
+                    'name': _('Sale Orders'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'tree,form',
+                    'res_model': 'sale.order',
+                    'domain': domain
+            }
+            else :
+            return {
+                    'name': _('Sale Order'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'sale.order',
+                    'res_id': str(sale_order_ids.ids[0])
+            }
 
     def action_view_purchase_order(self):
         purchase_order_ids = self.mapped('purchase_order_ids')
-        domain = "[('id', 'in', " + str(purchase_order_ids.ids) + ")]"
-        return {
-                'name': _('Purchase Orders'),
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'tree,form',
-                'res_model': 'purchase.order',
-                'domain': domain
-        }
+        if len(purchase_order_ids) > 1 :
+            domain = "[('id', 'in', " + str(purchase_order_ids.ids) + ")]"
+            return {
+                    'name': _('Purchase Orders'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'tree,form',
+                    'res_model': 'purchase.order',
+                    'domain': domain
+            }
+        else :
+            return {
+                    'name': _('Purchase Order'),
+                    'type': 'ir.actions.act_window',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_model': 'purchase.order',
+                    'res_id': str(purchase_order_ids.ids[0])
+            }
 
 class Partner(models.Model):
     '''Partner'''
