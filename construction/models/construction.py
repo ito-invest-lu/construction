@@ -261,6 +261,22 @@ class Invoice(models.Model):
 
     def action_approved(self):
         return self.write({'state': 'approved'})
+        
+    sale_order_count = fields.Integer(compute="_compute_orders", string='Sale Order Count')
+    sale_order_ids = fields.Many2many('sale.order', compute="_compute_orders", string='Sale Orders')
+    
+    purchase_order_count = fields.Integer(compute="_compute_orders", string='Purchase Order Count')
+    purchase_order_ids = fields.Many2many('purchase.order', compute="_compute_orders", string='Purchase Orders')
+        
+    @api.depends('invoice_lines')
+    def _compute_orders(self):
+        for invoice in self:
+            sale_orders = self.env['sale.order'].search([('order_line.invoice_lines.move_id','=',self.id)])
+            invoice.sale_order_ids = sale_orders
+            invoice.sale_order_count = len(sale_orders)
+            purchase_orders = self.env['purchase.order'].search([('order_line.invoice_lines.move_id','=',self.id)])
+            invoice.purchase_order_ids = purchase_orders
+            invoice.purchase_order_count = len(purchase_orders)
 
 class Partner(models.Model):
     '''Partner'''
