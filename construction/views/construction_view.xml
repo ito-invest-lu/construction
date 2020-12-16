@@ -227,6 +227,7 @@
                     <field name="building_asset_id"/>
                     <field name="so_summary"/>
                     <field name="construction_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="google_drive_link" widget="url" text="Google Drive Link"/>
                 </field>
             </field>
         </record>

@@ -335,6 +335,8 @@ class PurchaseOrder(models.Model):
     
     po_summary = fields.Text("PO Summary", compute="_compute_po_summary")
     
+    google_drive_link = fields.Char(string='Google Drive Link')
+    
     def _compute_po_summary(self):
         for rec in self:
             rec.po_summary = ', '.join(rec.order_line.mapped('name'))
