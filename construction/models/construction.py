@@ -278,6 +278,31 @@ class Invoice(models.Model):
             invoice.purchase_order_ids = purchase_orders
             invoice.purchase_order_count = len(purchase_orders)
 
+
+    def action_view_sale_order(self):
+        sale_order_ids = self.mapped('sale_order_ids')
+        domain = "[('id', 'in', " + str(sale_order_ids.ids) + ")]"
+        return {
+                'name': _('Sale Orders'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'sale.order',
+                'domain': domain
+        }
+
+    def action_view_purchase_order(self):
+        purchase_order_ids = self.mapped('purchase_order_ids')
+        domain = "[('id', 'in', " + str(purchase_order_ids.ids) + ")]"
+        return {
+                'name': _('Purchase Orders'),
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'purchase.order',
+                'domain': domain
+        }
+
 class Partner(models.Model):
     '''Partner'''
     _inherit = 'res.partner'
