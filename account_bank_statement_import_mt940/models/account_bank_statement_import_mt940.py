@@ -21,10 +21,7 @@
 #
 ##############################################################################
 
-
-from odoo import api, fields, models, _
-
-_logger = logging.getLogger(__name__)
+from odoo import models
 
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
