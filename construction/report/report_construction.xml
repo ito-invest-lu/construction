@@ -21,18 +21,11 @@
 ##############################################################################
 -->
 <odoo>
-    
-    <!-- report -->
-    <report 
-        id="report_construction"
-        model="construction.building_asset"
-        string="Building Asset Summary Report"
-        report_type="qweb-pdf"
-        name="construction.report_construction_content"
-        file="construction.report_construction_content"
-        />
-        
-    <template id="report_construction_content">
+
+  <!-- report -->
+  <report id="report_construction" model="construction.building_asset" string="Building Asset Summary Report" report_type="qweb-pdf" name="construction.report_construction_content" file="construction.report_construction_content" />
+
+  <template id="report_construction_content">
         <t t-call="web.html_container">
             <t t-set="data_report_margin_top" t-value="45"/>
             <t t-set="data_report_header_spacing" t-value="35"/>
@@ -46,7 +39,7 @@
                                 <h3><span t-field="building_asset.name"/></h3>
                             </div>
                         </div>
-                        <t t-set="remaining_to_pay_main" t-value="0" />
+                        <t t-set="remaining_to_pay_main" t-value="0"/>
                         <t t-foreach="building_asset.sale_order_ids.filtered(lambda o: o.is_main_order)" t-as="order">
                         <div class="panel panel-default">
                             <!-- Default panel contents -->
@@ -57,14 +50,12 @@
                                 <thead>
                                     <colgroup>
                                         <col style="width:120px"/>
-                                        <col style="width:80px"/>
                                         <col style="width:100%"/>
                                         <col style="width:150px"/>
                                         <col style="width:100px"/>
                                     </colgroup>
                                     <tr>
                                         <th>Statut</th>
-                                        <th>Date de livraison</th>
                                         <th>Description</th>
                                         <th>Factures</th>
                                         <th>Montant HTVA</th>
@@ -73,29 +64,30 @@
                                 <tbody>
                                       <t t-foreach="order.order_line" t-as="line">
                                         <t t-if="line.qty_invoiced != line.product_uom_qty">
-                                          <t t-set="remaining_to_pay_main" t-value="remaining_to_pay_main+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty" />
+                                          <t t-set="remaining_to_pay_main" t-value="remaining_to_pay_main+line.price_subtotal * (line.product_uom_qty-line.qty_invoiced)//line.product_uom_qty"/>
                                         </t>
                                         <tr>
                                           <td>
                                               <span t-field="line.invoice_status"/>
                                             </td>
                                             <td>
-                                              <span t-field="line.forecast_month_id.name"/>
-                                            </td>
-                                            <td>
                                               <span t-field="line.name"/>
                                             </td>
                                             <td>
-                                              <t t-foreach="line.invoice_lines.mapped('invoice_id')" t-as="invoice">
+                                              <t t-foreach="line.invoice_lines.mapped('move_id')" t-as="invoice">
                                                 <t t-if="not invoice_first">, </t>
                                                 <t t-if="invoice.state == 'draft'">
                                                   <span style="color:blue" t-field="invoice.name"/>
                                                 </t>
-                                                <t t-if="invoice.state == 'open'">
+                                                <t t-if="invoice.state == 'to_approve'">
                                                   <span style="color:orange" t-field="invoice.name"/>
                                                 </t>
-                                                <t t-if="invoice.state == 'paid'">
-                                                  <span style="color:green" t-field="invoice.name"/>
+                                                <t t-if="invoice.state == 'approved'">
+                                                  <span style="color:orange" t-field="invoice.name"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'posted'">
+                                                  <span t-if="invoice.amount_residual != 0" style="color:red" t-field="invoice.name"/>
+                                                  <span t-if="invoice.amount_residual == 0" style="color:green" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'cancel'">
                                                   <i style="color:grey" t-field="invoice.name"/>
@@ -108,7 +100,7 @@
                                         </tr>
                                     </t>
                                     <tr>
-                                        <th colspan="4" style="text-align: right;">Reste à facturer sur contrat : </th>
+                                        <th colspan="3" style="text-align: right;">Reste à facturer sur contrat : </th>
                                         <th style="text-align: right;">
                                           <span t-esc="remaining_to_pay_main" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                         </th>
@@ -168,10 +160,13 @@
                                                 <t t-if="invoice.state == 'draft'">
                                                   <span style="color:blue" t-field="invoice.name"/>
                                                 </t>
-                                                <t t-if="invoice.state == 'open'">
+                                                <t t-if="invoice.state == 'to_approve'">
                                                   <span style="color:orange" t-field="invoice.name"/>
                                                 </t>
-                                                <t t-if="invoice.state == 'paid'">
+                                                <t t-if="invoice.state == 'approved'">
+                                                  <span style="color:orange" t-field="invoice.name"/>
+                                                </t>
+                                                <t t-if="invoice.state == 'posted'">
                                                   <span style="color:green" t-field="invoice.name"/>
                                                 </t>
                                                 <t t-if="invoice.state == 'cancel'">
@@ -180,7 +175,7 @@
                                               </t>
                                           </td>
                                           <td>
-                                            <span t-field="order.construction_tag_ids" t-options="{'widget': 'many2many_tags'}"/>
+                                            <span t-foreach="order.construction_tag_ids" t-as="tag"><t t-esc="tag.name"/></span>
                                           </td>
                                           <td align="right">
                                               <span t-field="order.amount_untaxed" t-options="{'widget': 'float', 'precision': currency_precision}"/>
@@ -188,7 +183,7 @@
                                       </tr>
                                     </t>
                                     <tr>
-                                        <th colspan="4" style="text-align: right;">Reste à facturer sur suppléments : </th>
+                                        <th colspan="5" style="text-align: right;">Reste à facturer sur suppléments : </th>
                                         <th style="text-align: right;">
                                           <span t-esc="remaining_to_pay_sub" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                         </th>
@@ -198,13 +193,13 @@
                                         <t t-foreach="building_asset.invoice_ids.filtered(lambda i: i.state == 'open')" t-as="invoice">
                                           <t t-set="remaining_to_pay_inv" t-value="remaining_to_pay_inv + invoice.residual"/>
                                         </t>
-                                        <th colspan="4" style="text-align: right;">Reste à payer sur factures : </th>
+                                        <th colspan="5" style="text-align: right;">Reste à payer sur factures : </th>
                                         <th style="text-align: right;">
                                           <span t-esc="remaining_to_pay_inv" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th colspan="4" style="text-align: right;">Reste à payer au total : </th>
+                                        <th colspan="5" style="text-align: right;">Reste à payer au total : </th>
                                         <th style="text-align: right;">
                                           <span t-esc="remaining_to_pay_main+remaining_to_pay_inv+remaining_to_pay_sub" t-options="{'widget': 'float', 'precision': currency_precision}"/>
                                         </th>
@@ -214,9 +209,9 @@
                         </div>
                     </div>
                 </div>
-                </t>
+              </t>
             </t>
         </t>
     </template>
-        
+
 </odoo>

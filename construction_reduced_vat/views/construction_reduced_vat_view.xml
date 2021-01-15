@@ -20,7 +20,7 @@
 #
 ##############################################################################
 -->
-<openerp>
+<odoo>
     <data>
         
         <menuitem id="menu_reduced_vat" name="Reduced VAT" parent="construction.menu_construction" sequence="50"/>
@@ -124,4 +124,4 @@
     
         
     </data>
-</openerp>
+</odoo>
