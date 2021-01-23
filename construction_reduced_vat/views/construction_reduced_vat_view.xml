@@ -34,6 +34,7 @@
                     <field name="partner_id"/>
                     <field name="agreement_total_amount"/>
                     <field name="agreement_remaining_amount"/>
+                    <field name="company_id"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -63,6 +64,7 @@
                             <field name="partner_id"/>
                             <field name="agreement_total_amount"/>
                             <field name="agreement_remaining_amount"/>
+                            <field name="company_id"/>
                         </group>
                         <separator string="Invoices"/>
                         <field name="invoice_ids" nolabel="1" readonly="1">
