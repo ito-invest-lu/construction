@@ -254,14 +254,6 @@ class Invoice(models.Model):
                     tax_id = line.invoice_line_tax_ids[0]
             invoice.first_line_tax_id = tax_id
             
-    state = fields.Selection(selection_add=[('to_approve','To approve'),('approved','Approved'),('posted','')])
-    
-    def action_to_approve(self):
-        return self.write({'state': 'to_approve'})
-
-    def action_approved(self):
-        return self.write({'state': 'approved'})
-        
     sale_order_count = fields.Integer(compute="_compute_orders", string='Sale Order Count')
     sale_order_ids = fields.Many2many('sale.order', compute="_compute_orders", string='Sale Orders')
     
