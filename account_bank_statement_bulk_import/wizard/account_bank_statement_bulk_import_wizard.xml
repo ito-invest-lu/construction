@@ -41,7 +41,6 @@
         <field name="name">Bulk Import Statement</field>
         <field name="res_model">account_bulk_import_wizard.account_bulk_import_wizard</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="account_bank_statement_bulk_import_view" />
         <field name="context">{}</field>
