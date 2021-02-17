@@ -46,8 +46,15 @@ class BulkImportStatement(models.TransientModel):
         for filename in zippedFiles.namelist():
             try :
                 data = zippedFiles.read(filename)
+                data_attach = {
+                    'name': filename,
+                    'datas': base64.b64encode(data),
+                    'res_model': 'account.bank.statement',
+                    'res_id': 0,
+                    'type': 'binary',  # override default_type from context, possibly meant for another model!
+                }
                 base_import = self.env['account.bank.statement.import'].create({
-                    'data_file' : base64.b64encode(data),
+                    'attachment_ids' : [(6, 0, Attachment.create(data_attach).id)],
                 })
                 currency_code, account_number, stmts_vals = base_import.with_context(active_id=self.ids[0])._parse_file(data)
                 if account_number:
