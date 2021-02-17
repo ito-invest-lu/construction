@@ -41,8 +41,8 @@ class BulkImportStatement(models.TransientModel):
         self.ensure_one()
         bin_data = self.zip_file and base64.b64decode(self.zip_file) or ''
         zippedFiles = zipfile.ZipFile(BytesIO(bin_data))
-        statement_ids = []
-        notifications = []
+        statement_line_ids_all = []
+        notifications_all = []
         for filename in zippedFiles.namelist():
             try :
                 data = zippedFiles.read(filename)
@@ -62,20 +62,18 @@ class BulkImportStatement(models.TransientModel):
                     journal_id = self.env['account.journal'].search([('bank_account_id.sanitized_acc_number', '=', sanitized_account_number)])
                     if journal_id:
                         ret = base_import.with_context({'journal_id' : journal_id.id}).import_file()
-                        statement_ids.extend(ret['context']['statement_ids'])
-                        notifications.extend(ret['context']['notifications'])
+                        statement_line_ids_all.extend(ret['context']['statement_line_ids'])
+                        notifications_all.extend(ret['context']['notifications'])
             except UserError:
                 pass
-        if len(statement_ids) == 0:
+        if len(statement_line_ids_all) == 0:
             raise UserError(_('You have already imported all these files.'))
         # Finally dispatch to reconciliation interface
-        action = self.env.ref('account.action_bank_reconcile_bank_statements')
         return {
-            'name': action.name,
-            'tag': action.tag,
-            'context': {
-                'statement_ids': statement_ids,
-                'notifications': notifications
-            },
             'type': 'ir.actions.client',
+            'tag': 'bank_statement_reconciliation_view',
+            'context': {'statement_line_ids': statement_line_ids_all,
+                        'company_ids': self.env.user.company_ids.ids,
+                        'notifications': notifications_all,
+            },
         }
