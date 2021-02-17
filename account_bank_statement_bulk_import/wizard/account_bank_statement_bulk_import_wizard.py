@@ -54,7 +54,7 @@ class BulkImportStatement(models.TransientModel):
                     'type': 'binary',  # override default_type from context, possibly meant for another model!
                 }
                 base_import = self.env['account.bank.statement.import'].create({
-                    'attachment_ids' : [(6, 0, Attachment.create(data_attach).id)],
+                    'attachment_ids' : [(6, 0, self.env['ir.attachment'].create(data_attach).id)],
                 })
                 currency_code, account_number, stmts_vals = base_import.with_context(active_id=self.ids[0])._parse_file(data)
                 if account_number:
