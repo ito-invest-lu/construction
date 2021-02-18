@@ -263,10 +263,10 @@ class Invoice(models.Model):
     @api.depends('line_ids')
     def _compute_orders(self):
         for invoice in self:
-            sale_orders = self.env['sale.order'].search([('order_line.invoice_lines.move_id','=',self.id)])
+            sale_orders = self.env['sale.order'].search([('order_line.invoice_lines.move_id','=',invoice.id)])
             invoice.sale_order_ids = sale_orders
             invoice.sale_order_count = len(sale_orders)
-            purchase_orders = self.env['purchase.order'].search([('order_line.invoice_lines.move_id','=',self.id)])
+            purchase_orders = self.env['purchase.order'].search([('order_line.invoice_lines.move_id','=',invoice.id)])
             invoice.purchase_order_ids = purchase_orders
             invoice.purchase_order_count = len(purchase_orders)
 
