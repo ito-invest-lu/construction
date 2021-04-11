@@ -51,16 +51,13 @@ class ReducedVATAgreementReport(models.Model):
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True)
     
     def init(self):
-        # self._table = construction_reduced_vat_agreement_report
-        # with self.env.cr as cr:
-        #     tools.drop_view_if_exists(cr, self._table)
-        #     cr.execute("""CREATE or REPLACE VIEW %s as (
-        #         SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date as date, inv.name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
-        #         , to_char(date_trunc('quarter', current_date)::date - 1, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as last_quarter
-        #         , to_char(current_date, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as current_quarter            
-        #         , agg.active
-        #         , inv.partner_id
-        #         FROM account_move inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, res_partner s_addr
-        #         WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.address_id = s_addr.id
-        #     )""" % (self._table))
-        pass
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.("""CREATE or REPLACE VIEW %s as (
+            SELECT inv.id, agg.agreement_code, cust.matricule, s_addr.zip, inv.date as date, inv.name as number, inv.amount_untaxed, inv.amount_tax, inv.company_id
+            , to_char(date_trunc('quarter', current_date)::date - 1, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as last_quarter
+            , to_char(current_date, 'yyyy-q') = to_char(inv.date, 'yyyy-q') as current_quarter            
+            , agg.active
+            , inv.partner_id
+            FROM account_move inv, res_partner cust, construction_reduced_vat_agreement agg, construction_building_asset ba, res_partner s_addr
+            WHERE inv.partner_id = cust.id AND inv.reduced_vat_agreement_id = agg.id AND inv.building_asset_id = ba.id AND ba.address_id = s_addr.id
+        )""" % (self._table))
