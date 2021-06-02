@@ -152,10 +152,12 @@ class AccountInvoice(models.Model):
         tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_3.id])]
+                    'tax_ids' : [(6, 0, [tax_3.id])],
+                    'recompute_tax_line' : true
             })
         else :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_17.id])]
+                    'recompute_tax_line' : true
             })
-        self._recompute_dynamic_lines()
+        self._recompute_dynamic_lines(recompute_all_taxes=True)
