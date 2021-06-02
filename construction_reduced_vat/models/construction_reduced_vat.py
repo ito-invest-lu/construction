@@ -144,6 +144,7 @@ class AccountInvoice(models.Model):
                 for line in invoice.invoice_line_ids:
                     if not line.invoice_line_tax_ids:
                         raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
+            invoice._recompute_dynamic_lines(recompute_all_taxes=True, recompute_tax_base_amount=True)
         return res
         
     @api.onchange('reduced_vat_agreement_id')
