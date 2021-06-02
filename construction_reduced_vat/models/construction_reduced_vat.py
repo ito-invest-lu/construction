@@ -157,7 +157,7 @@ class AccountInvoice(models.Model):
             })
         else :
             self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_17.id])]
+                    'tax_ids' : [(6, 0, [tax_17.id])],
                     'recompute_tax_line' : True
             })
         self._recompute_dynamic_lines(recompute_all_taxes=True)
