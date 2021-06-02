@@ -158,4 +158,4 @@ class AccountInvoice(models.Model):
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_17.id])]
             })
-         self._recompute_dynamic_lines()
+        self._recompute_dynamic_lines()
