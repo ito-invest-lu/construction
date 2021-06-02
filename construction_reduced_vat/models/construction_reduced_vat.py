@@ -114,6 +114,10 @@ class SaleOrder(models.Model):
             invoice_vals['reduced_vat_agreement_id'] = agreement_ids[0].id
         return invoice_vals
         
+class SaleOrderLine(models.Model):
+    '''Sale Order Line'''
+    _inherit = "sale.order.line"
+        
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         res = super(SaleOrder, self)._prepare_invoice_line(optional_values)
