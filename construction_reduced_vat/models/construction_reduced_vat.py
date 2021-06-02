@@ -153,11 +153,11 @@ class AccountInvoice(models.Model):
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_3.id])],
-                    'recompute_tax_line' : true
+                    'recompute_tax_line' : True
             })
         else :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_17.id])]
-                    'recompute_tax_line' : true
+                    'recompute_tax_line' : True
             })
         self._recompute_dynamic_lines(recompute_all_taxes=True)
