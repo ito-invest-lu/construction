@@ -114,7 +114,15 @@ class SaleOrder(models.Model):
             invoice_vals['reduced_vat_agreement_id'] = agreement_ids[0].id
         return invoice_vals
         
-    
+    def _prepare_invoice_line(self, **optional_values):
+        self.ensure_one()
+        res = super(SaleOrder, self)._prepare_invoice_line(optional_values)
+        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+        agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.partner_id.id),('agreement_remaining_amount','>',0)])
+        if len(agreement_ids) == 1 :
+            res['tax_ids'] = [(6, 0, [tax_3.id])]
+        return res
+
 class AccountInvoice(models.Model):
     '''Invoice'''
     _inherit = 'account.move'
