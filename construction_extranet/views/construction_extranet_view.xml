@@ -73,7 +73,7 @@
                           <td><span t-field="invoice.partner_id"/></td>
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.amount_untaxed"/></td>
-                          <td><a t-att-href="'/invoice_original/%s' % invoice.id" target="_new">Open</a></td>
+                          <td><a t-att-href="'/invoice_original/%s' % invoice.id" target="_new"><i class="bi bi-arrow-down-circle"></i></a></td>
                         </tr>
                         <tr class="thead-dark">
                           <th scope="row"></th>
