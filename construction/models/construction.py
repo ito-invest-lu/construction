@@ -243,8 +243,9 @@ class Invoice(models.Model):
 
     def _compute_summary(self):
         for rec in self:
-            if rec.invoice_line_ids :
-                rec.summary = ', '.join(rec.invoice_line_ids.mapped('name') or '')
+            _logger.info(rec.name)
+            _logger.info(rec.invoice_line_ids.mapped('name'))
+            rec.summary = ', '.join(rec.invoice_line_ids.mapped('name'))
 
     def _compute_first_line_tax_id(self):
         for invoice in self:
