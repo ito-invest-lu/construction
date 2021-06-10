@@ -64,6 +64,7 @@
                           <th scope="col">Client</th>
                           <th scope="col">Description</th>
                           <th class="text-right" scope="col">Montant</th>
+                          <th scop="col">View</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -72,6 +73,7 @@
                           <td><span t-field="invoice.partner_id"/></td>
                           <td><span t-field="invoice.summary"/></td>
                           <td class="text-right"><span t-field="invoice.amount_untaxed"/></td>
+                          <td><a t-att-href="'/invoice_original/%s' % invoice.id" target="_new"/></td>
                         </tr>
                         <tr class="thead-dark">
                           <th scope="row"></th>
