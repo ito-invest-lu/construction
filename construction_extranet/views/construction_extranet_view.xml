@@ -51,7 +51,7 @@
         <template id="invoices" name="Construction Layout Container">
             <t t-call="construction_extranet.layout_container">
                 <div class="row">
-                    <div class="col-2"><img src="http://odoo.ross128.lu/web/image?model=res.company&id=3&field=logo"/></div>
+                    <div class="col-2"><img src="http://odoo.ross128.lu/web/image?model=res.company&amp;id=3&amp;field=logo"/></div>
                     <div class="col-10"><h1><span t-field="company_id.name"/></h1></div>
                 </div>
                 <div class="row table-responsive-lg">
