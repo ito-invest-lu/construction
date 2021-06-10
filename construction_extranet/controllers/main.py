@@ -57,7 +57,7 @@ class ConstructionController(http.Controller):
         
         
     @http.route('/invoice_original/<int:invoice_id>', type='http', auth='none', csrf=False)
-    def invoices_cust(self, invoice_id, debug=False, **k):
+    def invoices_original(self, invoice_id, debug=False, **k):
         invoice = request.env['account.move'].sudo().browse(invoice_id), 
         if invoice :
             return werkzeug.utils.redirect('/web/content/%s' % invoice[0].message_main_attachment_id.id)
