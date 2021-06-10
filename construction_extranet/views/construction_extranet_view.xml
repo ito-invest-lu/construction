@@ -53,7 +53,7 @@
                 <div class="row">
                     <h1><span t-field="company_id.name"/></h1>
                 </div>
-                <div class="row table-responsive">
+                <div class="row table-responsive-lg">
                     <h3>Factures en attente</h3>
                     <table class="table table-striped">
                       <thead>
@@ -85,7 +85,7 @@
                       </tbody>
                     </table>
                 </div>
-                <div class="row table-responsive">
+                <div class="row table-responsive-lg">
                     <h3>Factures ouvertes</h3>
                     <table class="table table-striped">
                       <thead>
@@ -120,7 +120,7 @@
                       </tbody>
                     </table>
                 </div>
-                <div class="row table-responsive">
+                <div class="row table-responsive-lg">
                     <h3>Factures payées</h3>
                     <table class="table table-striped">
                       <thead>
