@@ -245,7 +245,7 @@ class Invoice(models.Model):
         for rec in self:
             _logger.info(rec.name)
             _logger.info(rec.invoice_line_ids.mapped('name'))
-            rec.summary = ', '.join(rec.invoice_line_ids.mapped('name'))
+            rec.summary = ', '.join(map(str,rec.invoice_line_ids.mapped('name')))
 
     def _compute_first_line_tax_id(self):
         for invoice in self:
@@ -353,4 +353,4 @@ class PurchaseOrder(models.Model):
     
     def _compute_po_summary(self):
         for rec in self:
-            rec.po_summary = ', '.join(rec.order_line.mapped('name'))
+            rec.po_summary = ', '.join(map('str',rec.order_line.mapped('name')))
