@@ -58,11 +58,6 @@ class ConstructionController(http.Controller):
         
     @http.route('/invoice_original/<int:invoice_id>', type='http', auth='none', csrf=False)
     def invoices_cust(self, invoice_id, debug=False, **k):
-        values = {
-            'docs': request.env['account.move'].browse(invoice_id), 
-        }
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'account.action_account_original_vendor_bill',
-            'datas': values,
-        }
+        invoice = request.env['account.move'].browse(invoice_id), 
+        if invoice :
+            return werkzeug.utils.redirect('/web/content/%s' % invoice.message_main_attachment_id.id)
