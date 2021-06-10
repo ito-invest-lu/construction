@@ -61,5 +61,8 @@ class ConstructionController(http.Controller):
         values = {
             'docs': request.env['account.move'].browse(invoice_id), 
         }
-        return request.render('account.report_original_vendor_bill', values)
-    
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'account.action_account_original_vendor_bill',
+            'datas': values,
+        }
