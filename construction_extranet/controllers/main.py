@@ -61,3 +61,5 @@ class ConstructionController(http.Controller):
         invoice = request.env['account.move'].sudo().browse(invoice_id), 
         if invoice :
             return werkzeug.utils.redirect('/web/content/%s' % invoice[0].message_main_attachment_id.id)
+            
+    
