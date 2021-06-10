@@ -54,3 +54,12 @@ class ConstructionController(http.Controller):
             'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0'),('type', '=', 'out_invoice')]),
         }
         return request.render('construction_extranet.invoices', values)
+        
+        
+    @http.route('/invoice_original/<int:invoice_id>', type='http', auth='none', csrf=False)
+    def invoices_cust(self, invoice_id, debug=False, **k):
+        values = {
+            'docs': request.env['account.move'].browse(invoice_id), 
+        }
+        return request.render('report_original_vendor_bill', values)
+    
