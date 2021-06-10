@@ -80,6 +80,7 @@
                           <th></th>
                           <th></th>
                           <th class="text-right font-weight-bold"><span t-esc="sum(draft_invoice_ids.mapped('amount_untaxed'))" t-options="{'widget': 'monetary', 'display_currency': company_id.currency_id}"/></th>
+                          <th></th>
                         </tr>
                       </tbody>
                     </table>
