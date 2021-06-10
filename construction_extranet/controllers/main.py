@@ -35,12 +35,12 @@ _logger = logging.getLogger(__name__)
 
 class ConstructionController(http.Controller):
     
-    @http.route('/invoices/<int:company_id>', type='http', auth='none', csrf=False)
+    @http.route('/invoice_supplier/<int:company_id>', type='http', auth='none', csrf=False)
     def invoices(self, company_id, debug=False, **k):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
-            'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft')]),
-            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0')]),
-            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0')]),
+            'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'out_invoice')]),
+            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0'),('type', '=', 'out_invoice')]),
+            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0'),('type', '=', 'out_invoice')]),
         }
         return request.render('construction_extranet.invoices', values)
