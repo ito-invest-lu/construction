@@ -353,4 +353,4 @@ class PurchaseOrder(models.Model):
     
     def _compute_po_summary(self):
         for rec in self:
-            rec.po_summary = ', '.join(map('str',rec.order_line.mapped('name')))
+            rec.po_summary = ', '.join(map(str,rec.order_line.mapped('name')))
