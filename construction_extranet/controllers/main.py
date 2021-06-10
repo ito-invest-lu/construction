@@ -40,7 +40,7 @@ class ConstructionController(http.Controller):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
             'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft')]),
-            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','open')]),
-            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','paid')]),
+            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0')]),
+            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0')]),
         }
         return request.render('construction_extranet.invoices', values)

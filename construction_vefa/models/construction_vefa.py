@@ -49,10 +49,11 @@ class SaleOrder(models.Model):
             self.is_vefa = self.building_asset_id.is_vefa
     
     def _prepare_invoice(self):
+        self.ensure_one()
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         invoice_vals['is_vefa'] = self.is_vefa
         return invoice_vals
-
+        
 class Invoice(models.Model):
     '''Invoice'''
     _inherit = 'account.move'
