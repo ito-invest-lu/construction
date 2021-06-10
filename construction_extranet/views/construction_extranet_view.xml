@@ -64,7 +64,7 @@
                           <th scope="col">Client</th>
                           <th scope="col">Description</th>
                           <th class="text-right" scope="col">Montant</th>
-                          <th scop="col">View</th>
+                          <th scop="col"></th>
                         </tr>
                       </thead>
                       <tbody>
