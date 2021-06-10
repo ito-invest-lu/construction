@@ -54,7 +54,7 @@
                     <div class="col-2"><img t-att-src="'http://odoo.ross128.lu/web/image?model=res.company&amp;id=%s&amp;field=logo' % company_id.id" style="width: 150px;"/></div>
                     <div class="col-10"><h1 class="mt-5"><span t-field="company_id.name"/></h1></div>
                 </div>
-                <div class="row table-responsive-lg">
+                <div class="row table-responsive-lg mb-5">
                     <h3>Factures en attente</h3>
                     <t t-if="draft_invoice_ids">
                     <table class="table table-striped">
@@ -88,10 +88,10 @@
                     </table>
                     </t>
                     <t t-else="">
-                      <h3>Aucune</h3>
+                      <h5>Aucune</h5>
                     </t>
                 </div>
-                <div class="row table-responsive-lg">
+                <div class="row table-responsive-lg mb-5">
                     <h3>Factures ouvertes</h3>
                     <table class="table table-striped">
                       <thead>
@@ -126,7 +126,7 @@
                       </tbody>
                     </table>
                 </div>
-                <div class="row table-responsive-lg">
+                <div class="row table-responsive-lg mb-5">
                     <h3>Factures payées</h3>
                     <table class="table table-striped">
                       <thead>
