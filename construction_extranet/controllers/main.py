@@ -36,7 +36,7 @@ _logger = logging.getLogger(__name__)
 class ConstructionController(http.Controller):
     
     @http.route('/invoice_supplier/<int:company_id>', type='http', auth='none', csrf=False)
-    def invoices(self, company_id, debug=False, **k):
+    def invoices_supp(self, company_id, debug=False, **k):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
             'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'in_invoice')]),
@@ -46,7 +46,7 @@ class ConstructionController(http.Controller):
         return request.render('construction_extranet.invoices', values)
         
     @http.route('/invoice_customer/<int:company_id>', type='http', auth='none', csrf=False)
-    def invoices(self, company_id, debug=False, **k):
+    def invoices_cust(self, company_id, debug=False, **k):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
             'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'out_invoice')]),
