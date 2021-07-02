@@ -80,11 +80,11 @@ class ConstructionController(http.Controller):
                 _logger.info(partner_group)
                 partner = {
                     'id': partner_group.get('partner_id')[0],
-                    'name': request.env['res.partner'].sudo().browse(partner_group.get('partner_id')[0]).name,
+                    'name': request.env['res.partner'].sudo().browse(partner_group.get('partner_id')[0]).name, // REALLY ??
                     'invoices' : request.env['account.move'].sudo().search(partner_group.get('__domain'))
                 }
-                analytic['partners'].push(partner)
-            values['analytics'].push(analytic)
+                analytic['partners'].append(partner)
+            values['analytics'].append(analytic)
         
         return request.render('construction_extranet.invoices_analytics', values)
         
