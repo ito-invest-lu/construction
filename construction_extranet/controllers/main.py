@@ -77,6 +77,7 @@ class ConstructionController(http.Controller):
                 ['partner_id']
             )
             for partner_group in  groups:
+                _logger.info(partner_group)
                 partner = {
                     'id': partner_group.partner_id[0],
                     'name': partner_group.partner_id[1],
