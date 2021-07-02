@@ -79,8 +79,8 @@ class ConstructionController(http.Controller):
             for partner_group in  groups:
                 _logger.info(partner_group)
                 partner = {
-                    'id': partner_group.partner_id[0],
-                    'name': partner_group.partner_id[1],
+                    'id': partner_group.get('partner_id').id,
+                    'name': partner_group.get('partner_id').name,
                     'invoices' : request.env['account.move'].sudo().search(partner_group.get('__domain'))
                 }
                 analytic['partners'].push(partner)
