@@ -55,7 +55,7 @@
                     <div class="col-10"><h1 class="mt-5"><span t-field="company_id.name"/> - Analytics </h1></div>
                 </div>
                 <div class="row table-responsive-lg mb-5" t-foreach="analytics" t-as="analytic">
-                  <h3><span t-field="analytic.name"/></h3>
+                  <h3><span t-raw="analytic.name"/></h3>
                 </div>
             </t>
         </template>

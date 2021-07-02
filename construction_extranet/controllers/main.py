@@ -77,7 +77,6 @@ class ConstructionController(http.Controller):
                 ['partner_id']
             )
             for partner_group in  groups:
-                _logger.info(partner_group)
                 partner = {
                     'id': partner_group.get('partner_id')[0],
                     'name': request.env['res.partner'].sudo().browse(partner_group.get('partner_id')[0]).name, # REALLY ??
@@ -85,7 +84,7 @@ class ConstructionController(http.Controller):
                 }
                 analytic['partners'].append(partner)
             values['analytics'].append(analytic)
-        
+        _loger.info(values)
         return request.render('construction_extranet.invoices_analytics', values)
         
         
