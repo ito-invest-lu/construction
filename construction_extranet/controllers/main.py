@@ -84,7 +84,7 @@ class ConstructionController(http.Controller):
                 }
                 analytic['partners'].push(partner)
             values['analytics'].push(analytic)
-        }
+        
         return request.render('construction_extranet.invoices_analytics', values)
         
         
