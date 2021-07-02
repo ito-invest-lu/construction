@@ -74,14 +74,13 @@ class ConstructionController(http.Controller):
             groups = request.env['account.move'].sudo().read_group(
                 [["type", "=", "in_invoice"], ["invoice_line_ids.analytic_account_id.id", "=", analytic_account.id]],
                 [],
-                ['partner_id'],
-                lazy=False
+                ['partner_id']
             )
             for partner_group in  groups:
                 _logger.info(partner_group)
                 partner = {
                     'id': partner_group.get('partner_id')[0],
-                    'name': partner_group.get('partner_id')[1].name,
+                    'name': request.env['res.partner'].sudo().browse(partner_group.get('partner_id')[0]).name,
                     'invoices' : request.env['account.move'].sudo().search(partner_group.get('__domain'))
                 }
                 analytic['partners'].push(partner)
