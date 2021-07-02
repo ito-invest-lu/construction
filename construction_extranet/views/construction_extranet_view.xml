@@ -48,7 +48,7 @@
             </html>
         </template>
         
-        <template id="invoices_analytics" name="Construction Analytics"/>
+        <template id="invoices_analytics" name="Construction Analytics">
             <t t-call="construction_extranet.layout_container">
                 <div class="row">
                     <div class="col-2"><img t-att-src="'http://odoo.ross128.lu/web/image?model=res.company&amp;id=%s&amp;field=logo' % company_id.id" style="width: 150px;"/></div>
