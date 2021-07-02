@@ -74,7 +74,8 @@ class ConstructionController(http.Controller):
             groups = request.env['account.move'].sudo().read_group(
                 [["type", "=", "in_invoice"], ["invoice_line_ids.analytic_account_id.id", "=", analytic_account.id]],
                 [],
-                ['partner_id']
+                ['partner_id'],
+                lazy=false
             )
             for partner_group in  groups:
                 _logger.info(partner_group)
