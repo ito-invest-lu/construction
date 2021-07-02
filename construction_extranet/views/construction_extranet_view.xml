@@ -23,8 +23,7 @@
 <odoo>
     <data>
         <template id="assets" name="construction_extranet_assets">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-        
+            
             <link href="https://fonts.googleapis.com/css?family=Heebo:300,400,500,700,800,900&amp;display=swap" rel="stylesheet"/>
         	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
         </template>
@@ -44,6 +43,7 @@
                         <!-- Content here -->
                         <t t-raw="0"/>
                     </div>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
                 </body>
             </html>
         </template>
@@ -55,7 +55,52 @@
                     <div class="col-10"><h1 class="mt-5"><span t-field="company_id.name"/> - Analytics </h1></div>
                 </div>
                 <div class="row table-responsive-lg mb-5" t-foreach="analytics" t-as="analytic">
-                  <h3><span t-raw="analytic.name"/></h3>
+                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#analitic-%d' % analytic.get('id')" aria-expanded="false" t-att-aria-controls="'analitic-%d' % analytic.get('id')">
+                    <span t-raw="analytic.get('name')"/>
+                  </button>
+                  <div class="collapse" t-att-id="'analitic-%d' % analytic.get('id')">
+                    <div class="row table-responsive-lg mt-5" t-foreach="analytic.get('partners')" t-as="partner">
+                      <div class="col-4">
+                        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#analitic-%d-%d' % (analytic.get('id'),partner.get('id'))" aria-expanded="false" t-att-aria-controls="'analitic-%d-%d' % (analytic.get('id'),partner.get('id'))">
+                          <span t-raw="partner.get('name')"/>
+                        </button>
+                      </div>
+                      <div class="col-12">
+                        <table class="table table-striped collapse" t-att-id="'analitic-%d-%d' % (analytic.get('id'),partner.get('id'))">
+                            <thead>
+                              <tr class="thead-dark">
+                                <th scope="col">#</th>
+                                <th scope="col">Fournisseur</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Description</th>
+                                <th class="text-right" scope="col">Montant</th>
+                                <th scop="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr t-foreach="partner.get('invoices')" t-as="invoice">
+                                <th scope="row"><span t-field="invoice.name"/></th>
+                                <td><span t-field="invoice.partner_id"/></td>
+                                <td><span t-field="invoice.date"/></td>
+                                <td><span t-field="invoice.summary"/></td>
+                                <td class="text-end"><span t-field="invoice.amount_untaxed"/></td>
+                                <td><a t-att-href="'/invoice_original/%s' % invoice.id" target="_new"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+      </svg></a></td>
+                              </tr>
+                              <tr class="thead-dark">
+                                <th scope="row"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-end font-weight-bold"><span t-esc="sum(partner.get('invoices').mapped('amount_untaxed'))" t-options="{'widget': 'monetary', 'display_currency': company_id.currency_id}"/></th>
+                                <th></th>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                 </div>
             </t>
         </template>
