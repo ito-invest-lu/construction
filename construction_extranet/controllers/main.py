@@ -55,6 +55,38 @@ class ConstructionController(http.Controller):
         }
         return request.render('construction_extranet.invoices', values)
         
+    @http.route('/invoice_analytics/<int:company_id>', type='http', auth='none', csrf=False)
+    def invoices_analytics(self, company_id, debug=False, **k):
+        
+        analytic_account_ids = request.env['account.analytic.account'].sudo().search([('company_id','=',company_id)])
+        
+        values = {
+            'company_id': request.env['res.company'].browse(company_id),
+            'analytics': [],
+        }
+        
+        for analytic_account in analytic_account_ids:
+            analytic = {
+                'id' : analytic_account.id,
+                'name' : analytic_account.name,
+                'partners': [],
+            }
+            groups = request.env['account.move'].sudo().read_group(
+                [["type", "=", "in_invoice"], ["invoice_line_ids.analytic_account_id.id", "=", analytic_account.id]],
+                [],
+                ['partner_id']
+            )
+            for partner_group in  groups:
+                partner = {
+                    'id': partner_group.partner_id[0],
+                    'name': partner_group.partner_id[1],
+                    'invoices' : request.env['account.move'].sudo().search(partner_group.get('__domain'))
+                }
+                analytic['partners'].push(partner)
+            values['analytics'].push(analytic)
+        }
+        return request.render('construction_extranet.invoices_analytics', values)
+        
         
     @http.route('/invoice_original/<int:invoice_id>', type='http', auth='none', csrf=False)
     def invoices_original(self, invoice_id, debug=False, **k):
@@ -63,3 +95,12 @@ class ConstructionController(http.Controller):
             return werkzeug.utils.redirect('/web/content/%s' % invoice[0].message_main_attachment_id.id)
             
     
+    @http.route('/purchase_orders/<int:company_id>', type='http', auth='none', csrf=False)
+    def purchase_orders(self, company_id, debug=False, **k):
+        values = {
+            'company_id': request.env['res.company'].browse(company_id),
+            'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'out_invoice')]),
+            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0'),('type', '=', 'out_invoice')]),
+            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0'),('type', '=', 'out_invoice')]),
+        }
+        return request.render('construction_extranet.invoices', values)

@@ -48,7 +48,19 @@
             </html>
         </template>
         
-        <template id="invoices" name="Construction Layout Container">
+        <template id="invoices_analytics" name="Construction Analytics"/>
+            <t t-call="construction_extranet.layout_container">
+                <div class="row">
+                    <div class="col-2"><img t-att-src="'http://odoo.ross128.lu/web/image?model=res.company&amp;id=%s&amp;field=logo' % company_id.id" style="width: 150px;"/></div>
+                    <div class="col-10"><h1 class="mt-5"><span t-field="company_id.name"/> - Analytics </h1></div>
+                </div>
+                <div class="row table-responsive-lg mb-5" t-foreach="analytics" t-as="analytic">
+                  <h3><span t-field="analytic.name"/></h3>
+                </div>
+            </t>
+        </template>
+        
+        <template id="invoices" name="Construction Invoices">
             <t t-call="construction_extranet.layout_container">
                 <div class="row">
                     <div class="col-2"><img t-att-src="'http://odoo.ross128.lu/web/image?model=res.company&amp;id=%s&amp;field=logo' % company_id.id" style="width: 150px;"/></div>
