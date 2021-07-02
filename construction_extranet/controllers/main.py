@@ -75,7 +75,7 @@ class ConstructionController(http.Controller):
                 [["type", "=", "in_invoice"], ["invoice_line_ids.analytic_account_id.id", "=", analytic_account.id]],
                 [],
                 ['partner_id'],
-                lazy=false
+                lazy=False
             )
             for partner_group in  groups:
                 _logger.info(partner_group)
