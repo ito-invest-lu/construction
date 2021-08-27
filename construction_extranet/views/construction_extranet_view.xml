@@ -72,6 +72,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Fournisseur</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Ref</th>
                                 <th scope="col">Description</th>
                                 <th class="text-right" scope="col">Montant</th>
                                 <th scop="col"></th>
@@ -82,6 +83,7 @@
                                 <th scope="row"><span t-field="invoice.name"/></th>
                                 <td><span t-field="invoice.partner_id"/></td>
                                 <td><span t-field="invoice.date"/></td>
+                                <td><span t-field="invoice.ref"/></td>
                                 <td><span t-field="invoice.summary"/></td>
                                 <td class="text-end"><span t-field="invoice.amount_untaxed"/></td>
                                 <td><a t-att-href="'/invoice_original/%s' % invoice.id" target="_new"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
