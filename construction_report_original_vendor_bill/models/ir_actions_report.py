@@ -31,9 +31,11 @@ class IrActionsReport(models.Model):
             with tempfile.TemporaryDirectory() as dump_dir:
                 for (id, stream) in save_in_attachment.items():
                     record = record_map[id]
-                    filename = "%s %s (%s : %s EUR).pdf" % (record.name.replace('/','-'), record.date.strftime('%Y-%m-%d'), record.partner_id.name, record.amount_total)
-                    with open(os.path.join(dump_dir,filename), 'wb' ) as f:
-                        f.write(stream.read())
+                    # skip draft
+                    if record.name :
+                        filename = "%s %s (%s : %s EUR).pdf" % (record.name.replace('/','-'), record.date.strftime('%Y-%m-%d'), record.partner_id.name, record.amount_total)
+                        with open(os.path.join(dump_dir,filename), 'wb' ) as f:
+                            f.write(stream.read())
                 
                 zip_filename = os.path.join(dump_dir, 'original_vendor_bill.zip')
                 
