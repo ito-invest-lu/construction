@@ -37,7 +37,7 @@ class IrActionsReport(models.Model):
                     for root, dirs, files in os.walk(dump_dir):
                         for file in files:
                             file_path = os.path.join(root, file)
-                            zfile.write(file_path, file_path.split(container).pop())
+                            zfile.write(file_path)
                 
                 
             
