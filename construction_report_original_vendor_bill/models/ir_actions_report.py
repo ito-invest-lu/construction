@@ -40,9 +40,10 @@ class IrActionsReport(models.Model):
                 with zipfile.ZipFile(zip_filename, 'w') as zfile:
                     for root, dirs, files in os.walk(dump_dir):
                         for file in files:
-                            file_path = os.path.join(root, file)
-                            _logger.info('Write to zip : %s' % file_path)
-                            zfile.write(file_path)
+                            if file != 'original_vendor_bill.zip' :
+                                file_path = os.path.join(root, file)
+                                _logger.info('Write to zip : %s' % file_path)
+                                zfile.write(file_path)
                 
                 _logger.info('Send back zip file : %s' % file_path)
                 with open(zip_filename, 'r' ) as f:
