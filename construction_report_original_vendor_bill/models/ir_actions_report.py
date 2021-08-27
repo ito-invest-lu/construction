@@ -25,7 +25,7 @@ class IrActionsReport(models.Model):
         if self.report_name == 'account.report_original_vendor_bill' :
             _logger.info(res_ids)
             _logger.info(save_in_attachment)
-            record_map = {r.id: r for r in self.env[self.model].browse([res_id for res_id in res_ids if res_id])}
+            record_map = {r.id: r for r in self.env[self.model].browse([res_id for res_id in save_in_attachment.keys() if res_id])}
             _logger.info(record_map)
             with tempfile.TemporaryDirectory() as dump_dir:
                 for (id, stream) in save_in_attachment.items():
