@@ -30,7 +30,7 @@ class IrActionsReport(models.Model):
                 for (id, stream) in save_in_attachment.items():
                     record = record_map[id]
                     with open(os.path.join(dump_dir, "%s-%s (%s : %s EUR).pdf" % (record.journal_id.code, record.name.replace('/','-'), record.partner_id.name, record.amount_total)), 'w') as f:
-                        f.write(stream.content)
+                        f.write(stream.read())
                         
                 with zipfile.ZipFile(os.path.join(dump_dir, 'original_vendor_bill.zip'), 'w') as zfile:
                     for root, dirs, files in os.walk(dump_dir):
