@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import io
 import tempfile
 import zipfile
 
@@ -46,8 +47,8 @@ class IrActionsReport(models.Model):
                                 zfile.write(file_path)
                 
                 _logger.info('Send back zip file : %s' % file_path)
-                with open(zip_filename, 'r' ) as f:
-                    return f
+                with open(zip_filename, 'rb' ) as f:
+                    return io.BytesIO(f).getvalue()
                     
         else:        
             return super(IrActionsReport, self)._post_pdf(save_in_attachment, pdf_content=pdf_content, res_ids=res_ids)
