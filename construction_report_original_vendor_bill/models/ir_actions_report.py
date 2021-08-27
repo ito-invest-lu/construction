@@ -33,7 +33,7 @@ class IrActionsReport(models.Model):
                     with open(os.path.join(dump_dir, "%s-%s (%s : %s EUR).pdf" % (record.journal_id.code, record.name.replace('/','-'), record.partner_id.name, record.amount_total)), 'wb' ) as f:
                         f.write(stream.read())
                         
-                with zipfile.ZipFile(os.path.join(dump_dir, 'original_vendor_bill.zip'), 'wb') as zfile:
+                with zipfile.ZipFile(os.path.join(dump_dir, 'original_vendor_bill.zip'), 'w') as zfile:
                     for root, dirs, files in os.walk(dump_dir):
                         for file in files:
                             file_path = os.path.join(root, file)
