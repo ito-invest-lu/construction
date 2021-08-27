@@ -30,22 +30,25 @@ class IrActionsReport(models.Model):
             with tempfile.TemporaryDirectory() as dump_dir:
                 for (id, stream) in save_in_attachment.items():
                     record = record_map[id]
-                    with open(os.path.join(dump_dir, "%s-%s (%s : %s EUR).pdf" % (record.journal_id.code, record.name.replace('/','-'), record.partner_id.name, record.amount_total)), 'wb' ) as f:
+                    filename = "%s-%s (%s : %s EUR).pdf" % (record.journal_id.code, record.name.replace('/','-'), record.partner_id.name, record.amount_total)
+                    with open(os.path.join(dump_dir,filename), 'wb' ) as f:
+                        _logger.info('Write : %s' % filename)
                         f.write(stream.read())
-                        
-                with zipfile.ZipFile(os.path.join(dump_dir, 'original_vendor_bill.zip'), 'w') as zfile:
+                
+                zip_filename = os.path.join(dump_dir, 'original_vendor_bill.zip')
+                
+                with zipfile.ZipFile(zip_filename, 'w') as zfile:
                     for root, dirs, files in os.walk(dump_dir):
                         for file in files:
                             file_path = os.path.join(root, file)
+                            _logger.info('Write to zip : %s' % file_path)
                             zfile.write(file_path)
                 
-                
-            
-        #     pdf_content = None
-        #     res_ids = None
-        #     if not save_in_attachment:
-        #         raise UserError(_("No original vendor bills could be found for any of the selected vendor bills."))
-        # return super(IrActionsReport, self)._post_pdf(save_in_attachment, pdf_content=pdf_content, res_ids=res_ids)
+                with open(zip_filename, 'r' ) as f:
+                    return f.getvalue()
+                    
+        else:        
+            return super(IrActionsReport, self)._post_pdf(save_in_attachment, pdf_content=pdf_content, res_ids=res_ids)
 
     # def _postprocess_pdf_report(self, record, buffer):
     #     # don't save the 'account.report_original_vendor_bill' report as it's just a mean to print existing attachments
