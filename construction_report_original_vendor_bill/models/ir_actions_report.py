@@ -47,7 +47,7 @@ class IrActionsReport(models.Model):
                 
                 _logger.info('Send back zip file : %s' % file_path)
                 with open(zip_filename, 'r' ) as f:
-                    return f.getvalue()
+                    return f
                     
         else:        
             return super(IrActionsReport, self)._post_pdf(save_in_attachment, pdf_content=pdf_content, res_ids=res_ids)
