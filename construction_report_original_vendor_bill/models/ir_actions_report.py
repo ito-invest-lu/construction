@@ -44,6 +44,7 @@ class IrActionsReport(models.Model):
                             _logger.info('Write to zip : %s' % file_path)
                             zfile.write(file_path)
                 
+                _logger.info('Send back zip file : %s' % file_path)
                 with open(zip_filename, 'r' ) as f:
                     return f.getvalue()
                     
