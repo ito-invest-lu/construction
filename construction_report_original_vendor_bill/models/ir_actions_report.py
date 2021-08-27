@@ -33,7 +33,6 @@ class IrActionsReport(models.Model):
                     record = record_map[id]
                     filename = "%s %s (%s : %s EUR).pdf" % (record.name.replace('/','-'), record.date..strftime('%Y-%m-%d'), record.partner_id.name, record.amount_total)
                     with open(os.path.join(dump_dir,filename), 'wb' ) as f:
-                        _logger.info('Write : %s' % filename)
                         f.write(stream.read())
                 
                 zip_filename = os.path.join(dump_dir, 'original_vendor_bill.zip')
@@ -43,10 +42,8 @@ class IrActionsReport(models.Model):
                         for file in files:
                             if file != 'original_vendor_bill.zip' :
                                 file_path = os.path.join(root, file)
-                                _logger.info('Write to zip : %s' % file_path)
                                 zfile.write(file_path)
                 
-                _logger.info('Send back zip file : %s' % file_path)
                 with open(zip_filename, 'rb' ) as f:
                     return f.read()
                     
