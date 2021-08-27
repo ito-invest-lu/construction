@@ -3,8 +3,12 @@
 import os
 import tempfile
 
+import logging
+
 from odoo import models, api, _
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 class IrActionsReport(models.Model):
     _inherit = 'ir.actions.report'
@@ -19,8 +23,10 @@ class IrActionsReport(models.Model):
         '''
         # don't include the generated dummy report
         if self.report_name == 'account.report_original_vendor_bill' :
+            _logger.info(res_ids)
+            _logger.info(save_in_attachment)
             record_map = {r.id: r for r in self.env[self.model].browse([res_id for res_id in res_ids if res_id])}
-
+            _logger.info(record_map)
             with tempfile.TemporaryDirectory() as dump_dir:
                 for (id, stream) in save_in_attachment.items():
                     record = record_map[id]
