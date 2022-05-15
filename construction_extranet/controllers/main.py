@@ -49,9 +49,9 @@ class ConstructionController(http.Controller):
     def invoices_cust(self, company_id, debug=False, **k):
         values = {
             'company_id': request.env['res.company'].browse(company_id),
-            'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'out_invoice')]),
-            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0'),('type', '=', 'out_invoice')]),
-            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0'),('type', '=', 'out_invoice')]),
+            'draft_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','draft'),('type', '=', 'out_invoice')], order="partner_id, date desc"),
+            'open_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','!=','0'),('type', '=', 'out_invoice')], order="partner_id, date desc"),
+            'paid_invoice_ids' : request.env['account.move'].sudo().search([('company_id','=',company_id),('state','=','posted'),('amount_residual','=','0'),('type', '=', 'out_invoice')], order="partner_id, date desc"),
         }
         return request.render('construction_extranet.invoices', values)
         
