@@ -12,8 +12,8 @@
                     <field name="zip"/>
                     <field name="date"/>
                     <field name="number"/>
-                    <field name="amount_untaxed"/>
-                    <field name="amount_tax"/>
+                    <field name="amount_untaxed_signed"/>
+                    <field name="amount_tax_signed"/>
                 </tree>
             </field>
         </record>
