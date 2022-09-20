@@ -280,7 +280,7 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field eval="18" name="priority" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date']" position="after">
+                <xpath expr="//group[@id='header_right_group']//field[@name='date']" position="after">
                     <field name='building_asset_id' options="{'no_create': True}" />
                 </xpath>
             </field>
