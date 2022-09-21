@@ -74,7 +74,7 @@ class Project(models.Model):
 
     def _compute_on_going_task_ids(self):
         for rec in self :
-            on_going_stage_id = self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')
+            on_going_stage_id = self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_ongoing')
             for project in rec:
                 project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
 
@@ -146,17 +146,17 @@ class Task(models.Model):
 
     def set_to_not_started(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_not_started').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_not_started').id
         })
 
     def set_to_ongoing(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_ongoing').id
         })
         
     def set_to_done(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_finished').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_finished').id
         })
         
 # class SaleOrderForcastMonth(models.Model):

@@ -91,8 +91,8 @@ class ReducedVATAgreement(models.Model):
         _logger.info('_compute_remaining_amount')
         for rec in self:
             used_amount = 0
-            tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
-            tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
+            tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % rec.company_id.id)
+            tax_3_b  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VB-PA-3' % rec.company_id.id)
             for invoice in rec.invoice_ids:
                 _logger.info('invoice %s' % invoice.name)
                 if invoice.state in ('posted') :
@@ -121,7 +121,7 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
-        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+        tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.order_partner_id.id),('agreement_remaining_amount','>',0)])
         if len(agreement_ids) == 1 :
             res['tax_ids'] = [(6, 0, [tax_3.id])]
@@ -136,9 +136,9 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
         for invoice in self :
-            tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
-            tax_3_b  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VB-PA-3' % self.company_id.id)
-            tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
+            tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+            tax_3_b  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VB-PA-3' % self.company_id.id)
+            tax_17 = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
             if invoice.reduced_vat_agreement_id :
                 new_amount = 0
                 has_line_at_3 = False
@@ -160,8 +160,8 @@ class AccountInvoice(models.Model):
         
     @api.onchange('reduced_vat_agreement_id')
     def onchange_reduced_vat_agreement_id(self):
-        tax_17 = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
-        tax_3  = self.env['ir.model.data'].xmlid_to_object('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+        tax_17 = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
+        tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_3.id])],
