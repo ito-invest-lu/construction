@@ -98,7 +98,7 @@ class ReducedVATAgreement(models.Model):
                 if invoice.state in ('posted') :
                     for line in invoice.invoice_line_ids:
                         _logger.info('invoice line %s' % invoice.name)
-                        if tax_3 in line.tax_ids or tax_3_b in line.tax_ids:
+                        if tax_3 in line.tax_ids.ids or tax_3_b in line.tax_ids.ids:
                             used_amount -= line.balance
             rec.agreement_remaining_amount = rec.agreement_total_amount - used_amount
 
@@ -124,7 +124,7 @@ class SaleOrderLine(models.Model):
         tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         agreement_ids = self.env['construction.reduced_vat_agreement'].search([('partner_id', '=', self.order_partner_id.id),('agreement_remaining_amount','>',0)])
         if len(agreement_ids) == 1 :
-            res['tax_ids'] = [(6, 0, [tax_3.id])]
+            res['tax_ids'] = [(6, 0, [tax_3])]
         return res
 
 class AccountInvoice(models.Model):
@@ -145,7 +145,7 @@ class AccountInvoice(models.Model):
                 for line in invoice.invoice_line_ids:
                     if not line.invoice_line_tax_ids:
                         raise UserError(_('All invoice lines shall have a VAT, use 0 if needed'))
-                    if tax_3 in line.invoice_line_tax_ids or tax_3_b in line.invoice_line_tax_ids:
+                    if tax_3 in line.invoice_line_tax_ids.ids or tax_3_b in line.invoice_line_tax_ids.ids:
                         has_line_at_3 = True
                         break
                 if invoice.reduced_vat_agreement_id.agreement_remaining_amount < 0 :
@@ -164,12 +164,12 @@ class AccountInvoice(models.Model):
         tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_3.id])],
+                    'tax_ids' : [(6, 0, [tax_3])],
                     'recompute_tax_line' : True
             })
         else :
             self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_17.id])],
+                    'tax_ids' : [(6, 0, [tax_17])],
                     'recompute_tax_line' : True
             })
         self._recompute_dynamic_lines(recompute_all_taxes=True)

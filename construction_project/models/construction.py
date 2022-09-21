@@ -74,9 +74,9 @@ class Project(models.Model):
 
     def _compute_on_going_task_ids(self):
         for rec in self :
-            on_going_stage_id = self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_ongoing')
+            on_going_stage_id = self.env['ir.model.data'].xmlid_to_object('construction_project.project_stage_ongoing')
             for project in rec:
-                project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id == on_going_stage_id)
+                project.on_going_task_ids = project.task_ids.filtered(lambda t: t.stage_id.id == on_going_stage_id)
 
     company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.user.company_id.id)
     company_currency = fields.Many2one(string='Currency', related='company_id.currency_id', readonly=True, relation="res.currency")
@@ -146,17 +146,17 @@ class Task(models.Model):
 
     def set_to_not_started(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_not_started').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_not_started')
         })
 
     def set_to_ongoing(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_ongoing').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_ongoing')
         })
         
     def set_to_done(self):
         self.write ({
-            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_finished').id
+            'stage_id' :  self.env['ir.model.data']._xmlid_to_res_id('construction_project.project_stage_finished')
         })
         
 # class SaleOrderForcastMonth(models.Model):
