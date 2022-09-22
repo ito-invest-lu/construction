@@ -62,7 +62,7 @@ class AccountBankStatementImport(models.TransientModel):
                 st_line = {
                     'date' : t.data.get('entry_date') or t.data.get('date'),    
                     'amount' : t.data['amount'].amount,
-                    'payment_ref' : t.data.get('additional_purpose') or t.data.get('extra_details') or t.data.get('bank_reference')
+                    'payment_ref' : t.data.get('additional_purpose') or t.data.get('extra_details') or t.data.get('bank_reference'),
                     'sequence': len(statement['transactions']) + 1,
                 }
                 statement['transactions'].append(st_line)
