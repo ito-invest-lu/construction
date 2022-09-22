@@ -49,10 +49,8 @@ class AccountBankStatementImport(models.TransientModel):
                 return super(AccountBankStatementImport, self)._parse_file(data_file)
             
             statement = {
-                'name' : transactions.data['account_identification'] + "-" + transactions.data['statement_number'] + "-" + transactions.data['sequence_number'],
                 'balance_start': transactions.data['final_opening_balance'].amount.amount,
                 'balance_end_real': transactions.data['final_closing_balance'].amount.amount,
-                'date': transactions.data['final_opening_balance'].date,
                 'transactions' : [],
             }
             
@@ -65,7 +63,6 @@ class AccountBankStatementImport(models.TransientModel):
                     'date' : t.data.get('entry_date') or t.data.get('date'),    
                     'amount' : t.data['amount'].amount,
                     'payment_ref' : t.data.get('bank_reference') or t.data.get('extra_details') or t.data.get('additional_purpose'),
-                    'name' : t.data.get('transaction_details') or t.data.get('purpose') or t.data.get('bank_reference') or t.data.get('extra_details') or t.data.get('additional_purpose'),
                     'sequence': len(statement['transactions']) + 1,
                 }
                 statement['transactions'].append(st_line)
