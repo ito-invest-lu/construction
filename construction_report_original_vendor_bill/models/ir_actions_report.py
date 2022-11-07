@@ -4,6 +4,7 @@ import os
 import io
 import tempfile
 import zipfile
+from PyPDF2 import PdfFileWriter, PdfFileReader, utils
 
 import logging
 
@@ -34,8 +35,12 @@ class IrActionsReport(models.Model):
                     # skip draft
                     if record.name :
                         filename = "%s %s (%s : %s EUR).pdf" % (record.name.replace('/','-'), record.date.strftime('%Y-%m-%d'), record.partner_id.name, record.amount_total)
+                        reader = PdfFileReader(stream)
+                        writer = PdfFileWriter()
+                        writer.appendPagesFromReader(reader)
                         with open(os.path.join(dump_dir,filename), 'wb' ) as f:
-                            f.write(stream.read())
+                            writer.write(f)
+                            f.close()
                 
                 zip_filename = os.path.join(dump_dir, 'original_vendor_bill.zip')
                 
