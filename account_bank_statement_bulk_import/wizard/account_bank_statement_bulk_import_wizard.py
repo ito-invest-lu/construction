@@ -62,8 +62,9 @@ class BulkImportStatement(models.TransientModel):
                     journal_id = self.env['account.journal'].search([('bank_account_id.sanitized_acc_number', '=', sanitized_account_number)])
                     if journal_id:
                         ret = base_import.with_context({'journal_id' : journal_id.id}).import_file()
-                        statement_line_ids_all.extend(ret['context']['statement_line_ids'])
-                        notifications_all.extend(ret['context']['notifications'])
+                        if ret['type'] == 'ir.actions.client':
+                            statement_line_ids_all.extend(ret['context']['statement_line_ids'])
+                            notifications_all.extend(ret['context']['notifications'])
             except UserError:
                 pass
         if len(statement_line_ids_all) == 0:
