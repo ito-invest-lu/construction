@@ -71,4 +71,4 @@ class AccountBankStatementImport(models.TransientModel):
                     
         except Exception as e:
             _logger.info(e)
-            raise UserError(_("The following problem occurred during import. The file might not be valid.\n\n %s" % e.message))
+            return super()._parse_file(data_file)
