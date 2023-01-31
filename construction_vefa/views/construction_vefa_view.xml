@@ -64,7 +64,7 @@
         </record>
         
         <template id="report_invoice_document_inherit_vefa" inherit_id="account.report_invoice_document">
-            <xpath expr="//p[@t-if='o.payment_term_id']" position="after">
+            <xpath expr="//div[@id='total_payment_term_details_table']" position="after">
                 <t t-if="o.is_vefa">
                 <p>
                     A payer exclusivement sur le compte de la VEFA : <span t-field="o.building_asset_id.vefa_bank_acc_number"/> - <span t-field="o.building_asset_id.vefa_bank_id"/>
