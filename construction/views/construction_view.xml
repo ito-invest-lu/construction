@@ -331,7 +331,7 @@
         
         <!-- Add asset id and address to invoice -->
         <template id="report_invoice_document_inherit_construction" inherit_id="account.report_invoice_document">
-            <xpath expr="//div[@id='total_payment_term_details_table']" position="after">
+            <xpath expr="//p[@name='payment_communication']" position="after">
                 <t t-if="o.building_asset_id">
                 <p>
                     Concerne le chantier situé : 

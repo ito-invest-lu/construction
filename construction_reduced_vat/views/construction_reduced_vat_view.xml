@@ -112,7 +112,7 @@
         </record>
         
         <template id="report_invoice_document_inherit_sale_stock" inherit_id="account.report_invoice_document">
-            <xpath expr="//div[@id='total_payment_term_details_table']" position="after">
+            <xpath expr="//p[@name='payment_communication']" position="after">
                 <t t-if="o.reduced_vat_agreement_id">
                 <p>
                     Agréation TVA : <span t-field="o.reduced_vat_agreement_id.agreement_code"/>
