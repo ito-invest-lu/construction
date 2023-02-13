@@ -23,10 +23,56 @@
 
 from odoo import models
 
+import mt940
+import logging
+
+import base64
+from io import StringIO
+
+_logger = logging.getLogger(__name__)
+
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     def _get_bank_statements_available_import_formats(self):
-        rslt = super(AccountJournal, self)._get_bank_statements_available_import_formats()
+        rslt = super()._get_bank_statements_available_import_formats()
         rslt.append('MT940')
         return rslt
+    
+    def _parse_bank_statement_file(self,attachment):
+        
+        currency = None
+        account = None
+        statements = []
+        
+        try:
+            transactions = mt940.parse(StringIO(attachment.raw))
+            # if no statements found
+            if not transactions:
+                _logger.debug("Statement file was not recognized as an MT940 file, trying next parser", exc_info=True)
+                return super()._parse_bank_statement_file(attachment)
+            
+            statement = {
+                'balance_start': transactions.data['final_opening_balance'].amount.amount,
+                'balance_end_real': transactions.data['final_closing_balance'].amount.amount,
+                'transactions' : [],
+            }
+            
+            currency = transactions.data['final_opening_balance'].amount.currency
+            account = transactions.data['account_identification'].split('/')[1]
+            
+            # we iterate through each transaction
+            for t in transactions:
+                st_line = {
+                    'date' : t.data.get('entry_date') or t.data.get('date'),    
+                    'amount' : t.data['amount'].amount,
+                    'payment_ref' : t.data.get('additional_purpose') or t.data.get('extra_details') or t.data.get('bank_reference'),
+                    'sequence': len(statement['transactions']) + 1,
+                }
+                statement['transactions'].append(st_line)
+            
+            return currency, account, [statement]
+                    
+        except Exception as e:
+            _logger.info(e)
+            return super()._parse_file(data_file)
