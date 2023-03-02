@@ -36,6 +36,9 @@ Accounting \ Bank and Cash \ Bank Statements.
     'data': [],
     'depends': ['account_bank_statement_import'],
     'demo': [],
+    'external_dependencies': {
+        'python': ['mt-940'],
+    },
     'auto_install': False,
     'installable': True,
 }
