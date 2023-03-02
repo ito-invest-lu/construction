@@ -75,4 +75,4 @@ class AccountJournal(models.Model):
                     
         except Exception as e:
             _logger.info(e)
-            return super()._parse_file(data_file)
+            return super()._parse_file(attachment)
