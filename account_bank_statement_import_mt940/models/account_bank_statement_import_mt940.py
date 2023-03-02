@@ -27,7 +27,7 @@ import mt940
 import logging
 
 import base64
-from io import StringIO
+import io
 
 _logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class AccountJournal(models.Model):
         statements = []
         
         try:
-            transactions = mt940.parse(StringIO(attachment.raw))
+            transactions = mt940.parse(io.BytesIO(attachment.raw))
             # if no statements found
             if not transactions:
                 _logger.debug("Statement file was not recognized as an MT940 file, trying next parser", exc_info=True)
@@ -75,4 +75,4 @@ class AccountJournal(models.Model):
                     
         except Exception as e:
             _logger.info(e)
-            return super()._parse_file(attachment)
+            return super()._parse_bank_statement_file(attachment)
