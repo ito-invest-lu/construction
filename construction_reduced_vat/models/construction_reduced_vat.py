@@ -172,4 +172,4 @@ class AccountInvoice(models.Model):
                     'tax_ids' : [(6, 0, [tax_17])],
                     'recompute_tax_line' : True
             })
-        self._recompute_dynamic_lines(recompute_all_taxes=True)
+        self._compute_all_tax()
