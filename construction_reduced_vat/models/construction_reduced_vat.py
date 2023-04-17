@@ -160,14 +160,15 @@ class AccountInvoice(models.Model):
         
     @api.onchange('reduced_vat_agreement_id')
     def onchange_reduced_vat_agreement_id(self):
-        tax_17 = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
-        tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
-        if self.reduced_vat_agreement_id :
-            self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_3])],
-            })
-        else :
-            self.invoice_line_ids.write({
-                    'tax_ids' : [(6, 0, [tax_17])],
-            })
-        self._prepare_invoice_aggregated_taxes()
+        pass
+        # tax_17 = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2015_tax_VP-PA-17' % self.company_id.id)
+        # tax_3  = self.env['ir.model.data']._xmlid_to_res_id('l10n_lu.%s_lu_2011_tax_VP-PA-3' % self.company_id.id)
+        # if self.reduced_vat_agreement_id :
+        #     self.invoice_line_ids.write({
+        #             'tax_ids' : [(6, 0, [tax_3])],
+        #     })
+        # else :
+        #     self.invoice_line_ids.write({
+        #             'tax_ids' : [(6, 0, [tax_17])],
+        #     })
+        # self._prepare_invoice_aggregated_taxes()
