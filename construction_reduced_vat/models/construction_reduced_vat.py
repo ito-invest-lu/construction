@@ -172,4 +172,4 @@ class AccountInvoice(models.Model):
                     'tax_ids' : [(6, 0, [tax_17])],
                     'recompute_tax_line' : True
             })
-        self._compute_all_tax()
+        self._prepare_invoice_aggregated_taxes()
