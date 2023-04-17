@@ -165,11 +165,9 @@ class AccountInvoice(models.Model):
         if self.reduced_vat_agreement_id :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_3])],
-                    'recompute_tax_line' : True
             })
         else :
             self.invoice_line_ids.write({
                     'tax_ids' : [(6, 0, [tax_17])],
-                    'recompute_tax_line' : True
             })
         self._prepare_invoice_aggregated_taxes()
